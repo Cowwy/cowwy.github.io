@@ -17,7 +17,9 @@ window.onscroll = function( ) {
 	var navigation = document.getElementById( "nav-container" );
 	var content = document.getElementById( "content" );
 
-	if( container.scrollTop > 1 ) {
+	var tempHeight = window.pageYOffset;
+
+	if( tempHeight > 1 ) {
 		navigation.setAttribute( "class", "floating-nav" );
 		content.setAttribute( "class", "floating-offset" );
 
@@ -26,11 +28,11 @@ window.onscroll = function( ) {
 		content.setAttribute( "class", "" );
 	}
 
-	if( container.scrollTop > 767 && container.scrollTop < 1500 ||
-		container.scrollTop > 2014 && container.scrollTop < 3360 ||
-		container.scrollTop > 4120 && container.scrollTop < 5154 ) {
+	if( tempHeight > 767 && tempHeight < 1500 ||
+		tempHeight > 2014 && tempHeight < 3360 ||
+		tempHeight > 4120 && tempHeight < 5154 ) {
 		CSSUtility.addClass( "nav-container", "dropShadow" );
-}
+	}
 }
 
 
@@ -125,10 +127,12 @@ function AppInit( ) {
 			var tempClass = obj.getAttribute( "class" );
 			var height = 0;
 
+			obj.style.display = "block";
 			obj.setAttribute( "class", "test" );
 			height = obj.clientHeight;
 			obj.setAttribute( "class", tempClass );
 
+			obj.style.height = "0px";
 			return height;
 		}
 
@@ -164,7 +168,6 @@ function AppInit( ) {
 		function smoothClose( elementObj ) {
 			var frame = new FrameRegulator( 60, 100 );
 
-
 			var sampleHeight = elementObj.clientHeight - 20;
 			var heightPerSecond = sampleHeight / frame.getFPS( );
 			var offHeight = 0;
@@ -179,15 +182,15 @@ function AppInit( ) {
 				offHeight += heightPerSecond;
 				elementObj.style.height = ( sampleHeight - Math.round( offHeight ) ) + "px";
 				
-
 				offPadding += paddingPerSecond;
 				elementObj.style.paddingTop = ( samplePadding - Math.round( offPadding ) ) + "px";
 				elementObj.style.paddingBottom = ( samplePadding - Math.round( offPadding ) ) + "px";
 
 				if( elementObj.style.height.replace( /[a-z]/g, "" ) <= 0 ) {
-					elementObj.style = "";
+					elementObj.style.height = offHeight + ( offPadding * 2 ) + "px";
+					elementObj.style.display = "none";
 					elementObj.setAttribute( "class", "more-info" );
-					clearInterval( scrollIntervalId ); 
+					clearInterval( scrollIntervalId );
 				}
 			}, frame.calcFPS( ) );
 		}
@@ -199,109 +202,49 @@ function AppInit( ) {
 	\*/
 	function initSmoothScrolling( ) {
 		var sections = !Object.keys 
-			? PolyfillUtility.keys( AppSessionState.nav_section ) 
-			: Object.keys( AppSessionState.nav_section );
+		? PolyfillUtility.keys( AppSessionState.nav_section ) 
+		: Object.keys( AppSessionState.nav_section );
 
 		for( var i = 0; i < sections.length; i++ ) {
-			var button = document.getElementById( sections[ i ] );
+			var button = document.getElementById( sections[ i ] );			
 
-			if( button.addEventListener ) {
-				button.addEventListener( "click", function( e ) {
-					var container = document.body;
-					var tempScrollTop = container.scrollTop;
+			button.addEventListener( "click", function( e ) {
+				var frame = new FrameRegulator( 60, 500 );
 
-					var frame = new FrameRegulator( 60, 500 );
+				var tempHeight		= window.pageYOffset;
+				var targetSection 	= AppSessionState.nav_section[ PolyfillUtility.srcElement( e ).id ];
+				var targetHeight	= ScrollUtility.getVerticalSectionOffset( targetSection ) - 80;
 
-					// The destination scroll position
-					var targetSection 	= AppSessionState.nav_section[ e.srcElement.id ];
-					var scrollOffset	= ScrollUtility.getVerticalSectionOffset( "container", targetSection ) - 80;
-					var scrollPerSecond = MathUtility.getDiff( tempScrollTop, scrollOffset ) / frame.getFPS( );
-					
-					container.scrollTop = tempScrollTop;
+				window.scrollTo( 0, tempHeight );	//Reset Height
 
-					var scrollIntervalId = setInterval( function( ) {
-						// SCROLL DO NOTHING
-						if( scrollOffset == -80 ) {
+				var scrollPerSecond = MathUtility.getDiff( tempHeight, targetHeight ) / frame.getFPS( );
+				var curScrollPos = tempHeight;
+
+				var scrollIntervalId = setInterval( function( ) {
+					if( targetHeight == -80 ) {
+						clearInterval( scrollIntervalId );
+
+					} else if( window.pageYOffset < targetHeight ) {
+						curScrollPos += Math.round( scrollPerSecond );
+						window.scrollTo( 0, curScrollPos );
+						
+						if( window.pageYOffset >= targetHeight ) {
+							window.scrollTo( 0, targetHeight );
 							clearInterval( scrollIntervalId );
-
-							// SMOOTH SCROLLING DOWN
-						} else if( container.scrollTop < scrollOffset ) {
-							container.scrollTop += Math.round( scrollPerSecond );
-
-							if( container.scrollTop >= scrollOffset ) {
-								container.scrollTop = scrollOffset;
-								clearInterval( scrollIntervalId );
-							}
-
-							// SMOOTH SCROLLING UP
-						} else {
-							container.scrollTop += Math.round( scrollPerSecond );
-
-							if( container.scrollTop <= scrollOffset ) {
-								container.scrollTop = scrollOffset;
-								clearInterval( scrollIntervalId );
-							}
 						}
-					}, frame.calcFPS( ) );
-				});
-			} else {
-				button.attachEvent( "onclick", function( e ) {
-					var container = document.body.scrollHeight;
-					var tempScrollTop = container.scrollTop;
-
-					var frame = new FrameRegulator( 60, 500 );
-
-					// The destination scroll position
-					var targetSection 	= AppSessionState.nav_section[ e.srcElement.id ];
-					var scrollOffset	= ScrollUtility.getVerticalSectionOffset( "container", targetSection ) - 80;
-					var scrollPerSecond = MathUtility.getDiff( tempScrollTop, scrollOffset ) / frame.getFPS( );
-					
-					container.scrollTop = 1000;
-
-					
-
-					var test = document.getElementById( targetSection );
-					test.scrollIntoView( );
-
-					console.log( "Hey: " + document.body.scrollHeight );
-					console.log( "Hey: " + document.body.scrollTop );
-					console.log( "Hey: " + document.body.scrollTopMax );
-					console.log( "Hey: " + document.body.clientHeight );
-					console.log( "Hey: " + document.body.pageYOffset );
-					console.log( "Hey: " + window.scrollY );
-/*
-					var scrollIntervalId = setInterval( function( ) {
-						// SCROLL DO NOTHING
-						if( scrollOffset == -80 ) {
+					} else {
+						curScrollPos += Math.round( scrollPerSecond );
+						window.scrollTo( 0, curScrollPos );
+						
+						if( window.pageYOffset <= targetHeight ) {
+							window.scrollTo( 0, targetHeight );
 							clearInterval( scrollIntervalId );
-
-							// SMOOTH SCROLLING DOWN
-						} else if( container.scrollTop < scrollOffset ) {
-							container.scrollTop += Math.round( scrollPerSecond );
-
-							if( container.scrollTop >= scrollOffset ) {
-								container.scrollTop = scrollOffset;
-								clearInterval( scrollIntervalId );
-							}
-
-							// SMOOTH SCROLLING UP
-						} else {
-							container.scrollTop += Math.round( scrollPerSecond );
-
-							if( container.scrollTop <= scrollOffset ) {
-								container.scrollTop = scrollOffset;
-								clearInterval( scrollIntervalId );
-							}
 						}
-
-
-					}, frame.calcFPS( ) );*/
-				} );
-			}
-			
+					}
+				}, frame.calcFPS( ) );
+			});
 		}
 	}
-
 
 	/*\
 	|*|	Initialize gallery1 scrolling for section 6
@@ -317,7 +260,7 @@ function AppInit( ) {
 					var gallery = document.getElementById( "gallery1" );
 					
 					var curLeftOffset = TextUtility.removeCSSSubfix( gallery.style.left ) || 0;
-					var targetOffset = ( ( e.srcElement.id ).split( "" ).pop( ) - 1 ) * 0.25 * -5120;
+					var targetOffset = ( ( PolyfillUtility.srcElement( e ).id ).split( "" ).pop( ) - 1 ) * 0.25 * -5120;
 
 					var diff = Math.abs( MathUtility.getDiff( curLeftOffset, targetOffset ) );
 					var diffPerSecond = diff / frame.getFPS( );
@@ -361,7 +304,7 @@ function AppInit( ) {
 					var gallery = document.getElementById( "gallery1" );
 					
 					var curLeftOffset = TextUtility.removeCSSSubfix( gallery.style.left ) || 0;
-					var targetOffset = ( ( e.srcElement.id ).split( "" ).pop( ) - 1 ) * 0.25 * -5120;
+					var targetOffset = ( ( PolyfillUtility.srcElement( e ).id ).split( "" ).pop( ) - 1 ) * 0.25 * -5120;
 
 					var diff = Math.abs( MathUtility.getDiff( curLeftOffset, targetOffset ) );
 					var diffPerSecond = diff / frame.getFPS( );
@@ -416,7 +359,7 @@ function AppInit( ) {
 					var gallery = document.getElementById( "gallery2" );
 
 					var curLeftOffset = TextUtility.removeCSSSubfix( gallery.style.left ) || 0;
-					var targetOffset = ( ( e.srcElement.id ).split( "" ).pop( ) - 1 ) * 0.25 * -4300;
+					var targetOffset = ( ( PolyfillUtility.srcElement( e ).id ).split( "" ).pop( ) - 1 ) * 0.25 * -4300;
 
 					var diff = Math.abs( MathUtility.getDiff( curLeftOffset, targetOffset ) );
 					var diffPerSecond = diff / frame.getFPS( );
@@ -460,7 +403,7 @@ function AppInit( ) {
 					var gallery = document.getElementById( "gallery2" );
 
 					var curLeftOffset = TextUtility.removeCSSSubfix( gallery.style.left ) || 0;
-					var targetOffset = ( ( e.srcElement.id ).split( "" ).pop( ) - 1 ) * 0.25 * -4300;
+					var targetOffset = ( ( PolyfillUtility.srcElement( e ).id ).split( "" ).pop( ) - 1 ) * 0.25 * -4300;
 
 					var diff = Math.abs( MathUtility.getDiff( curLeftOffset, targetOffset ) );
 					var diffPerSecond = diff / frame.getFPS( );
@@ -585,14 +528,10 @@ function ScrollUtil( ) {
 	|*|	return	- It returns a numeric value. The value is the offset scroll height
 	|*|			  From top to the id anchor.
 	|*|	============================================================================= */
-	function getVerticalSectionOffset( containerID, targetID ) {
-		var height = 0;
-
+	function getVerticalSectionOffset( targetID ) {
 		document.getElementById( targetID ).scrollIntoView( );
-		height = container.scrollTop;
-		document.getElementById( containerID ).scrollIntoView(true);
-
-		return height;
+		
+		return window.pageYOffset;
 	}
 
 	return scrollAPI = {
@@ -672,7 +611,7 @@ function CSSUtil( ) {
 
 	this.removeClass = function( targetId, className ) {
 		var element 	= document.getElementById( targetId );
-		var classList	= Array.from( element.classList );
+		var classList	= PolyfillUtility.from( element.classList );
 
 		classList = classList.filter( function( ) {
 			return ( e === className ) ? false : true;
@@ -683,7 +622,7 @@ function CSSUtil( ) {
 
 	this.addClass = function( targetId, className ) {
 		var element 	= document.getElementById( targetId );
-		var classList	= Array.from( element.classList );
+		var classList	= PolyfillUtility.from( element.classList );
 		classList.push( className );
 
 		element.setAttribute( "class", classList.join( " " ) );
@@ -740,8 +679,23 @@ function PolyfillUtil( ) {
 		return keys;
 	}
 
+	this.from = function( obj ) {
+		var from = [];
+
+		for( var i = 0; i < obj.length; i++ )
+			from.push( obj[ i ] );
+
+		return from;
+	}
+
+	this.srcElement = function( obj ) {
+		return obj.srcElement ? obj.srcElement : obj.target;
+	}
+
 	return {
-		keys : this.keys
+		keys : this.keys,
+		from : this.from,
+		srcElement : this.srcElement
 	};
 }
 var PolyfillUtility = new PolyfillUtil( );
