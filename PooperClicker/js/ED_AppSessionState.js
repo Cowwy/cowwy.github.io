@@ -17,14 +17,19 @@ function AppSessionState( ) {
 	//=======================================================
 	// Required Variables about SaveGame
 	//=======================================================
-	var _storageKey = "tempSlot";		//Use for permentant save
-	var _quickKey   = "quickSlot";		//Use for quickSave
+	var _storageKey = "pc-v1-tempSlot";		//Use for permentant save
+	var _quickKey   = "pc-v1-quickSlot";	//Use for quickSave
+
+
 
 	//=======================================================
 	// Required Variables about Windows
 	//=======================================================
 	var _window     = { current : "page1", previous : "" };
-
+	var _buyOrSell  = { current : true };						//True = Buy | False = Sell
+	var _quantity   = { current : 1 };
+	var _curMsg     = -1;										//-1 Is the initial message set in HTML
+	
 
 	//=======================================================
 	// Required Variables about Current Game Run State
@@ -52,199 +57,538 @@ function AppSessionState( ) {
 		// STATISTICS Variables
 		//   _playerState["Upgrades"]["Shovel"]["upgradeable"]
 		//==============================
-		"Upgrades" : {					
-			"Shovel"       : { "level" : 0, "lock" : true , "upgradeable" : false },
-			"Baby"         : { "level" : 0, "lock" : false, "upgradeable" : false },
-			"Animal Farm"  : { "level" : 0, "lock" : false, "upgradeable" : false },
-			"Toilet"       : { "level" : 0, "lock" : false, "upgradeable" : false }
+		"Upgrades" : {
+			"Hand"		   : { "level" : 0, "lock" : true , "upgradeable" : false, "multiplier" : 0.0  },				
+			"Shovel"       : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0  },
+			"Baby"         : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0  },
+			"Animal Farm"  : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0  },
+			"Toilet"       : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0  }
+		},
+
+
+		//======================================================
+		// TechTree Database
+		//   Display all the upgrade that has been unlocked
+		//	 Each upgrade is identify by their id(key) for
+		//	 easy storage.
+		//======================================================
+		"TechTree" : {
+			1:0,	2:0,	3:0,	4:0,	5:0,	6:0
+		},
+
+
+		//======================================================
+		// Message Database
+		//   Random display of messages
+		//	 Message will be added as more upgrades unlocked
+		//======================================================
+		"StoryBoard" : { },
+
+
+		//======================================================
+		// Name of this world
+		//======================================================
+		"WorldName" : "Temporary",
+
+
+		//======================================================
+		// Achievement Database
+		//	Unlocked Achievement goes in here
+		//======================================================
+		"Achievement" : {
+			1:0,	2:0,	3:0
 		}
 	}
 
-//=======================================================
-// [x] Session State - Methods
-//=======================================================
-	//=======================================================
-	// [x] Window Methods - Complete
-	//=======================================================
-	function changeStageTo( newWindow ) {
-		_window.previous = _window.current;
-		_window.current  = newWindow;
-
-		if( _window.previous != "" ) {
-			document.getElementById( _window.previous ).style.display = "none";
-		}
-
-		document.getElementById( _window.current ).style.display = "block";
-	}
-
-	function curWindow( ) { return _window.current; }
-
-
-	//=======================================================
-	// [x] Session State - Timer
-	//=======================================================
-	function getTimer( ) { return _playerState["GameTime"]["seconds"]; }
-	function addTimer( ) { _playerState["GameTime"]["seconds"] = new ED_Timer( ); }
-
-
-
-	//=======================================================
-	// [x] Session State - Poo Statistics
-	//=======================================================
-	function addPoo( quantity )      { _playerState["Statistics"]["TotalPooCollect"] += quantity; }
-	function subtractPoo( quantity ) { _playerState["Statistics"]["TotalPooCollect"] -= quantity; }
-	function getTotalPoo( )          { return _playerState["Statistics"]["TotalPooCollect"]; }
-
-	function addClick( quantity )    { _playerState["Statistics"]["TotalClicksMade"] += quantity; }
-	function getTotalClicks( )       { return _playerState["Statistics"]["TotalClicksMade"]; }
-
-	function addPooSinceStart( quantity ) { _playerState["Statistics"]["TotalPooSinceStart"] += quantity; }
-	function getPooSinceStart( )          { return _playerState["Statistics"]["TotalPooSinceStart"]; }
-	function getPPS( )                    { return _playerState["Statistics"]["PPS"]; }
-
-
-	//=======================================================
-	// [x] Session State - Upgrade Statistics
-	//=======================================================
-	function upgradeLevelUp( name ) { _playerState["Upgrades"][name]["level"]++; }
-	function getLevel( name )       { return _playerState["Upgrades"][name]["level"]; }
 	
-	function getUpgradeList( ) { return _playerState["Upgrades"]; }
-	function calcPPS( )        { _playerState["Statistics"]["PPS"] = UpgradeData.calcAllPPS( _playerState["Upgrades"] ); }
+	function getAchievement( )               { return _playerState["Achievement"]; }
+	function getAchievementLength( )         { return Object.keys( _playerState["Achievement"] ).length; }
+	function getAchievementKeys( )           { return Object.keys( _playerState["Achievement"] ); }
+	function getAchievementById( id )        { return _playerState["Achievement"][id]; }
 
-	function isUpgradePurchaseable( name ) {
-		let upgradeCost = UpgradeData.calcPrice( name, _playerState["Upgrades"][name]["level"] );
+	function setAchievementById( id, value ) { _playerState["Achievement"][id] = value; }
 
-		if( upgradeCost <= _playerState["Statistics"]["TotalPooCollect"] ) {
-			_playerState["Upgrades"][name]["upgradeable"] = true;
-		} else {
-			_playerState["Upgrades"][name]["upgradeable"] = false;
+
+	//=======================================
+	// CHANGING WORLD NAME
+	//=======================================
+	function getWorldName( ) { return _playerState["WorldName"]; }
+	function setWorldName( name ) { _playerState["WorldName"] = name; }
+
+
+	//=======================================
+	// GET A RANDOM MESSAGE
+	//=======================================
+	function resetStoryBoard( ) { _playerState[ "StoryBoard"] = {}; }
+	function getStoryBoardLength( ) { return Object.keys( _playerState["StoryBoard"] ).length; }
+	
+	function getRandomMessage( )    { 
+		let messageIDPick = GameUtility.between( 1, getStoryBoardLength( ) );
+
+		//PREVENT DUPLICATE MESSAGE BEING DISPLAY
+		while( messageIDPick == _curMsg ) {
+			messageIDPick = GameUtility.between( 1, getStoryBoardLength( ) );
 		}
 
-		return _playerState["Upgrades"][name]["upgradeable"];
+		//NOTIFY SESSION STATE THE CURRENT MESSAGE
+		_curMsg = messageIDPick;
+
+		return _playerState[ "StoryBoard" ][ messageIDPick ]; 
 	}
 
-	function isUpgradeUnLock( name ) { 
-		return _playerState["Upgrades"][name]["lock"]; 
+	//THIS FUNCTION WILL INCREMENTALLY ADD NEW MESSAGES IN SEQUENTIAL ORDER
+	function addRandomMessage( msg ) {
+		let length = getStoryBoardLength( );	//Get Current Length
+		length++;								//Set next length
+
+		_playerState[ "StoryBoard" ][ length ] = msg;
 	}
 
-	function upgradeToggle( ) {
-		for( key in _playerState["Upgrades"] ) {
-			isUpgradePurchaseable( key );
-		}
-	}
 
-	function isUpgradeEligible( ) {
-		let retValue    = false;
-		let upgradeData = UpgradeData.upgrade;
 
-		//CHECK IF NEXT TIRE UPGRADE IS ELIGIBLE
-		for( key in UpgradeData.upgrade ) {
-			if( _playerState["Upgrades"][key]["lock"] != true 
-				&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * UpgradeData.upgrade[key]["base"] ) ) {
-				_playerState["Upgrades"][key]["lock"] = true;
-				retValue = true;
+	//=======================================
+	// GET ALL TECH THAT IS NOT PURCHASED YET
+	//=======================================
+	function getAllLockedTech( ) {
+		let retValue = {};
+
+		//GETTING ALL THE KEYS IN _playerState
+		for( var key in _playerState["TechTree"] ) {
+			if( !_playerState["TechTree"][key] ) {
+				retValue[key] = _playerState["TechTree"][key];
 			}
 		}
 
 		return retValue;
 	}
 
-
-	//=======================================================
-	// [x] Save Keys Methods - Complete
-	//=======================================================
-	function newSlot( newSlot ) { _storageKey = newSlot; }
-	function saveSlot( )        { return _storageKey; }	
-
-	function setFromSaveSlot( slotID, slotData ) {
-		_storageKey = slotID;
-		_quickKey   = "quickSlot";
-		_window     = { current : "page2", previous : "" };
-
-		//==============================================
-		// LOADING TIMER
-		//==============================================
-		let temp = new ED_Timer( );
-		temp.createFromJSON( slotData["GameTime"]["seconds"] );
-		_playerState["GameTime"]["seconds"] = temp;
-
-
-		//==============================================
-		// LOADING UPGRADES
-		//==============================================
-		_playerState["Upgrades"] = slotData["Upgrades"];
-		upgradeToggle( );
-		isUpgradeEligible( );
-
-
-		//==============================================
-		// LOADING STATISTICS
-		//==============================================
-		_playerState["Statistics"]        = slotData["Statistics"];
-		_playerState["Statistics"]["PPS"] = UpgradeData.calcAllPPS( _playerState["Upgrades"] );
+	//SPECIFIC CHANGE A TECH TO PURCHASE
+	function setTechPurchased( id ) {
+		_playerState["TechTree"][id] = 1;
 	}
 
+	//CALCULATE ALL THE TECH BONUS
+	function calcTechPPSBonus( ) {
+		//SUM WILL HOLD THE SUMMATION OF ALL THE UPGRADES
+		//INITIAL ALL THE UPGRADE BY NAME WITH MULTIPLIER OF 0.0
+		let sum = {};	
+		for( var key in _playerState["Upgrades"] ) { sum[key] = 0.0; }
 
-	function savePlayerState( ) {
-		return {
-			"GameTime" : {													
-				"seconds" : _playerState["GameTime"]["seconds"].toJSON( )
-			},
+		//GET ALL THE TECH THAT IS UNLOCKED
+		for( var key in _playerState["TechTree"] ) {
 
-			"Statistics" : _playerState["Statistics"],
-			"Upgrades"   : _playerState["Upgrades"]
-		}
-	}
+			if( _playerState["TechTree"][key] ) {
+				//GET TECH INFORMATION FROM GameData
+				let techInfo = PooClickerData.getTechById( key );
 
-	//=======================================================
-	// [x] Session State - Loading & Reset
-	//=======================================================
-	function reset( ) {
-		_storageKey 	 	= "tempSlot";
-		_quickKey   	 	= "quickSlot";
-		_window     	    = { current : "page1", previous : "" };
+				switch( techInfo["owner"] ) {
+					case "Shovel":
+						sum["Shovel"] += techInfo["multiplier"];
+					break;
 
-		_playerState = {
-			"GameTime" : {
-				"seconds" : {}
-			},
+					case "Baby":
+						sum["Baby"] += techInfo["multiplier"];
+					break;
 
-			"Statistics" : {
-				"TotalPooCollect"    : 0,
-				"TotalClicksMade"    : 0,
-				"TotalPooSinceStart" : 0,
-				"PPS"                : 0
-			},
+					case "Animal Farm":
+						sum["Animal Farm"] += techInfo["multiplier"];
+					break;
 
-			"Upgrades" : {
-				"Shovel"       : { "level" : 0, "lock" : true , "upgradeable" : false },
-				"Baby"         : { "level" : 0, "lock" : false, "upgradeable" : false },
-				"Animal Farm"  : { "level" : 0, "lock" : false, "upgradeable" : false },
-				"Toilet"       : { "level" : 0, "lock" : false, "upgradeable" : false }
+					case "Toilet":
+						sum["Toilet"] += techInfo["multiplier"];
+					break;
+				}
 			}
 		}
 
-		console.clear( );
-	}
+		//TRANSFER THE ACCUMULATIVE SUM into SessionState
+		for( var key in sum ) {
+			_playerState["Upgrades"][key]["multiplier"] = sum[key];
+		}
 
-
-	//=======================================================
-	// [x] Session State - For Debugging Only
-	//=======================================================
-	function debug( ) {
-		console.group( "Session State Condition" );
-			console.log( "Storage Key: " + _storageKey );
-			console.log( "Quick Key: "   + _quickKey );
-			console.log( _window );
-			console.log( "Seconds: "                   + _playerState["GameTime"]["seconds"] );
-			console.log( "T. Poo Collect: "            + _playerState["Statistics"]["TotalPooCollect"] );
-			console.log(                                 _playerState["Upgrades"] );
-			console.log( "Total Clicks: "              + _playerState["Statistics"]["TotalClicksMade"] );
-			console.log( "Poo Collected since Start: " + _playerState["Statistics"]["TotalPooSinceStart"] );
-			console.log( "Poo Per Second: "            + _playerState["Statistics"]["PPS"] );
+		console.group("Sum");
+			console.log( sum );
+			console.log( _playerState["Upgrades"] );
 		console.groupEnd( );
 	}
+
+	function setMultiplerByName( name, value ) {
+		_playerState["Upgrades"][name]["multiplier"] = value;
+	}
+
+
+	//remove this function when it is all done.
+	function getTechTree( ) {
+		console.log( _playerState["TechTree"] );
+	}
+
+
+
+
+
+	/*\
+	|*|================================================
+	|*| GAME - SAVE/LOAD/RESET
+	|*|================================================
+	|M| > reset( )
+	|M| > setFromSaveSlot( )
+	|M| > saveSlot( )
+	|M| > newSlot( ) 
+	|*|================================================
+	\*/
+		function reset( ) {
+			_storageKey 	 	= "pc-v1-tempSlot";
+			_quickKey   	 	= "pc-v1-quickSlot";
+			_window     	    = { current : "page1", previous : "" };
+			_buyOrSell          = { current : true };
+			_quantity           = { current : 1 };
+			_curMsg             = -1;
+
+			_playerState = {
+				"GameTime" : {
+					"seconds" : {}
+				},
+
+				"Statistics" : {
+					"TotalPooCollect"    : 0,
+					"TotalClicksMade"    : 0,
+					"TotalPooSinceStart" : 0,
+					"PPS"                : 0
+				},
+
+				"Upgrades" : {
+					"Hand"		   : { "level" : 0, "lock" : true , "upgradeable" : false, "multiplier" : 1.0 },
+					"Shovel"       : { "level" : 0, "lock" : false , "upgradeable" : false, "multiplier" : 1.0 },
+					"Baby"         : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 1.0 },
+					"Animal Farm"  : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 1.0 },
+					"Toilet"       : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 1.0 }
+				},
+
+				"TechTree" : {
+					1:0,	2:0,	3:0,	4:0,	5:0,	6:0
+				},
+
+				"StoryBoard" : { },
+
+				"WorldName" : "Temporary",
+
+				"Achievement" : {
+					1:0,	2:0,	3:0
+				}
+			};
+
+			console.clear( );
+		}
+
+		function setFromSaveSlot( slotID, slotData ) {
+			_storageKey = slotID;
+			_quickKey   = "pc-v1-quickSlot";
+			_window     = { current : "page2", previous : "" };
+			_curMsg     = -1;
+
+			//==============================================
+			// LOADING TIMER
+			//==============================================
+			let temp = new ED_Timer( );
+			temp.createFromJSON( slotData["GameTime"]["seconds"] );
+			_playerState["GameTime"]["seconds"] = temp;
+
+
+			//==============================================
+			// LOADING UPGRADES
+			//==============================================
+			_playerState["Upgrades"] = slotData["Upgrades"];
+			upgradeToggle( );
+			isUpgradeEligible( );
+
+
+			//==============================================
+			// LOADING STATISTICS
+			//==============================================
+			_playerState["Statistics"]        = slotData["Statistics"];
+			_playerState["Statistics"]["PPS"] = PooClickerData.calcAllPPS( _playerState["Upgrades"] );
+
+
+			//==============================================
+			// LOADING TECH TREE
+			//==============================================
+			_playerState["TechTree"] = slotData["TechTree"];
+
+
+			//==============================================
+			// LOADING WORLD NAME
+			//==============================================
+			_playerState["WorldName"] = slotData["WorldName"];
+
+
+			//==============================================
+			// LOADING ACHIEVEMENT
+			//==============================================
+			if( slotData["Achievement"] == undefined || slotData["Achievement"] == "" ) {
+				_playerState["Achievement"] = { 1:0, 2:0, 3:0 };
+			} else {
+				_playerState["Achievement"] = slotData["Achievement"];
+			}
+		}
+
+		function savePlayerState( ) {
+			return {
+				"GameTime" : {													
+					"seconds" : _playerState["GameTime"]["seconds"].toJSON( )
+				},
+
+				"Statistics" : _playerState["Statistics"],
+				"Upgrades"   : _playerState["Upgrades"],
+
+				"TechTree"   : _playerState["TechTree"],
+				"WorldName"  : _playerState["WorldName"],
+				"Achievement": _playerState["Achievement"]
+			};
+		}
+
+		function newSlot( newSlot ) { _storageKey = newSlot; }
+		function saveSlot( )        { return _storageKey; }	
+
+
+
+
+	/*\
+	|*|================================================
+	|*| GAME - WINDOW
+	|*|================================================
+	|M| > curWindow( )
+	|M| > changeStageTo( )
+	|*|================================================
+	\*/
+		function changeStageTo( newWindow ) {
+			_window.previous = _window.current;
+			_window.current  = newWindow;
+
+			if( _window.previous != "" ) {
+				document.getElementById( _window.previous ).style.display = "none";
+			}
+
+			document.getElementById( _window.current ).style.display = "block";
+		}
+
+		function curWindow( ) { return _window.current; }
+
+
+
+
+	/*\
+	|*|================================================
+	|*| GAME - TIMER
+	|*|================================================
+	|M| > getTimer( )
+	|M| > addTimer( )
+	|*|================================================
+	\*/
+		function getTimer( ) { return _playerState["GameTime"]["seconds"]; }
+		function addTimer( ) { _playerState["GameTime"]["seconds"] = new ED_Timer( ); }
+
+
+
+
+	/*\
+	|*|================================================
+	|*| GAME - POO STATISTIC
+	|*|================================================
+	|M| > addPoo( )
+	|M| > subtractPoo( )
+	|M| > getTotalPoo( )
+	|M| > addClick( )
+	|M| > getTotalClicks( )
+	|M| > addPooSinceStart( )
+	|M| > getPooSinceStart( )
+	|M| > getPPS( )
+	|M| > calcPPS( )
+	|M| > getTotalUpgrade( )
+	|*|================================================
+	\*/
+		function addPoo( quantity )      { _playerState["Statistics"]["TotalPooCollect"] += quantity; }
+		function subtractPoo( quantity ) { _playerState["Statistics"]["TotalPooCollect"] -= quantity; }
+		function getTotalPoo( )          { return _playerState["Statistics"]["TotalPooCollect"]; }
+
+		function addClick( quantity )    { _playerState["Statistics"]["TotalClicksMade"] += quantity; }
+		function getTotalClicks( )       { return _playerState["Statistics"]["TotalClicksMade"]; }
+
+		function addPooSinceStart( quantity ) { _playerState["Statistics"]["TotalPooSinceStart"] += quantity; }
+		function getPooSinceStart( )          { return _playerState["Statistics"]["TotalPooSinceStart"]; }
+		function getPPS( )                    { return _playerState["Statistics"]["PPS"]; }
+		
+		function calcPPS( ) { 
+			_playerState["Statistics"]["PPS"] = PooClickerData.calcAllPPS( _playerState["Upgrades"] ); 
+		}
+
+		function getTotalUpgrade( ) {
+			let sum = 0;
+
+			for( key in _playerState["Upgrades"] ) {
+				sum += getLevel( key );
+			}
+			
+			return sum;
+		}
+
+		function getDisplayNotation( statistic ) {
+			let retValue = "";
+
+			switch( statistic ) {
+				case "totalPoo":
+					retValue = GameUtility.useExpNotation( Math.round( getTotalPoo( ) ) );
+				break;
+
+				case "pooSinceStart":
+					retValue = GameUtility.useExpNotation( Math.round( getPooSinceStart( ) ) );
+				break;
+
+				default:
+					retValue = GameUtility.useExpNotation( Math.round( statistic ) );
+				break;
+			}
+
+			return retValue;
+		}
+
+		function getNotationByValue( value ) {
+			
+		}
+
+
+	/*\
+	|*|================================================
+	|*| GAME - UPGRADE STATISTIC
+	|*|================================================
+	|M| > getUpgradeByName( )
+	|M| > getUpgradeList( )
+	|M| > getLevel( )
+	|M| > getMultiplierByName( )
+	|M| > upgradeLevelUp( )
+	|M| > upgradeLevelDown( )
+	|M| > isUpgradeUnLock( )
+	|M| > isUpgradePurchaseable( )
+	|M| > isUpgradeEligible( )
+	|M| > upgradeToggle( )
+	|*|================================================
+	\*/
+		function getUpgradeByName( name )           { return _playerState["Upgrades"][name]; }
+		function getUpgradeList( )                  { return _playerState["Upgrades"]; }
+		function getLevel( name )                   { return _playerState["Upgrades"][name]["level"]; }
+		function getMultiplierByName( name )        { return _playerState["Upgrades"][name]["multiplier"]; }
+		function upgradeLevelUp( name, quantity )   { _playerState["Upgrades"][name]["level"] += quantity; }
+		function upgradeLevelDown( name, quantity ) { _playerState["Upgrades"][name]["level"] -= quantity; }
+
+		function isUpgradeUnLock( name ) { 
+			return _playerState["Upgrades"][name]["lock"]; 
+		}
+
+		function isUpgradePurchaseable( name ) {
+			let upgradeCost = PooClickerData.calcSumPrice( name, _playerState["Upgrades"][name]["level"], _quantity.current );
+
+			if( upgradeCost <= _playerState["Statistics"]["TotalPooCollect"] ) {
+				_playerState["Upgrades"][name]["upgradeable"] = true;
+			} else {
+				_playerState["Upgrades"][name]["upgradeable"] = false;
+			}
+
+			return _playerState["Upgrades"][name]["upgradeable"];
+		}
+		
+		function isUpgradeEligible( ) {
+			let retValue    = false;
+
+			//CHECK IF NEXT TIRE UPGRADE IS ELIGIBLE
+			for( key in PooClickerData.upgrade ) {
+				if( _playerState["Upgrades"][key]["lock"] != true 
+					&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * PooClickerData.getUpgradeBase(key) ) ) {
+					_playerState["Upgrades"][key]["lock"] = true;
+					retValue = true;
+				}
+			}
+
+			return retValue;
+		}
+
+		function upgradeToggle( ) {
+			for( key in _playerState["Upgrades"] ) {
+				isUpgradePurchaseable( key );
+			}
+		}
+
+
+	
+
+	/*\
+	|*|================================================
+	|*| GAME - PURCHASE CONTROL
+	|*|================================================
+	|M| > buyOrSell( )
+	|M| > getBuyOrSell( )
+	|M| > setBuyOrSellQuantity( )
+	|M| > getBuyOrSellQuantity( )
+	|*|================================================
+	\*/
+		function buyOrSell( state ) 			{ _buyOrSell.current = state; }
+		function getBuyOrSell( )    			{ return _buyOrSell.current; }
+
+		function setBuyOrSellQuantity( num ) 	{ _quantity.current = num; }
+		function getBuyOrSellQuantity( ) 		{ return _quantity.current; }
+	
+
+
+
+
+
+
+
+	/*\
+	|*|================================================
+	|*| GAME - DEBUGGING
+	|*|================================================
+	|M| > debug( )
+	|*|================================================
+	\*/
+	function debug( ) {
+		console.groupCollapsed( "Session State Condition" );
+			console.log( "Storage Key: " + _storageKey );
+			console.log( "Quick Key: "   + _quickKey );
+
+			console.group( "Window Page" );
+				console.log( _window );
+				console.log( "Message Board ID: " + _curMsg );
+			console.groupEnd( );
+
+			console.group( "buyOrSell" );
+				console.log( _buyOrSell );
+				console.log( _quantity );
+			console.groupEnd( );
+
+			console.group( "Statistics" );
+				console.log( "Seconds: "                   + _playerState["GameTime"]["seconds"] );
+				console.log( "T. Poo Collect: "            + _playerState["Statistics"]["TotalPooCollect"] );
+				console.log( "Total Clicks: "              + _playerState["Statistics"]["TotalClicksMade"] );
+				console.log( "Poo Collected since Start: " + _playerState["Statistics"]["TotalPooSinceStart"] );
+				console.log( "Poo Per Second: "            + _playerState["Statistics"]["PPS"] );
+			console.groupEnd( );
+
+			console.group( "Upgrades" );
+				console.log(  _playerState["Upgrades"] );
+				console.log( _playerState["TechTree"] );
+			console.groupEnd( );
+
+			console.group( "Message Board" );
+				console.log( _playerState["WorldName"] );
+				console.log( _playerState["StoryBoard"] );
+			console.groupEnd( );
+
+			console.group( "Achievement" );
+				console.log( _playerState["Achievement"] );
+			console.groupEnd( );
+		console.groupEnd( );
+	}
+
+
 
 
 	//=======================================================
@@ -258,6 +602,8 @@ function AppSessionState( ) {
 		makeGame : setFromSaveSlot,
 		saveSlot : saveSlot,
 		newSlot  : newSlot,
+		savePlayerState : savePlayerState,
+
 
 		//========================
 		// GAME - WINDOW
@@ -265,41 +611,92 @@ function AppSessionState( ) {
 		getCurWindow   : curWindow,
 		changeStageTo  : changeStageTo,
 
+
 		//========================
 		// GAME - TIMER
 		//========================
 		getTimer    : getTimer,
 		addTimer    : addTimer,
 
+
 		//========================
 		// GAME - POO STATISTIC
 		//========================
-		addPoo           : addPoo,
-		getTotalPoo      : getTotalPoo,
-		subtractPoo      : subtractPoo,
-		addClick         : addClick,
-		getTotalClicks   : getTotalClicks,
-		addPooSinceStart : addPooSinceStart,
-		getPooSinceStart : getPooSinceStart,
-		getPPS 			 : getPPS,
-		calcPPS          : calcPPS,
+		calcPPS             : calcPPS,
+		subtractPoo         : subtractPoo,
+
+		addPoo              : addPoo,
+		addClick            : addClick,
+		addPooSinceStart    : addPooSinceStart,
+
+		getTotalPoo         : getTotalPoo,
+		getTotalClicks      : getTotalClicks,
+		getPooSinceStart    : getPooSinceStart,
+		getPPS 			    : getPPS,
+		getTotalUpgrade     : getTotalUpgrade,
+		getDisplayNotation  : getDisplayNotation,
+
 
 		//==========================
 		// GAME - UPGRADE STATISTIC
 		//==========================
+		getUpgradeByName      : getUpgradeByName,
 		getUpgradeList	      : getUpgradeList,
 		getLevel       	      : getLevel,
+		getMultiplierByName   : getMultiplierByName,
 		upgradeLevelUp  	  : upgradeLevelUp,
+		upgradeLevelDown      : upgradeLevelDown,
 		isUpgradeUnLock       : isUpgradeUnLock,
 		isUpgradePurchaseable : isUpgradePurchaseable,
 		isUpgradeEligible	  : isUpgradeEligible,
 		upgradeToggle         : upgradeToggle,
 
-		//========================
-		// GAME - SAVE STATISTIC
-		//========================
-		savePlayerState : savePlayerState,
 
+		//==========================
+		// GAME - PURCHASE CONTROL
+		//==========================
+		buyOrSellToggle      : buyOrSell,
+		getBuyOrSell         : getBuyOrSell,
+		setBuyOrSellQuantity : setBuyOrSellQuantity,
+		getBuyOrSellQuantity : getBuyOrSellQuantity,
+
+
+		//==========================
+		// GAME - TECH TREE CONTROL
+		//==========================
+		getAllLockedTech : getAllLockedTech,
+		setTechPurchased : setTechPurchased,
+		calcTechPPSBonus : calcTechPPSBonus,
+
+		
+		//==========================
+		// GAME - RANDOM MESSAGE
+		//==========================
+		getRandomMessage : getRandomMessage,
+		addRandomMessage : addRandomMessage,
+		resetStoryBoard  : resetStoryBoard,
+
+
+		//==========================
+		// GAME - WORLD NAME
+		//==========================
+		getWorldName : getWorldName,
+		setWorldName : setWorldName,
+
+
+		//==========================
+		// GAME - ACHIEVEMENT
+		//==========================
+		getAchievement       : getAchievement,
+		getAchievementKeys   : getAchievementKeys,
+		getAchievementById   : getAchievementById,
+		getAchievementLength : getAchievementLength,
+		setAchievementById   : setAchievementById,
+
+
+		//========================
+		// GAME - DEBUGGING
+		//========================
 		debug : debug
 	};
 
