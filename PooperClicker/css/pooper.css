@@ -779,15 +779,17 @@ dd.definition { padding-left:40px; }
 	TECH TREE ICON - STYLING
 ====================================================== */
 div.techIcon {
-	width:45px;
-	height:45px;
+	width:48px; height:48px;
 
 	float:left;
-	margin:3px;
+	margin:1px;
 
-	border:0px solid black;
+	border:6px solid;
+	border-image:url('../img/iconBorder_6x6.png') 6 round;
+
 	background-color:blue;
-	text-align:center;
+	
+	text-align:center;	
 }
 
 div.techIcon:hover {
@@ -832,6 +834,8 @@ p.techDesc { font-style:italic; }
 p#techCost, p#techCost span.purchaseable, p#techCost span.notPurchaseable {
 	font-size:10pt;
 }
+
+
 
 
 
