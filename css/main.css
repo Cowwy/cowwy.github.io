@@ -313,6 +313,8 @@ body {
 		min-width:400px;
 		max-width:500px;
 		
+		height:150px;
+
 		border:10px double var(--theme-limeGreen);
 		background-color:rgba(255, 255, 255, 0.80);
 
