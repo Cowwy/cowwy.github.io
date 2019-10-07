@@ -1,0 +1,385 @@
+/* =============================================
+	DEVELOPER NOTE
+============================================== 
+ [ ] - RESPONSIVE MOBILE REQUIRED
+*/
+
+
+
+
+/* 
+=============================================
+ NOTES
+============================================== 
+ AUTHOR: COWWY
+ ALL RIGHTS RESERVED 2019
+
+ WHY ARE YOU LOOKING INTO MY CODE?
+*/
+
+
+
+
+
+/* =============================================
+	GLOBAL RESET
+============================================== */
+* {
+	margin:0px;
+	padding:0px;
+	border:0px;
+	box-sizing: border-box;		/* BORDER & PADDING IS INCLUDED IN THE CALCULATION OF WIDTH AND HEIGHT*/
+}
+
+body, html {
+	width:100%;
+	height:100%;
+}
+
+
+
+/* =============================================
+	DEBUG CLASSES
+============================================== */
+.debug1 { border:2px dotted rgba(55, 55, 55, 0.8); }
+.debug2 { border:2px dotted #FFCCCC; background-color:#FFCCCC; }
+.debug3 { border:2px dotted #CCFFCC; background-color:#CCFFCC; }
+.debug4 { border:2px dotted #CCCCFF; background-color:#CCCCFF; }
+.debug5 { border:2px dotted #FFFFCC; background-color:#FFFFCC; }
+.debug6 { border:2px dotted #FFCCFF; background-color:#FFCCFF; }
+.debug7 { border:2px dotted #CCFFFF; background-color:#CCFFFF; }
+
+
+
+/* =============================================
+	DIVISION && GRID SYSTEM
+================================================
+THE GRID SYSTEM ONLY WORKS IF YOU WANT THE ELEMENTS
+TO BE ENTIRELY REPONSIVE. STATIC BOXES REQUIRED
+NEED TO HAVE THEIR OWN CSS TO MAINTAIN THEIR SIZE.
+
+POSITION & SIZE
+
+	   c1  2  3  4  5  6  7  8  9  0  A  B
+	r1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	r2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	r3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	r4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	r5 [ ][ ][ ][x][x][x][x][x][x][ ][ ][ ]
+	r6 [ ][ ][ ][x][x][x][x][x][x][ ][ ][ ]
+	r7 [ ][ ][ ][x][x][x][x][x][x][ ][ ][ ]
+	r8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	r9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	r0 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	rA [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+	rB [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
+
+	boxX = w6 h3 r4 c3
+*/
+
+.box-1 	{ width:8.33%;  height:8.33%;  }
+.box-2 	{ width:16.66%; height:16.66%; }
+.box-3 	{ width:25.00%; height:25.00%; }
+.box-4 	{ width:33.33%; height:33.33%; }
+.box-5 	{ width:41.66%; height:41.66%; }
+.box-6 	{ width:50.00%; height:50.00%; }
+.box-7 	{ width:58.33%; height:58.33%; }
+.box-8 	{ width:66.66%; height:66.66%; }
+.box-9 	{ width:75.00%; height:75.00%; }
+.box-10 { width:83.33%; height:83.33%; }
+.box-11	{ width:91.66%; height:91.66%; }
+.box-12	{ width:100.0%; height:100.6%; }
+
+/* SIZE: WIDTH */
+.w1 	{ width:8.33%;  }
+.w2 	{ width:16.66%; }
+.w3 	{ width:25.00%; }
+.w4 	{ width:33.33%; }
+.w5 	{ width:41.66%; }
+.w6 	{ width:50.00%; }
+.w7 	{ width:58.33%; }
+.w8 	{ width:66.66%; }
+.w9 	{ width:75.00%; }
+.w10 	{ width:83.33%; }
+.w11	{ width:91.66%; }
+.w12	{ width:100.0%; }
+
+/* SIZE: HEIGHT */
+.h1 	{ height:8.33%;  }
+.h2 	{ height:16.66%; }
+.h3 	{ height:25.00%; }
+.h4 	{ height:33.33%; }
+.h5 	{ height:41.66%; }
+.h6 	{ height:50.00%; }
+.h7 	{ height:58.33%; }
+.h8 	{ height:66.66%; }
+.h9 	{ height:75.00%; }
+.h10 	{ height:83.33%; }
+.h11	{ height:91.66%; }
+.h12	{ height:100.0%; }
+
+
+/* POSITION OFFSETS */
+.r1, .r2, .r3, .r4, .r5, .r6, .r7, .r8, .r9, .r10, .r11, .r12,
+.c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8, .c9, .c10, .c11, .c12 {
+	position:absolute;
+}
+
+/* POSITION: ROW OFFSET */
+.r1 	{ top:8.33%;  }
+.r2 	{ top:16.66%; }
+.r3 	{ top:25.00%; }
+.r4 	{ top:33.33%; }
+.r5 	{ top:41.66%; }
+.r6 	{ top:50.00%; }
+.r7 	{ top:58.33%; }
+.r8 	{ top:66.66%; }
+.r9 	{ top:75.00%; }
+.r10 	{ top:83.33%; }
+.r11	{ top:91.66%; }
+.r12	{ top:100.0%; }
+
+/* POSITION: COLUMN OFFSET */
+.c1 	{ left:8.33%;  }
+.c2 	{ left:16.66%; }
+.c3 	{ left:25.00%; }
+.c4 	{ left:33.33%; }
+.c5 	{ left:41.66%; }
+.c6 	{ left:50.00%; }
+.c7 	{ left:58.33%; }
+.c8 	{ left:66.66%; }
+.c9 	{ left:75.00%; }
+.c10 	{ left:83.33%; }
+.c11	{ left:91.66%; }
+.c12	{ left:100.0%; }
+
+.row		{ width:100%;   }
+.container  { width:100%;   }
+
+
+
+/* =============================================
+	CSS GENERICS && ADDONS
+============================================== */
+.absCenter {
+	position:absolute;
+
+	top:0px; bottom:0px; left:0px; right:0px;
+	margin:auto;
+}
+
+.fullPage {
+	width:100%; height:100%;
+}
+
+
+
+/* =============================================
+	RESPONSIVE CSS MEDIA QUERY
+============================================== */
+
+/* MOBILE */
+@media screen and (min-width:320px) and (max-width:719px) {
+}
+
+/* TABLET */
+@media screen and (min-width:720px) and (max-width:1023px) {
+}
+
+/* DESKTOP */
+@media screen and (min-width:1024px) {
+}
+
+
+
+
+/* =============================================
+	CSS MAIN - PORTFOLIO
+============================================== */
+:root {
+	--theme-limeGreen : #B7DC8D;
+	--white           : rgba( 255, 255, 255, 1.0 );
+}
+
+@font-face {
+	font-family:'custom';
+	src:url(fonts/Roboto/Roboto-Light.ttf);
+}
+
+body {
+	font-family:'custom';
+
+	background:url('../images/bkImage.jpg') no-repeat center center fixed;
+	background-size:cover;
+}
+
+
+
+	/* =============================================
+		CSS MAIN - LAYERS
+	============================================== */
+	nav#navigation {
+		z-index:1000;
+	}
+
+
+
+	/* =============================================
+		CSS MAIN - NAVIGATION
+	============================================== */
+	nav#navigation, div#logo, div#siteLinks {
+		height:50px;
+		line-height:50px;
+	}
+
+	div#siteLinks ul, div#social ul {
+		list-style-type:none;
+	}
+
+	div#siteLinks ul li, div#social ul li {
+		float:left;
+	}
+
+	nav#navigation {
+		/* POSITION */
+		position:fixed;
+		top:0px;
+
+		/* BORDER, MARGIN, PADDING */
+
+		/* BACKGROUND */
+		background-color: var(--white);
+
+		/* DROP SHADOW */
+		box-shadow:0px 0px 10px black;
+
+		/* FONTS AND TEXT */
+	}
+
+
+	nav#navigation div#logo {
+		/* POSITION */
+		float:left;
+
+		/* SIZE */
+		min-width:80px; max-width:80px;
+		height:auto;
+
+		/* BACKGROUND */
+		background-color:var(--theme-limeGreen);
+
+		/* FONTS AND TEXT */
+		text-align:center;
+		font-size:1.3em;
+	}
+
+
+	nav#navigation div#siteLinks {
+		position:absolute;
+		right:0px;
+
+		width:70%;
+		min-width:500px;
+	}
+
+	div#siteLinks ul {
+		float:right;
+		text-align:right;
+	}
+
+	div#siteLinks ul li {
+		width:130px;
+		
+		text-align:center;
+
+		transition:border-bottom 0.2s ease,
+		           letter-spacing 0.2s ease,
+		           text-shadow 0.2s ease;
+	}
+
+	div#siteLinks ul li:hover { 
+		cursor:pointer; 
+
+		border-bottom:5px solid var(--theme-limeGreen);
+		letter-spacing:5px;
+		text-shadow:0px 0px 20px black;
+	}
+
+
+	/* =============================================
+		CSS MAIN - FIRST PAGE
+	============================================== */
+	div#intro {
+		min-width:400px;
+		max-width:500px;
+		
+		border:10px double var(--theme-limeGreen);
+		background-color:rgba(255, 255, 255, 0.80);
+
+		box-shadow:0px 0px 20px black;
+	}
+
+	.myName, .myJob {
+		text-align: center;	
+		font-variant: small-caps;
+	}
+
+	.myName {
+		font-size:2.0em;
+		line-height:85px;
+	}
+
+	.myJob {
+		font-size:1.1em;
+		letter-spacing:2px;
+	}
+		
+
+	.blankBox {
+		width:30px; height:30px;
+		background-color:white;
+		border:3px solid var(--theme-limeGreen);
+		box-shadow:0px 0px 5px black;
+	}
+
+	.social {
+		font-size:2.0em;
+		color:black;
+	}
+
+	div#social ul li {
+		padding:20px 0px 0px 20px;
+	}
+
+	a {	
+		color:black; 
+		transition: color       0.5s ease,
+		            text-shadow 0.5s ease;
+	}
+
+	a:hover { 
+		color:var(--theme-limeGreen); 
+		text-shadow: 0px 0px 5px black;
+	}
+
+	div#construction {
+		text-align:center;
+		top:350px;
+
+		color:orange;
+		font-size:5.0em;
+		text-shadow: 0px 0px 10px black, 0px 0px 20px black, 0px 0px 30px black;;
+	}
+
+	.blink {
+		animation-name:blinking;
+		animation-duration:1.5s;
+		animation-iteration-count: infinite;
+	}
+
+	@keyframes blinking {
+		0%   { opacity: 1.0; }
+		50%  { opacity: 1.0; }
+		51%  { opacity: 0.0; }
+		100% { opacity: 0.0; }
+	}
