@@ -1,20 +1,64 @@
-/* =============================================
-	DEVELOPER NOTE
-============================================== 
- [ ] - RESPONSIVE MOBILE REQUIRED
-*/
-
-
-
 
 /* 
-=============================================
+==============================================
  NOTES
-============================================== 
- AUTHOR: COWWY
- ALL RIGHTS RESERVED 2019
+==============================================
+	HI I AM COWWY, ARE YOU LOOKING FOR ME? :3
+ 	
+	I DIDN'T WRITE A WHOLE LOT OF CSS IN HERE.
+	I AM SURE IN A FEW YEARS THERE WILL BE A LOT
+	MORE. BECAUSE I INTEND TO BUILD A WHOLE 
+	LIBRARY OF COOL STUFF IN HERE.
 
- WHY ARE YOU LOOKING INTO MY CODE?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 */
 
 
@@ -24,11 +68,33 @@
 /* =============================================
 	GLOBAL RESET
 ============================================== */
+:root {
+	--white     : rgba(255, 255, 255, 1.0);
+
+	--smoke     : rgba(204, 204, 204, 1.0); /* #CCCCCC */
+	--LightRose : rgba(255, 204, 204, 1.0); /* #FFCCCC */
+	--mintGreen : rgba(204, 255, 204, 1.0); /* #CCFFCC */
+	--lavender  : rgba(204, 204, 255, 1.0); /* #CCCCFF */
+	--banana    : rgba(255, 255, 204, 1.0); /* #FFFFCC */
+	--pink      : rgba(255, 204, 255, 1.0); /* #FFCCFF */
+	--cyan      : rgba(204, 255, 255, 1.0); /* #CCFFFF */
+
+
+	--theme-limeGreen : #B7DC8D;
+	--font-mintGreen  : rgba( 170, 255, 198, 1.0 );
+}
+
+
 * {
 	margin:0px;
 	padding:0px;
 	border:0px;
 	box-sizing: border-box;		/* BORDER & PADDING IS INCLUDED IN THE CALCULATION OF WIDTH AND HEIGHT*/
+
+	-webkit-user-select: none; 	/* Safari */        
+	-moz-user-select: none; 	/* Firefox */
+	-ms-user-select: none; 		/* IE10+/Edge */
+	user-select: none; 			/* Standard */
 }
 
 body, html {
@@ -39,7 +105,7 @@ body, html {
 
 
 /* =============================================
-	DEBUG CLASSES
+	DEBUG CLASSES - LIBRARY
 ============================================== */
 .debug1 { border:2px dotted rgba(55, 55, 55, 0.8); }
 .debug2 { border:2px dotted #FFCCCC; background-color:#FFCCCC; }
@@ -52,109 +118,20 @@ body, html {
 
 
 /* =============================================
-	DIVISION && GRID SYSTEM
-================================================
-THE GRID SYSTEM ONLY WORKS IF YOU WANT THE ELEMENTS
-TO BE ENTIRELY REPONSIVE. STATIC BOXES REQUIRED
-NEED TO HAVE THEIR OWN CSS TO MAINTAIN THEIR SIZE.
-
-POSITION & SIZE
-
-	   c1  2  3  4  5  6  7  8  9  0  A  B
-	r1 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	r2 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	r3 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	r4 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	r5 [ ][ ][ ][x][x][x][x][x][x][ ][ ][ ]
-	r6 [ ][ ][ ][x][x][x][x][x][x][ ][ ][ ]
-	r7 [ ][ ][ ][x][x][x][x][x][x][ ][ ][ ]
-	r8 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	r9 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	r0 [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	rA [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-	rB [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ][ ]
-
-	boxX = w6 h3 r4 c3
-*/
-
-.box-1 	{ width:8.33%;  height:8.33%;  }
-.box-2 	{ width:16.66%; height:16.66%; }
-.box-3 	{ width:25.00%; height:25.00%; }
-.box-4 	{ width:33.33%; height:33.33%; }
-.box-5 	{ width:41.66%; height:41.66%; }
-.box-6 	{ width:50.00%; height:50.00%; }
-.box-7 	{ width:58.33%; height:58.33%; }
-.box-8 	{ width:66.66%; height:66.66%; }
-.box-9 	{ width:75.00%; height:75.00%; }
-.box-10 { width:83.33%; height:83.33%; }
-.box-11	{ width:91.66%; height:91.66%; }
-.box-12	{ width:100.0%; height:100.6%; }
-
-/* SIZE: WIDTH */
-.w1 	{ width:8.33%;  }
-.w2 	{ width:16.66%; }
-.w3 	{ width:25.00%; }
-.w4 	{ width:33.33%; }
-.w5 	{ width:41.66%; }
-.w6 	{ width:50.00%; }
-.w7 	{ width:58.33%; }
-.w8 	{ width:66.66%; }
-.w9 	{ width:75.00%; }
-.w10 	{ width:83.33%; }
-.w11	{ width:91.66%; }
-.w12	{ width:100.0%; }
-
-/* SIZE: HEIGHT */
-.h1 	{ height:8.33%;  }
-.h2 	{ height:16.66%; }
-.h3 	{ height:25.00%; }
-.h4 	{ height:33.33%; }
-.h5 	{ height:41.66%; }
-.h6 	{ height:50.00%; }
-.h7 	{ height:58.33%; }
-.h8 	{ height:66.66%; }
-.h9 	{ height:75.00%; }
-.h10 	{ height:83.33%; }
-.h11	{ height:91.66%; }
-.h12	{ height:100.0%; }
-
-
-/* POSITION OFFSETS */
-.r1, .r2, .r3, .r4, .r5, .r6, .r7, .r8, .r9, .r10, .r11, .r12,
-.c1, .c2, .c3, .c4, .c5, .c6, .c7, .c8, .c9, .c10, .c11, .c12 {
-	position:absolute;
+	CSS ANIMATION - LIBRARY
+============================================= */
+.blink {
+	animation-name:blinking;
+	animation-duration:1.5s;
+	animation-iteration-count: infinite;
 }
 
-/* POSITION: ROW OFFSET */
-.r1 	{ top:8.33%;  }
-.r2 	{ top:16.66%; }
-.r3 	{ top:25.00%; }
-.r4 	{ top:33.33%; }
-.r5 	{ top:41.66%; }
-.r6 	{ top:50.00%; }
-.r7 	{ top:58.33%; }
-.r8 	{ top:66.66%; }
-.r9 	{ top:75.00%; }
-.r10 	{ top:83.33%; }
-.r11	{ top:91.66%; }
-.r12	{ top:100.0%; }
-
-/* POSITION: COLUMN OFFSET */
-.c1 	{ left:8.33%;  }
-.c2 	{ left:16.66%; }
-.c3 	{ left:25.00%; }
-.c4 	{ left:33.33%; }
-.c5 	{ left:41.66%; }
-.c6 	{ left:50.00%; }
-.c7 	{ left:58.33%; }
-.c8 	{ left:66.66%; }
-.c9 	{ left:75.00%; }
-.c10 	{ left:83.33%; }
-.c11	{ left:91.66%; }
-.c12	{ left:100.0%; }
-
-.row		{ width:100%;   }
-.container  { width:100%;   }
+@keyframes blinking {
+	0%   { opacity: 1.0; }
+	50%  { opacity: 1.0; }
+	51%  { opacity: 0.0; }
+	100% { opacity: 0.0; }
+}
 
 
 
@@ -167,6 +144,8 @@ POSITION & SIZE
 	top:0px; bottom:0px; left:0px; right:0px;
 	margin:auto;
 }
+
+.container  { width:100%;   }
 
 .fullPage {
 	width:100%; height:100%;
@@ -196,192 +175,98 @@ POSITION & SIZE
 /* =============================================
 	CSS MAIN - PORTFOLIO
 ============================================== */
-:root {
-	--theme-limeGreen : #B7DC8D;
-	--white           : rgba( 255, 255, 255, 1.0 );
-}
-
 @font-face {
 	font-family:'custom';
 	src:url(fonts/Roboto/Roboto-Light.ttf);
 }
 
 body {
-	font-family:'custom';
-
-	background:url('../images/bkImage.jpg') no-repeat center center fixed;
-	background-size:cover;
+	font-family:'Montserrat', 'custom', 'Arial';
+	background-color:rgba(72, 77, 71, 1.0 );
 }
-
-
-
-	/* =============================================
-		CSS MAIN - LAYERS
-	============================================== */
-	nav#navigation {
-		z-index:1000;
-	}
-
-
-
-	/* =============================================
-		CSS MAIN - NAVIGATION
-	============================================== */
-	nav#navigation, div#logo, div#siteLinks {
-		height:50px;
-		line-height:50px;
-	}
-
-	div#siteLinks ul, div#social ul {
-		list-style-type:none;
-	}
-
-	div#siteLinks ul li, div#social ul li {
-		float:left;
-	}
-
-	nav#navigation {
-		/* POSITION */
-		position:fixed;
-		top:0px;
-
-		/* BORDER, MARGIN, PADDING */
-
-		/* BACKGROUND */
-		background-color: var(--white);
-
-		/* DROP SHADOW */
-		box-shadow:0px 0px 10px black;
-
-		/* FONTS AND TEXT */
-	}
-
-
-	nav#navigation div#logo {
-		/* POSITION */
-		float:left;
-
-		/* SIZE */
-		min-width:80px; max-width:80px;
-		height:auto;
-
-		/* BACKGROUND */
-		background-color:var(--theme-limeGreen);
-
-		/* FONTS AND TEXT */
-		text-align:center;
-		font-size:1.3em;
-	}
-
-
-	nav#navigation div#siteLinks {
-		position:absolute;
-		right:0px;
-
-		width:70%;
-		min-width:500px;
-	}
-
-	div#siteLinks ul {
-		float:right;
-		text-align:right;
-	}
-
-	div#siteLinks ul li {
-		width:130px;
-		
-		text-align:center;
-
-		transition:border-bottom 0.2s ease,
-		           letter-spacing 0.2s ease,
-		           text-shadow 0.2s ease;
-	}
-
-	div#siteLinks ul li:hover { 
-		cursor:pointer; 
-
-		border-bottom:5px solid var(--theme-limeGreen);
-		letter-spacing:5px;
-		text-shadow:0px 0px 20px black;
-	}
 
 
 	/* =============================================
 		CSS MAIN - FIRST PAGE
 	============================================== */
-	div#intro {
-		min-width:400px;
-		max-width:500px;
-		
-		height:150px;
+	div#social {
+		text-align:center;
+		padding:15px 0px;
 
-		border:10px double var(--theme-limeGreen);
-		background-color:rgba(255, 255, 255, 0.80);
-
-		box-shadow:0px 0px 20px black;
+		border-top:3px double rgba( 170, 255, 190, 0.2 );
+		border-bottom:3px double rgba( 170, 255, 190, 0.2 );
 	}
 
-	.myName, .myJob {
-		text-align: center;	
-		font-variant: small-caps;
+
+	a.link {
+		color:white;
+		/*color:var(--font-mintGreen);*/
+		border-bottom:2px solid rgba(170, 255, 190, 0.2 );
+
+		text-decoration: none;
+
+		transition: border-bottom 0.1s ease
 	}
 
-	.myName {
+	a.link:hover {
+		border-bottom:5px solid rgba(170, 255, 190, 1.0 );
+	}
+
+
+	a.contact {
+		color:var(--font-mintGreen);
 		font-size:2.0em;
-		line-height:85px;
-	}
-
-	.myJob {
-		font-size:1.1em;
-		letter-spacing:2px;
-	}
-		
-
-	.blankBox {
-		width:30px; height:30px;
-		background-color:white;
-		border:3px solid var(--theme-limeGreen);
-		box-shadow:0px 0px 5px black;
-	}
-
-	.social {
-		font-size:2.0em;
-		color:black;
-	}
-
-	div#social ul li {
-		padding:20px 0px 0px 20px;
-	}
-
-	a {	
-		color:black; 
 		transition: color       0.5s ease,
 		            text-shadow 0.5s ease;
 	}
 
-	a:hover { 
+	a.contact:hover { 
 		color:var(--theme-limeGreen); 
 		text-shadow: 0px 0px 5px black;
 	}
 
-	div#construction {
+
+
+
+	div#meDesc {
+		min-width:400px;
+		max-width:515px;
+		height:500px;
+	}
+
+	div#meDesc div#me {
+		font-size:1.7em;
+		font-weight:bolder;
+
+		color:var(--font-mintGreen);
+		margin-bottom:20px;
+	}
+
+	div#meDesc div#aboutMe {
+		color:white;
+		font-size:1.1em;
+		line-height:25px;
+		letter-spacing:1px;
+	}
+
+
+	div#aboutMe p {
+		margin-bottom:20px;
+	}
+
+	div.sincere {
+		width:100%;
+		text-align: center;
+	}
+
+	div#faded {
+		position:absolute;
+		bottom:0px;
+
+		width:100%;
+
+		font-size:12.0vw;
 		text-align:center;
-		top:350px;
 
-		color:orange;
-		font-size:5.0em;
-		text-shadow: 0px 0px 10px black, 0px 0px 20px black, 0px 0px 30px black;;
-	}
-
-	.blink {
-		animation-name:blinking;
-		animation-duration:1.5s;
-		animation-iteration-count: infinite;
-	}
-
-	@keyframes blinking {
-		0%   { opacity: 1.0; }
-		50%  { opacity: 1.0; }
-		51%  { opacity: 0.0; }
-		100% { opacity: 0.0; }
+		color:rgba(0, 0, 0, 0.05);
 	}
