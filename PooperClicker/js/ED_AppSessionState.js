@@ -108,7 +108,7 @@ function AppSessionState( ) {
 	// GAME CONTROL METHODS
 	//=======================================
 	function calcPooPerClick( ) { 
-		return ( 3000000000000 + getLevel( "Hand" ) ) * ( 1 + getMultiplierByName( "Hand" ) );
+		return ( 1 + getLevel( "Hand" ) ) * ( 1 + getMultiplierByName( "Hand" ) );
 	}
 	
 
