@@ -69,8 +69,9 @@
 	GLOBAL RESET
 ============================================== */
 :root {
-	--white     : rgba(255, 255, 255, 1.0);
 
+	/* COLOR PALLET */
+	--white     : rgba(255, 255, 255, 1.0); /* #FFFFFF */
 	--smoke     : rgba(204, 204, 204, 1.0); /* #CCCCCC */
 	--LightRose : rgba(255, 204, 204, 1.0); /* #FFCCCC */
 	--mintGreen : rgba(204, 255, 204, 1.0); /* #CCFFCC */
@@ -78,6 +79,15 @@
 	--banana    : rgba(255, 255, 204, 1.0); /* #FFFFCC */
 	--pink      : rgba(255, 204, 255, 1.0); /* #FFCCFF */
 	--cyan      : rgba(204, 255, 255, 1.0); /* #CCFFFF */
+
+
+	--animation-slowGlow-white        : rgba(255, 255, 255, 1.0);
+	--animation-slowGlow-yellow       : rgba(255, 255, 0, 1.0);
+	--animation-slowGlow-goldenYellow : rgba(255, 223, 0, 1.0);
+
+
+	/* ADJUSTMENT VARIABLE */
+	--animation-slowGlow-color : var(--animation-slowGlow-yellow);
 
 
 	--theme-limeGreen : #B7DC8D;
@@ -146,6 +156,41 @@ body, html {
 }
 
 
+.glowing {
+	animation-name:slowGlow;
+	animation-duration:7.0s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes slowGlow {
+	0% { 
+		text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color);
+	 }
+
+	 50% { 
+		text-shadow: 0px 0px 30px var(--animation-slowGlow-color),
+	             	 0px 0px 30px var(--animation-slowGlow-color), 
+	             	 0px 0px 20px var(--animation-slowGlow-color), 
+	             	 0px 0px 10px var(--animation-slowGlow-color), 
+	             	 0px 0px 5px  var(--animation-slowGlow-color), 
+	             	 0px 0px 5px  var(--animation-slowGlow-color);
+	 }
+
+	 100% { 
+		text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color);
+	 }
+}
+
 
 /* =============================================
 	CSS GENERICS && ADDONS
@@ -212,21 +257,13 @@ body {
 
 	a.link {
 		color:white;
-		border-bottom:2px solid rgba(170, 255, 190, 0.2 );
-
 		text-decoration: none;
 
-		transition: border-bottom 0.1s ease,
-		            text-shadow 0.5s ease;
+		transition: border-bottom 0.1s ease;
 	}
 
 	a.link:hover {
-		text-shadow: 0px 0px 50px yellow,
-		             0px 0px 50px yellow, 
-		             0px 0px 30px yellow, 
-		             0px 0px 20px yellow, 
-		             0px 0px 10px yellow, 
-		             0px 0px 5px yellow;
+		border-bottom:3px solid rgba( 170, 255, 198, 0.2 );
 	}
 
 
