@@ -1,0 +1,161 @@
+/**
+==============================================
+ READ ME INFO - NAMING CONVENTION
+==============================================
+ - Widget class always starts with widget
+ - follow by component name
+ - follow by the theme name
+ - additional style goes under different theme name
+
+ example: widget-searchbar-diary
+============================================== 
+
+==============================================
+ TABLE OF CONTENT
+==============================================
+ WIDGET - SEARCH BAR
+ WIDGET - NAVIGATION BAR
+============================================== 
+**/
+
+* {
+  margin:0px;
+  padding:0px;
+  box-sizing:border-box;
+}
+
+
+
+/**
+==============================================
+ WIDGETS - SEARCH BAR
+==============================================
+	<div class="search">
+		<input> // Text field
+		<input> // Button
+	</div>
+============================================== 
+**/
+div.widget-searchbar-diary { overflow:auto; }
+
+div.widget-searchbar-diary
+	input {
+		padding:7px 5px;
+		float:left;
+}
+
+div.widget-searchbar-diary
+	input:nth-child(1) { 
+		width:75%; 
+		background-color:#EEEEEE;
+		border:1px solid #CCC;
+}
+
+div.widget-searchbar-diary
+	input:nth-child(2) { 
+		width:25%;
+		border:1px solid #CCC;
+}
+
+
+/**
+==============================================
+ WIDGETS - NAVIGATION BAR
+==============================================
+**/
+
+/**
+==============================================
+ THEME - DIARY
+==============================================
+	Setup:
+		<div class="comp-nav">
+			<ul class="main-menu">
+				<li>
+					<ul class="sub-menu">
+		</div>
+============================================== 
+**/
+nav.widget-nav-diary { 
+	border-top:3px double #CCCCCC;
+	border-bottom:3px double #CCCCCC;
+	padding:10px 0px; 	
+}
+
+nav.widget-nav-diary 
+	ul.main-menu { 
+	list-style-type: none;
+}
+
+nav.widget-nav-diary 
+	ul.main-menu > li { 
+	float:left; 
+	border-right:1px dotted #CCCCCC;
+
+	position:relative;
+}
+
+nav.widget-nav-diary 
+	ul.main-menu > li a { 
+	text-decoration:none; 
+	color:#555;
+}
+
+nav.widget-nav-diary 
+	ul.main-menu > li a:hover { 
+		color:#325d9d; 
+}
+
+nav.widget-nav-diary 
+	ul.main-menu > li > div { 
+		padding:0px 12px;
+}
+
+nav.widget-nav-diary
+	ul.main-menu 
+		ul.sub-menu {
+		list-style-type:none;
+
+		border-right:1px solid #CCCCCC;
+		border-left:1px solid #CCCCCC;
+		border-bottom:1px solid #CCCCCC;
+
+		background-color:white;
+
+		width:175px;
+		display:none;
+		position:absolute;
+
+		font-size:0.8em;
+
+		padding:0px 10px;
+		padding-top:10px;
+
+		z-index:1000;
+}
+
+nav.widget-nav-diary
+	ul.main-menu 
+		ul.sub-menu li {
+			float:none;
+			border:none;
+}
+
+nav.widget-nav-diary
+	ul.main-menu
+		ul.sub-menu li > div {
+			padding:10px 5px;
+			border-bottom:1px dotted #CCCCCC;
+}
+
+nav.widget-nav-diary
+	ul.main-menu
+		ul.sub-menu > li:last-child > div {
+			border-bottom:none;
+}
+
+nav.widget-nav-diary
+	ul.main-menu li:hover > ul.sub-menu {
+		display:block;
+}
+

@@ -1,0 +1,338 @@
+
+/* 
+==============================================
+ NOTES
+==============================================
+	HI I AM COWWY, ARE YOU LOOKING FOR ME? :3
+ 	
+	I DIDN'T WRITE A WHOLE LOT OF CSS IN HERE.
+	I AM SURE IN A FEW YEARS THERE WILL BE A LOT
+	MORE. BECAUSE I INTEND TO BUILD A WHOLE 
+	LIBRARY OF COOL STUFF IN HERE.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+/* =============================================
+	GLOBAL RESET
+============================================== */
+:root {
+
+	/* COLOR PALLET */
+	--white     : rgba(255, 255, 255, 1.0); /* #FFFFFF */
+	--smoke     : rgba(204, 204, 204, 1.0); /* #CCCCCC */
+	--LightRose : rgba(255, 204, 204, 1.0); /* #FFCCCC */
+	--mintGreen : rgba(204, 255, 204, 1.0); /* #CCFFCC */
+	--lavender  : rgba(204, 204, 255, 1.0); /* #CCCCFF */
+	--banana    : rgba(255, 255, 204, 1.0); /* #FFFFCC */
+	--pink      : rgba(255, 204, 255, 1.0); /* #FFCCFF */
+	--cyan      : rgba(204, 255, 255, 1.0); /* #CCFFFF */
+
+
+	--animation-slowGlow-white        : rgba(255, 255, 255, 1.0);
+	--animation-slowGlow-yellow       : rgba(255, 255, 0, 1.0);
+	--animation-slowGlow-goldenYellow : rgba(255, 223, 0, 1.0);
+
+
+	/* ADJUSTMENT VARIABLE */
+	--animation-slowGlow-color : var(--animation-slowGlow-yellow);
+
+
+	--theme-limeGreen : #B7DC8D;
+	--font-mintGreen  : rgba( 170, 255, 198, 1.0 );
+}
+
+
+* {
+	margin:0px;
+	padding:0px;
+	border:0px;
+	box-sizing: border-box;		/* BORDER & PADDING IS INCLUDED IN THE CALCULATION OF WIDTH AND HEIGHT*/
+
+	-webkit-user-select: none; 	/* Safari */        
+	-moz-user-select: none; 	/* Firefox */
+	-ms-user-select: none; 		/* IE10+/Edge */
+	user-select: none; 			/* Standard */
+}
+
+body, html {
+	width:100%;
+	height:100%;
+}
+
+
+
+/* =============================================
+	DEBUG CLASSES - LIBRARY
+============================================== */
+.debug1 { border:2px dotted rgba(55, 55, 55, 0.8); }
+.debug2 { border:2px dotted #FFCCCC; background-color:#FFCCCC; }
+.debug3 { border:2px dotted #CCFFCC; background-color:#CCFFCC; }
+.debug4 { border:2px dotted #CCCCFF; background-color:#CCCCFF; }
+.debug5 { border:2px dotted #FFFFCC; background-color:#FFFFCC; }
+.debug6 { border:2px dotted #FFCCFF; background-color:#FFCCFF; }
+.debug7 { border:2px dotted #CCFFFF; background-color:#CCFFFF; }
+
+
+
+/* =============================================
+	CSS ANIMATION - LIBRARY
+============================================= */
+.blink {
+	animation-name:blinking;
+	animation-duration:1.5s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes blinking {
+	0%   { opacity: 1.0; }
+	50%  { opacity: 1.0; }
+	51%  { opacity: 0.0; }
+	100% { opacity: 0.0; }
+}
+
+
+.glow { transition:text-shadow 0.5s ease; }
+
+.glow:hover {
+	text-shadow: 0px 0px 50px yellow,
+	             0px 0px 50px yellow, 
+	             0px 0px 30px yellow, 
+	             0px 0px 20px yellow, 
+	             0px 0px 10px yellow, 
+	             0px 0px 5px  yellow;
+}
+
+
+.glowing {
+	animation-name:slowGlow;
+	animation-duration:7.0s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes slowGlow {
+	0% { 
+		text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color);
+	 }
+
+	 50% { 
+		text-shadow: 0px 0px 30px var(--animation-slowGlow-color),
+	             	 0px 0px 30px var(--animation-slowGlow-color), 
+	             	 0px 0px 20px var(--animation-slowGlow-color), 
+	             	 0px 0px 10px var(--animation-slowGlow-color), 
+	             	 0px 0px 5px  var(--animation-slowGlow-color), 
+	             	 0px 0px 5px  var(--animation-slowGlow-color);
+	 }
+
+	 100% { 
+		text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color), 
+	             	 0px 0px 0px var(--animation-slowGlow-color);
+	 }
+}
+
+
+/* =============================================
+	CSS GENERICS && ADDONS
+============================================== */
+.absCenter {
+	position:absolute;
+
+	top:0px; bottom:0px; left:0px; right:0px;
+	margin:auto;
+}
+
+.container  { width:100%;   }
+
+.fullPage {
+	width:100%; height:100%;
+}
+
+
+
+/* =============================================
+	RESPONSIVE CSS MEDIA QUERY
+============================================== */
+
+/* MOBILE */
+@media screen and (min-width:320px) and (max-width:719px) {
+	p {
+		font-size:2.0em;
+		line-height:1.5em;
+		color:blue;
+	}
+}
+
+/* TABLET */
+@media screen and (min-width:720px) and (max-width:1023px) {
+	p {
+		font-size:1.5em;
+		line-height:1.5em;
+		color:red;
+	}
+}
+
+/* DESKTOP */
+@media screen and (min-width:1024px) {
+	p {
+		font-size:1.0em;
+		line-height:1.5em;
+		color:yellow;
+	}
+}
+
+
+
+
+/* =============================================
+	CSS MAIN - PORTFOLIO
+============================================== */
+@font-face {
+	font-family:'custom';
+	src:url(fonts/Roboto/Roboto-Light.ttf);
+}
+
+body {
+	font-family:'Montserrat', 'custom', 'Arial';
+	background-color:rgba(72, 77, 71, 1.0 );
+}
+
+
+	/* =============================================
+		CSS MAIN - FIRST PAGE
+	============================================== */
+	div#social {
+		text-align:center;
+		padding:15px 0px;
+
+		border-top:3px double rgba( 170, 255, 190, 0.2 );
+		border-bottom:3px double rgba( 170, 255, 190, 0.2 );
+	}
+
+
+	a.link {
+		color:white;
+		text-decoration: none;
+
+		transition: border-bottom 0.1s ease;
+	}
+
+	a.link:hover {
+		border-bottom:3px solid rgba( 170, 255, 198, 0.2 );
+	}
+
+
+	a.contact {
+		color:var(--font-mintGreen);
+		font-size:2.0em;
+		transition: text-shadow 0.5s ease;
+	}
+
+	a.contact:hover { 
+		text-shadow: 0px 0px 50px yellow, 0px 0px 30px yellow, 0px 0px 10px yellow;
+	}
+
+
+
+	div#meDesc {
+		min-width:400px;
+		max-width:515px;
+		height:500px;
+	}
+
+	div#meDesc div#me {
+		font-size:1.7em;
+		font-weight:bolder;
+
+		color:var(--font-mintGreen);
+		margin-bottom:20px;
+	}
+
+	div#meDesc div#aboutMe {
+		color:white;
+		font-size:1.1em;
+		line-height:25px;
+		letter-spacing:1px;
+	}
+
+
+	div#aboutMe p {
+		margin-bottom:20px;
+	}
+
+	div.sincere {
+		width:100%;
+		text-align: center;
+	}
+
+	div#faded {
+		position:absolute;
+		bottom:0px;
+
+		width:100%;
+
+		font-size:12.0vw;
+		text-align:center;
+
+		color:rgba(0, 0, 0, 0.05);
+	}
