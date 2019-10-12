@@ -219,25 +219,37 @@ body, html {
 	p {
 		font-size:2.0em;
 		line-height:1.5em;
-		color:blue;
+		/*color:blue;*/
 	}
 }
 
 /* TABLET */
 @media screen and (min-width:720px) and (max-width:1023px) {
+	div#meDesc {
+		min-width:400px;
+		max-width:75%;
+		height:750px;
+	}
+
 	p {
-		font-size:1.5em;
+		font-size:2.0em;
 		line-height:1.5em;
-		color:red;
+		/*color:red;*/
 	}
 }
 
 /* DESKTOP */
 @media screen and (min-width:1024px) {
+	div#meDesc {
+		min-width:400px;
+		max-width:515px;
+		height:500px;
+	}
+
 	p {
 		font-size:1.0em;
 		line-height:1.5em;
-		color:yellow;
+		/*color:yellow;*/
 	}
 }
 
@@ -294,11 +306,11 @@ body {
 
 
 
-	div#meDesc {
+/*	div#meDesc {
 		min-width:400px;
 		max-width:515px;
 		height:500px;
-	}
+	}*/
 
 	div#meDesc div#me {
 		font-size:1.7em;
