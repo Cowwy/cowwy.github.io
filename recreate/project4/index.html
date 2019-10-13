@@ -26,18 +26,19 @@
 				let phone        = $( "#phone" ).val( );
 				let phonePattern = /[0-9]{9}/;
 
+				console.log( email );
 
-				if( name.match( namePattern ) === null ) {
+				if( name.match( namePattern ) === null || name == "" ) {
 					$( ".fa-user" ).toggleClass( "glowing" );
 					e.preventDefault( );					
 				}
 
-				if( email.match( emailPattern ) === null ) {
+				if( email.match( emailPattern ) === null || email == "" ) {
 					$( ".fa-envelope" ).toggleClass( "glowing" );
 					e.preventDefault( );	
 				}
 
-				if( phone.match( phonePattern ) === null ) {
+				if( phone.match( phonePattern ) === null || phone == "" ) {
 					$( ".fa-mobile-alt" ).toggleClass( "glowing" );
 					e.preventDefault( );
 				}
