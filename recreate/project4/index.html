@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Creative Form Design</title>
+
+		<link href="css/main.css" rel="stylesheet" />
+		<link href="css/op-reset.css" rel="stylesheet" />
+		<link href="css/op-animation.css" rel="stylesheet" />
+
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	</head>
+
+	<script>
+		window.onload = function( ) {
+			let submit = $( "#submit-btn" ).bind( "click", function( e ) {
+				let name         = $( "#username" ).val( );
+				let namePattern  = /^[a-zA-Z]+$/g;
+
+				let email        = $( "#email" ).val( );
+				let emailPattern =/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+				let phone        = $( "#phone" ).val( );
+				let phonePattern = /[0-9]{9}/;
+
+
+				if( name.match( namePattern ) === null ) {
+					$( ".fa-user" ).toggleClass( "glowing" );
+					e.preventDefault( );					
+				}
+
+				if( email.match( emailPattern ) === null ) {
+					$( ".fa-envelope" ).toggleClass( "glowing" );
+					e.preventDefault( );	
+				}
+
+				if( phone.match( phonePattern ) === null ) {
+					$( ".fa-mobile-alt" ).toggleClass( "glowing" );
+					e.preventDefault( );
+				}
+			});
+		}
+	</script>
+	
+	<body>
+		<footer>
+			Form recreated using HTML5 | CSS3 Flex | JQuery & JS Validation
+		</footer>
+
+		<div class="fullPage design1">
+			<div class="formBorder absCenter">
+				<div>
+					<h2>Contact Us</h2>
+				</div>
+				
+				<div>Fill out the form below and representative will contact you soon</div>
+				<div>
+					<form action="" method="GET" class="formLayout">
+						<div class="field">
+							<div><i class="fas fa-user"></i></div>
+							<div><input id="username" name="username" type="text" placeholder="Name" /></div>
+						</div>
+
+						<div class="field">
+							<div><i class="fas fa-envelope"></i> </div>
+							<div><input id="email" name="email" type="text" placeholder="Email" /></div>
+						</div>
+
+						<div class="field">
+							<div><i class="fas fa-mobile-alt"></i> </div>
+							<div><input id="phone" name="phone" type="text" placeholder="Phone" /></div>
+						</div>
+
+						<div class="submit-btn">
+							<input id="submit-btn" type="submit" value="Send" />
+						</div>
+					</form>
+				</div>
+
+				<div>You may also call us at 333-33-33</div>
+
+			</div>
+		</div>
+	</body>
+</html>
