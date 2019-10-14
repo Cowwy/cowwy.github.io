@@ -2,7 +2,10 @@
 
 <html>
 	<head>
-		<title>My Portfolio</title>
+		<title>Hi! I am Frankie</title>
+
+		<!--[if IE]><link rel="shortcut icon" href="image/favicon.ico"><![endif]-->
+		<link rel="icon" href="image/favicon.png">
 
 		<link href="css/main.css" rel="stylesheet" />
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
@@ -14,15 +17,19 @@
 
 	<body>
 		<div class="container absCenter">
-			<!-- PAGE 1 SAY SOMETHING CLEVER HERE -->
-			<div class="fullPage">
-				<div id="faded">
+			<nav class="">
+				<div><a href="#aboutMe">ABOUT ME</a></div>
+				<div><a href="#project">PROJECTS</a></div>
+			</nav>
+
+
+			<div id="aboutMe" class="fullPage">
+				<h2>
 					ABOUT ME
-				</div>
+				</h2>
 
-
-				<div id="meDesc" class="absCenter">
-					<div id="me">Hello <span class="blink">. . .</span></div>
+				<div class="contentBlock absCenter">
+					<div id="me"><h3>Hello <span class="blink">. . .</span></h3></div>
 
 					<div id="aboutMe">
 						<p>I've been working with Front End languages for the past 2 years.
@@ -40,10 +47,50 @@
 						</div>
 
 						<br/>
-						<div class="sincere">- Frankie -</div>
+						<div class="sincere"><p>- Frankie -</p></div>
 					</div>
-				</div>			
+				</div>
 			</div>
+
+			<div id="project" class="fullPage">
+				<h2>
+					PROJECTS
+				</h2>
+
+				<div class="contentBlock absCenter">
+					<div id="aboutProject">
+						<h3>Project Listing</h3>
+
+						<div class="projectListing">
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/PooperClicker">Pooper Clicker</a>
+								<p>HTML | CSS | VanillaJS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project1">NoBull</a>
+								<p>Static Web Page - HTML | SVG | CSS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project2">Simona Rich</a>
+								<p>Single Responsive Page - HTML | CSS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project3">Juliana Rotich</a>
+								<p>Full Responsive Site - HTML | CSS | VanillaJS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project4">Contact Form</a>
+								<p>CSS Flex | JQuery</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	</body>
 </html>
