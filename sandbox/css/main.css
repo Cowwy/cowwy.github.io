@@ -270,7 +270,7 @@ body, html {
 			padding:20px 0px;
 		}
 
-		a.link {
+		div.projectListing > div > a.link {
 			font-size:1.8em;
 		}
 	}
@@ -303,8 +303,8 @@ body, html {
 			padding:20px 0px;
 		}
 
-		a.link {
-			/*font-size:1.8em;*/
+		div.projectListing > div > a.link {
+			font-size:1.8em;
 		}
 	}
 
