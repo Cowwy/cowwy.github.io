@@ -1,0 +1,29 @@
+body.construction-cardstock { 
+	--p-color:#444;
+	--i-construction:orange;
+
+	background-color:#DDD;
+}
+
+div.card {
+	width:400px;
+	padding:30px;
+	margin:auto;
+	box-shadow:0px 0px 3px 3px #AAA;
+	text-align:center;
+	background-color:white;
+}
+
+div.card > * { margin-bottom:20px; }
+div.card > *:last-child { margin-bottom:0px; }
+div.card i { color:var(--i-construction); }
+div.card h1 { 
+	border-width:4px;
+	border-top-style:double; 
+	border-bottom-style:double;
+}
+
+p.caption { 
+	color:var(--p-color); 
+	letter-spacing:4px;
+}
