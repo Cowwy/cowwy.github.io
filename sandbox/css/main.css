@@ -127,187 +127,210 @@ body, html {
 
 
 
-/* =============================================
-	CSS ANIMATION - LIBRARY
-============================================= */
-.blink {
-	animation-name:blinking;
-	animation-duration:1.5s;
-	animation-iteration-count: infinite;
-}
-
-@keyframes blinking {
-	0%   { opacity: 1.0; }
-	50%  { opacity: 1.0; }
-	51%  { opacity: 0.0; }
-	100% { opacity: 0.0; }
-}
-
-
-.glow { transition:text-shadow 0.5s ease; }
-
-.glow:hover {
-	text-shadow: 0px 0px 50px yellow,
-	             0px 0px 50px yellow, 
-	             0px 0px 30px yellow, 
-	             0px 0px 20px yellow, 
-	             0px 0px 10px yellow, 
-	             0px 0px 5px  yellow;
-}
-
-
-.glowing {
-	animation-name:slowGlow;
-	animation-duration:7.0s;
-	animation-iteration-count: infinite;
-}
-
-@keyframes slowGlow {
-	0% { 
-		text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color);
-	 }
-
-	 50% { 
-		text-shadow: 0px 0px 30px var(--animation-slowGlow-color),
-	             	 0px 0px 30px var(--animation-slowGlow-color), 
-	             	 0px 0px 20px var(--animation-slowGlow-color), 
-	             	 0px 0px 10px var(--animation-slowGlow-color), 
-	             	 0px 0px 5px  var(--animation-slowGlow-color), 
-	             	 0px 0px 5px  var(--animation-slowGlow-color);
-	 }
-
-	 100% { 
-		text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color), 
-	             	 0px 0px 0px var(--animation-slowGlow-color);
-	 }
-}
-
-
-/* =============================================
-	CSS GENERICS && ADDONS
-============================================== */
-.absCenter {
-	position:absolute;
-
-	top:0px; bottom:0px; left:0px; right:0px;
-	margin:auto;
-}
-
-.container  { width:100%;   }
-
-.fullPage {
-	position:relative;
-	width:100%; height:100%;
-}
+/*\ 
+|*| =============================================
+|*|  COWWY.GITHUB.IO - TABLE OF CONTENT
+|*|  Stuff written below is what I use in this
+|*|  site.  Alright don't laugh at me when I write
+|*|  this stuff down.  Is hard to remember things.
+|*| ============================================== 
+|*|		CSS ANIMATION - LIBRARY
+|*|		CSS GENERICS && ADDONS
+|*|		RESPONSIVE CSS MEDIA QUERY
+|*|		THEME
+|*|		ABOUT ME Page1 formatting
+|*|		PROJECT Page2 formatting
+|*|  	Content z-index
+|*|  	Navigation - CSS
+\*/
 
 
 
-/* =============================================
-	RESPONSIVE CSS MEDIA QUERY
-============================================== */
-
-/* MOBILE */
-@media screen and (min-width:320px) and (max-width:719px) {
-	div.contentBlock {
-		min-width:400px;
-		max-width:100%;
-		height:100%;
-
-		padding:100px 20px 20px 20px;
+/*\ 
+|*| =============================================
+|*|  CSS ANIMATION - LIBRARY
+|*| ============================================== 
+\*/
+	.blink {
+		animation-name:blinking;
+		animation-duration:1.5s;
+		animation-iteration-count: infinite;
 	}
 
-	h3 { font-size:1.6em; }
-
-	p {
-		font-size:1.3em;
-		line-height:1.5em;
-		/*color:blue;*/
+	@keyframes blinking {
+		0%   { opacity: 1.0; }
+		50%  { opacity: 1.0; }
+		51%  { opacity: 0.0; }
+		100% { opacity: 0.0; }
 	}
 
-	div.projectListing > div {
-		width:100%;
-		height:100px;
-		line-height:45px;
-	}
-}
 
-/* TABLET */
-@media screen and (min-width:720px) and (max-width:1023px) {
-	div.contentBlock {
-		min-width:400px;
-		max-width:75%;
-		height:750px;
+	.glow { transition:text-shadow 0.5s ease; }
 
-		padding-top:60px;
+	.glow:hover {
+		text-shadow: 0px 0px 50px yellow,
+		             0px 0px 50px yellow, 
+		             0px 0px 30px yellow, 
+		             0px 0px 20px yellow, 
+		             0px 0px 10px yellow, 
+		             0px 0px 5px  yellow;
 	}
 
-	h3 { font-size:1.4em; }
 
-	p {
-		font-size:1.4em;
-		line-height:1.5em;
-		/*color:red;*/
+	.glowing {
+		animation-name:slowGlow;
+		animation-duration:7.0s;
+		animation-iteration-count: infinite;
 	}
 
-	div.projectListing > div {
-		width:100%;
-		height:100px;
-		line-height:45px;
+	@keyframes slowGlow {
+		0% { 
+			text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color);
+		 }
+
+		 50% { 
+			text-shadow: 0px 0px 30px var(--animation-slowGlow-color),
+		             	 0px 0px 30px var(--animation-slowGlow-color), 
+		             	 0px 0px 20px var(--animation-slowGlow-color), 
+		             	 0px 0px 10px var(--animation-slowGlow-color), 
+		             	 0px 0px 5px  var(--animation-slowGlow-color), 
+		             	 0px 0px 5px  var(--animation-slowGlow-color);
+		 }
+
+		 100% { 
+			text-shadow: 0px 0px 0px var(--animation-slowGlow-color),
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color), 
+		             	 0px 0px 0px var(--animation-slowGlow-color);
+		 }
 	}
-}
+/*\
+\*/
 
-/* DESKTOP */
-@media screen and (min-width:1024px) {
-	div.contentBlock {
-		min-width:400px;
-		max-width:515px;
-		height:600px;
+
+
+/*\ 
+|*| =============================================
+|*|  CSS GENERICS && ADDONS
+|*| ============================================== 
+\*/
+	.absCenter {
+		position:absolute;
+
+		top:0px; bottom:0px; left:0px; right:0px;
+		margin:auto;
 	}
 
-	h3 { font-size:1.4em; }
+	.container  { width:100%;   }
 
-	p {
-		font-size:1.0em;
-		line-height:1.5em;
-		/*color:yellow;*/
+	.fullPage {
+		position:relative;
+		width:100%; height:100%;
+	}
+/*\
+\*/
+
+
+
+/*\ 
+|*| =============================================
+|*|  RESPONSIVE CSS MEDIA QUERY
+|*| ============================================== 
+\*/
+	/* MOBILE */
+	@media screen and (min-width:320px) and (max-width:719px) {
+		nav > div {
+			width:200px;
+			font-size:1.5em;
+		}
+
+		div.contentBlock {
+			min-width:400px;
+			max-width:100%;
+			height:100%;
+
+			padding:100px 20px 20px 20px;
+		}
+
+		h3 { font-size:1.6em; }
+
+		p {
+			font-size:1.3em;
+			line-height:1.5em;
+		}
+
+		div.projectListing > div {
+			width:100%;
+			height:100px;
+			line-height:45px;
+		}
 	}
 
-	div.projectListing > div {
-		width:100%;
-		height:80px;
-		line-height:45px;
+	/* TABLET */
+	@media screen and (min-width:720px) and (max-width:1023px) {
+		nav > div {
+			width:200px;
+			font-size:1.5em;
+		}
+
+		div.contentBlock {
+			min-width:400px;
+			max-width:75%;
+			height:750px;
+
+			padding-top:60px;
+		}
+
+		h3 { font-size:1.4em; }
+
+		p {
+			font-size:1.4em;
+			line-height:1.5em;
+		}
+
+		div.projectListing > div {
+			width:100%;
+			height:100px;
+			line-height:45px;
+		}
 	}
-}
 
+	/* DESKTOP */
+	@media screen and (min-width:1024px) {
+		nav > div {
+			width:200px;
+			font-size:1.5em;
+		}
 
+		div.contentBlock {
+			min-width:400px;
+			max-width:515px;
+			height:600px;
+		}
 
+		h3 { font-size:1.4em; }
 
-/* =============================================
-	CSS MAIN - PORTFOLIO
-============================================== */
-@font-face {
-	font-family:'custom';
-	src:url(fonts/Roboto/Roboto-Light.ttf);
-}
+		p {
+			font-size:1.0em;
+			line-height:1.5em;
+		}
 
-body {
-	font-family:'Montserrat', 'custom', 'Arial';
-	background-color:rgba(72, 77, 71, 1.0 );
-}
+		div.projectListing > div {
+			width:100%;
+			height:80px;
+			line-height:45px;
+		}
+	}
+/*\
+\*/
 
-
-	/* =============================================
-		CSS MAIN - FIRST PAGE
-	============================================== */
 
 	
 /*\
@@ -317,6 +340,16 @@ body {
 |*|		faded Title
 |*| ====================================
 \*/
+	@font-face {
+		font-family:'custom';
+		src:url(fonts/Roboto/Roboto-Light.ttf);
+	}
+
+	body {
+		font-family:'Montserrat', 'custom', 'Arial';
+		background-color:rgba(72, 77, 71, 1.0 );
+	}
+
 	h2 {
 		position:absolute;
 		bottom:0px; 
@@ -467,13 +500,10 @@ body {
 		display:flex;
 		flex-direction:row;
 		justify-content: space-around;
-
-	/*	box-shadow:0px 0px 5px black;
-		background-color:rgba(72, 77, 71, 1.0 );
-*/	}
+	}
 
 	nav > div {
-		width:150px;
+		/*width:150px;*/
 		text-align: center;
 
 		font-weight:bold;
