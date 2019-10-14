@@ -69,29 +69,28 @@
 	GLOBAL RESET
 ============================================== */
 :root {
-
-	/* COLOR PALLET */
-	--white     : rgba(255, 255, 255, 1.0); /* #FFFFFF */
-	--smoke     : rgba(204, 204, 204, 1.0); /* #CCCCCC */
-	--LightRose : rgba(255, 204, 204, 1.0); /* #FFCCCC */
-	--mintGreen : rgba(204, 255, 204, 1.0); /* #CCFFCC */
-	--lavender  : rgba(204, 204, 255, 1.0); /* #CCCCFF */
-	--banana    : rgba(255, 255, 204, 1.0); /* #FFFFCC */
-	--pink      : rgba(255, 204, 255, 1.0); /* #FFCCFF */
-	--cyan      : rgba(204, 255, 255, 1.0); /* #CCFFFF */
-
-
-	--animation-slowGlow-white        : rgba(255, 255, 255, 1.0);
-	--animation-slowGlow-yellow       : rgba(255, 255, 0, 1.0);
-	--animation-slowGlow-goldenYellow : rgba(255, 223, 0, 1.0);
+		/* COLOR PALLET */
+		--black     : rgba(0,     0,   0, 1.0);
+		--white     : rgba(255, 255, 255, 1.0); /* #FFFFFF */
+		--smoke     : rgba(204, 204, 204, 1.0); /* #CCCCCC */
+		--LightRose : rgba(255, 204, 204, 1.0); /* #FFCCCC */
+		--mintGreen : rgba(204, 255, 204, 1.0); /* #CCFFCC */
+		--lavender  : rgba(204, 204, 255, 1.0); /* #CCCCFF */
+		--banana    : rgba(255, 255, 204, 1.0); /* #FFFFCC */
+		--pink      : rgba(255, 204, 255, 1.0); /* #FFCCFF */
+		--cyan      : rgba(204, 255, 255, 1.0); /* #CCFFFF */
+		--menthol   : rgba(0,   216, 135, 1.0);
+		--yellow    : rgba(255, 255,   0, 1.0);
 
 
-	/* ADJUSTMENT VARIABLE */
-	--animation-slowGlow-color : var(--animation-slowGlow-yellow);
+		--animation-slowGlow-white        : rgba(255, 255, 255, 1.0);
+		--animation-slowGlow-yellow       : rgba(255, 255, 0, 1.0);
+		--animation-slowGlow-goldenYellow : rgba(255, 223, 0, 1.0);
 
 
-	--theme-limeGreen : #B7DC8D;
-	--font-mintGreen  : rgba( 170, 255, 198, 1.0 );
+		/* ADJUSTMENT VARIABLE */
+		--animation-slowGlow-color : var(--animation-slowGlow-yellow);
+		--transition-glow-color    : var(--animation-slowGlow-yellow);
 }
 
 
@@ -305,7 +304,7 @@ body, html {
 		}
 
 		a.link {
-			font-size:1.8em;
+			/*font-size:1.8em;*/
 		}
 	}
 
@@ -347,6 +346,16 @@ body, html {
 |*|		faded Title
 |*| ====================================
 \*/
+	:root {
+		--portfolioBkg    : rgba(72, 77, 71, 1.0 );
+		--theme-limeGreen : #B7DC8D;
+		--font-mintGreen  : rgba( 170, 255, 198, 1.0 );
+
+		--h2-bkgColor     : rgba(   0,   0,   0, 0.05);
+		--a-link-hover    : rgba( 170, 255, 198, 0.2 );
+		--borderYellow    : rgba( 255, 255,   0, 0.2 );
+	}
+
 	@font-face {
 		font-family:'custom';
 		src:url(fonts/Roboto/Roboto-Light.ttf);
@@ -354,7 +363,7 @@ body, html {
 
 	body {
 		font-family:'Montserrat', 'custom', 'Arial';
-		background-color:rgba(72, 77, 71, 1.0 );
+		background-color:var(--portfolioBkg);
 	}
 
 	h2 {
@@ -367,7 +376,7 @@ body, html {
 		font-size:12.0vw;
 		text-align:center;
 
-		color:rgba(0, 0, 0, 0.05);
+		color:var(--h2-bkgColor);
 	}
 
 	h3 {
@@ -384,7 +393,7 @@ body, html {
 	}
 
 	a.link:hover {
-		border-bottom:3px solid rgba( 170, 255, 198, 0.2 );
+		border-bottom:3px solid var(--a-link-hover);
 	}
 /*\
 \*/
@@ -418,8 +427,20 @@ body, html {
 		text-align:center;
 		padding:15px 0px;
 
-		border-top:3px double rgba( 170, 255, 190, 0.2 );
-		border-bottom:3px double rgba( 170, 255, 190, 0.2 );
+		border-top:3px double var(--a-link-hover);
+		border-bottom:3px double var(--a-link-hover);
+	}
+
+	div#social > a {
+		color:white;
+		text-decoration: none;
+
+		text-shadow: 0px 0px 40px var(--animation-slowGlow-color),
+             	 	 0px 0px 30px var(--animation-slowGlow-color), 
+             	 	 0px 0px 20px var(--animation-slowGlow-color), 
+             	 	 0px 0px 0px var(--animation-slowGlow-color), 
+             	 	 0px 0px 0px  var(--animation-slowGlow-color), 
+             	 	 0px 0px 0px  var(--animation-slowGlow-color);
 	}
 
 	div.sincere {
@@ -502,6 +523,8 @@ body, html {
 		display:flex;
 		flex-direction:row;
 		justify-content: space-around;
+
+		background-color:var(--portfolioBkg);
 	}
 
 	nav > div {
