@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			API - ipStack Geolocation API
+		</title>
+
+		<script type="text/javascript">
+			let corsServer = "https://cors-anywhere.herokuapp.com/";
+			let api        = "https://jkosgei-free-ip-geolocation-v1.p.rapidapi.com/?api-key=test";
+
+			var data = null;
+
+			var xhr = new XMLHttpRequest();
+				xhr.withCredentials = true;
+
+			xhr.addEventListener("readystatechange", function () {
+				if (this.readyState === this.DONE) {
+					console.log(this.responseText);
+				}
+			});
+
+			xhr.open("GET", api );
+			xhr.setRequestHeader("x-rapidapi-host", "jkosgei-free-ip-geolocation-v1.p.rapidapi.com");
+			xhr.setRequestHeader("x-rapidapi-key", "14f1d99cedmsh425bcca2b0ad266p1aee66jsnb16295d8725f");
+
+			xhr.send(data);
+		</script>
+	</head>
+
+	<body>
+	</body>
+</html>
