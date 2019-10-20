@@ -1,0 +1,206 @@
+/*\
+|*| =============================================
+|*|  CSS GENERIC LAYOUT
+|*| =============================================
+\*/
+	.absCenter {
+		position:absolute;
+		top:0px; bottom:0px; left:0px; right:0px;
+		margin:auto;
+	}
+
+	.flexCenter {
+		display:flex;
+		justify-content: center;
+		align-items : center;
+	}
+
+	.grid { display:grid; }
+
+	.flex { display:flex; }
+/*\
+\*/
+
+
+
+
+/*\
+|*| =============================================
+|*|  CSS RESPONSIVE QUERY
+|*| =============================================
+\*/
+	/* MOBILE */
+	@media screen and (min-width:320px) and (max-width:719px) {
+		
+	}
+
+	/* TABLET */
+	@media screen and (min-width:720px) and (max-width:1023px) {
+		
+	}
+
+	/* DESKTOP */
+	@media screen and (min-width:1024px) {
+		
+	}
+/*\
+\*/
+
+
+
+
+/*\
+|*| =============================================
+|*|  PROJECT 013 - API IP LOCATION CSS
+|*| =============================================
+\*/
+
+	/*\
+	|*| =============================================
+	|*|  GENERIC CSS
+	|*| =============================================
+	\*/
+		body {
+			font-family:'Quicksand', 'Chilanka', 'Arial';
+		}
+
+		footer {
+			width:100%;
+
+			position:absolute;
+			bottom:0px;
+			z-index:1000;
+
+			padding:20px;
+			color:white;
+			font-size:0.8em;
+			letter-spacing:2px;
+			text-align:center;
+
+			background-color:rgba(45, 45, 45, 0.75);
+		}
+
+		a {
+			text-decoration:none;
+			color:white;
+		}
+
+		.show { display:block; }
+		.hide { display:none; }
+	/*\
+	\*/
+
+
+
+	/*\
+	|*| =============================================
+	|*|  GENERIC CSS - LOADING SCREEN
+	|*| =============================================
+	\*/
+		div#loading p.notReady {
+			width:400px;
+			height:50px;
+			line-height:50px;
+
+			text-align: center;
+			font-weight: bold;
+			font-size: 3.0em;
+		}
+	/*\
+	\*/
+
+
+
+	/*\
+	|*| =============================================
+	|*|  GENERIC CSS - LOCATION SCREEN
+	|*| =============================================
+	\*/
+		div#fullBkg {
+			position:absolute;
+			z-index:0;
+
+			background-repeat:no-repeat;
+			background-attachment: fixed;
+			background-position: center;
+			background-size:cover;
+		}
+
+		div#fullTint {
+			width:100%; height:100%;
+
+			position:absolute;
+			z-index:10;
+
+			background-color:rgba(45, 45, 45, 0.5);
+		}
+
+		div#contentContainer {
+			position:relative;
+			z-index:20;
+
+			width:90%;
+			height:100%;
+
+			margin:auto;
+		}
+
+		div#contentContainer div.layout-container {
+			position:absolute;
+			top:0px; bottom:0px;
+			margin:auto;
+
+			width:100%;
+			height:35%;
+		}
+
+		div.grid-container {
+			width:100%; height:100%;
+
+			display:grid;
+			grid-template-rows:2fr 1fr;
+		}
+
+		div.grid-container > div:nth-child(1) {
+			width:100%;
+
+			font-size:7.5vw;
+			font-weight: bolder;
+			color:white;
+			
+			align-self:end;
+			padding-bottom:20px;
+
+			text-align: center;
+			letter-spacing:5px;
+
+			text-shadow:0px 0px 15px white, 0px 0px 10px white, 0px 0px 5px black;
+		}
+
+		div.grid-container > div:nth-child(2) {
+			text-align:center;
+			width:450px;
+			height:100%;
+
+			margin:0px auto;
+
+			box-shadow:0px 0px 10px black, 0px 0px 5px black;
+			background-color:rgba(45, 45, 45, 0.5);
+		}
+
+		p#data-ip, p#data-loc {
+			width:450px;
+			height:50%;
+			line-height:50px;
+
+			font-size:1.5em;
+			color:white;
+			letter-spacing:1px;
+
+			margin:0px auto 0px auto;
+			padding:5px 0px;
+		}
+	/*\
+	\*/	
+/*\
+\*/

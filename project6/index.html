@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			API - ipStack Geolocation API
+		</title>
+
+		<link href="css/main.css" rel="stylesheet" />
+		<link href="css/op-animation.css" rel="stylesheet" />
+		<link href="css/op-reset.css" rel="stylesheet" />
+
+		<link href="https://fonts.googleapis.com/css?family=Chilanka&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+
+		<script type="text/javascript" src="js/main.js"></script>
+	</head>
+
+	<body>
+		<footer>
+			<a href="https://www.linkedin.com/in/frankie-law-7bb30316a/" target="_blank" class="static-glow-s">Frankie Law</a> 2019 | POWER BY <a href="https://rapidapi.com/" target="_blank" class="static-glow-s">RapidAPI</a>	
+		</footer>
+
+
+		<!-- LOADING SCREEN -->
+		<div id="loading" class="fullPage show">
+			<p class="notReady absCenter">APPLICATION LOADING...</p>
+		</div>
+
+		<!-- MAIN SCREEN -->
+		<div id="location" class="fullPage hide">
+
+			<!-- Background accessories -->
+			<div id="fullBkg" class="fullPage fullBkg"></div>	
+			<div id="fullTint"></div>
+
+			<div id="contentContainer">
+				<!-- PERFECT CENTER GRID-->
+				<div class="layout-container">
+					<div class="grid-container">
+						<div>
+							<p>YOU ARE LIVING<span class="blink"> ...</span></p>
+						</div>
+
+						<div>
+							<p id="data-ip"></p>
+							<p id="data-loc"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+
