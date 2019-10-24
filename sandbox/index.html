@@ -1,49 +1,117 @@
 <!DOCTYPE html>
+
 <html>
 	<head>
-		<title>
-			API - ipStack Geolocation API
-		</title>
+		<title>Hi! I am Frankie</title>
 
-		<script type="text/javascript">
-			let api    = "http://api.ipstack.com/check?access_key=279a5dcb704519eeb0c3c3fd2642cf5e";
-			let myfile = "https://cowwy.github.io/sandbox/doc/myDocument.txt";
+		<!--[if IE]><link rel="shortcut icon" href="image/favicon.ico"><![endif]-->
+		<link rel="icon" href="image/favicon.png">
 
-			let corsServer = "https://cors-anywhere.herokuapp.com/";
+		<link href="css/main.css" rel="stylesheet" />
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
 
-			const http = new XMLHttpRequest( );
-
-
-			http.onreadystatechange = function( e ) {
-				if( this.readyState == 4 && this.status == 200 ) {
-					console.group( "Debugging" );
-						console.log( e.currentTarget.response );
-					console.groupEnd( );
-				}
-
-				// else {
-				// 	console.group( "Fail Attempt to retrieve files" );
-				// 		console.log( "readyState: " + this.readyState );
-				// 		console.log( "status: " + this.status );
-				// 	console.groupEnd( );
-				// }
-			}
-
-			// http.open( "GET", corsServer + myfile, true );  http.send( );	//works
-			http.open( "GET", myfile, true );  http.send( );
-			//from origin 'null' has been blocked by CORS policy: Cross origin requests are only supported for protocol schemes: http, data, chrome, chrome-extension, https.
-
-
-			// http.open( "GET", api, true ); http.send( );
-			
-
-			// http.onreadystatechange = function( e ) {
-			// 	console.log( http );
-			// }
+		<script>
 		</script>
 	</head>
 
 	<body>
+		<div class="container absCenter">
+			<nav id="desktop">
+				<div><a href="#aboutMe">ABOUT ME</a></div>
+				<div><a href="#project">PROJECTS</a></div>
+			</nav>
+
+			<nav id="mobile">
+				<div class="burger"><i class="fas fa-hamburger"></i></div>
+
+				<div id="burger-menu" class="burger-menu">
+					<div class="burger-menu-container absCenter">
+						<div id="mobileLinkClick" class="menu-item"><a href="#aboutMe">ABOUT ME</a></div>
+						<div id="mobileLinkClick" class="menu-item"><a href="#project">PROJECTS</a></div>
+					</div>
+				</div>
+			</nav>
+
+
+			<div id="aboutMe" class="fullPage">
+				<h2>
+					ABOUT ME
+				</h2>
+
+				<div class="contentBlock absCenter">
+					<div id="me"><h3>Hello <span class="blink">. . .</span></h3></div>
+
+					<div id="aboutMe">
+						<p>I've been coding for the past 10 years as a hobby starting with C/C++.
+						I am currently working towards a career in Front End Development, maybe
+						backend as well or something entirely out of this world.</p>
+
+						<p>I have created this game called <a class="link glowing" href="http://Cowwy.github.io/PooperClicker" target="_blank">Pooper Clicker</a> as my ongoing project using HTML, CSS and VanillaJS.</p>
+						
+						<p>My next target is learning ES6, JQuery API and Bootstrap Framework and 
+						build projects surrounding these popular libraries.</p>
+
+						<p>Then slowly, I will make my way to WebGL VR/AR, then a blog, then a business, then a corporation... then an empire... </p>
+
+						<br/>
+
+						<div id="social">
+							<a class="contact" href="https://bit.ly/35hRp2y" target="_blank"><i class="fab fa-linkedin"></i></a>
+						</div>
+
+						<br/>
+						<div class="sincere"><p>- Frankie -</p></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="project" class="fullPage">
+				<h2>
+					PROJECTS
+				</h2>
+
+				<div class="contentBlock absCenter">
+					<div id="aboutProject">
+						<h3>Project Listing</h3>
+
+						<div class="projectListing">
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/PooperClicker" target="_blank">Pooper Clicker (WIP)</a>
+								<p>HTML | CSS | VanillaJS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project1" target="_blank">NoBull</a>
+								<p>Static Web Page - HTML | SVG | CSS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project2" target="_blank">Simona Rich</a>
+								<p>Single Responsive Page - HTML | CSS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project3" target="_blank">Juliana Rotich</a>
+								<p>Full Responsive Site - HTML | CSS | VanillaJS</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/recreate/project4" target="_blank">Contact Form</a>
+								<p>CSS Flex | JQuery</p>
+							</div>
+
+							<div>
+								<a class="link glowing" href="http://cowwy.github.io/project5" target="_blank">I'm a Pokemon Master</a>
+								<p>CSS Grid</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>
