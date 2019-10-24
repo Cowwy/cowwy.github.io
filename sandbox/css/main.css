@@ -283,8 +283,9 @@ body, html {
 
 	/* TABLET */
 	@media screen and (min-width:720px) and (max-width:1023px) {
-		nav#mobile { display:none; }
+		nav#mobile { display:block; }
 
+		nav#desktop { top:-200px; }
 		nav#desktop > div {
 			width:200px;
 			font-size:1.5em;
@@ -301,7 +302,7 @@ body, html {
 		h3 { font-size:1.4em; }
 
 		p {
-			font-size:1.4em;
+			font-size:1.3em;
 			line-height:1.5em;
 		}
 
