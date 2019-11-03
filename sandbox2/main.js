@@ -2,4 +2,4 @@
 
 import { send } from './messsage.js';
 
-message.send( "Hello World" )
+send( "Hello World" );
