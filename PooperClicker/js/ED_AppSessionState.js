@@ -91,7 +91,7 @@ function AppSessionState( ) {
 		//======================================================
 		// Name of this world
 		//======================================================
-		"WorldName" : "Temporary",
+		"WorldName" : "Poopy World",
 
 
 		//======================================================
@@ -99,7 +99,8 @@ function AppSessionState( ) {
 		//	Unlocked Achievement goes in here
 		//======================================================
 		"Achievement" : {
-			1:0,	2:0,	3:0,	4:0,	5:0,	6:0,	7:0,	8:0,	9:0,	10:0
+			1:0,	2:0,	3:0,	4:0,	5:0,	6:0,	7:0,	8:0,	9:0,	10:0,
+		   11:0,   12:0,   13:0,   14:0,   15:0,   16:0,   17:0
 		}
 	}
 
@@ -294,7 +295,8 @@ function AppSessionState( ) {
 				"WorldName" : "Name this World",
 
 				"Achievement" : {
-					1:0,	2:0,	3:0,	4:0,	5:0,	6:0,	7:0,	8:0,	9:0,	10:0
+					1:0,	2:0,	3:0,	4:0,	5:0,	6:0,	7:0,	8:0,	9:0,	10:0,
+				   11:0,   12:0,   13:0,   14:0,   15:0,   16:0,   17:0
 				}
 			};
 
@@ -345,15 +347,28 @@ function AppSessionState( ) {
 			//==============================================
 			// LOADING ACHIEVEMENT
 			//==============================================
-			if( slotData["Achievement"] == undefined || slotData["Achievement"] == "" ) {
-				_playerState["Achievement"] = { 
-					1:0,	2:0,	3:0,	4:0,	5:0,	6:0,	7:0,	8:0,	9:0,	10:0 
-				};
-			} else {
-				_playerState["Achievement"] = slotData["Achievement"];
-			}
+			_playerState["Achievement"] = checkAchievementSlotData( slotData["Achievement"] );
 		}
 
+
+		function checkAchievementSlotData( slotData ) {
+			let totalChevoLength = PooClickerData.getAchievementLength( );
+			let retObj           = {};
+
+			if( Object.keys( slotData ).length < totalChevoLength ) {
+				for( let i = 0; i < totalChevoLength; i++ ) {
+					if( slotData[ i + 1 ] != undefined ) {
+						retObj[ i + 1 ] = slotData[ i + 1 ];
+					} else {
+						retObj[ i + 1 ] = 0;
+					}
+				} 
+			} else {
+				return slotData;
+			}
+
+			return retObj;
+		}
 
 		function checkTechSlotData( slotData ) {
 			let totalTechLength = PooClickerData.getTechTreeLength( );
@@ -362,7 +377,7 @@ function AppSessionState( ) {
 			//RECONSTRUCT TECH TREE DATA &
 			//TRANSFER NEW TECH DATA WITH OLD DATA
 			if( Object.keys( slotData ).length < totalTechLength ) {
-				for( var i = 0; i < totalTechLength; i++ ) {
+				for( let i = 0; i < totalTechLength; i++ ) {
 
 					if( slotData[ i + 1 ] != undefined ) {
 						retObj[ i + 1 ] = slotData[ i + 1 ];	
@@ -370,6 +385,9 @@ function AppSessionState( ) {
 						retObj[ i + 1 ] = 0;
 					}
 				}
+
+			} else {
+				return slotData;
 			}
 
 			return retObj;
@@ -543,14 +561,22 @@ function AppSessionState( ) {
 		function isUpgradeEligible( ) {
 			let retValue    = false;
 
-			//CHECK IF NEXT TIRE UPGRADE IS ELIGIBLE
-			for( key in PooClickerData.upgrade ) {
-				if( _playerState["Upgrades"][key]["lock"] != true 
-					&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * PooClickerData.getUpgradeBase(key) ) ) {
-					_playerState["Upgrades"][key]["lock"] = true;
-					retValue = true;
+			// CHECK IF NEXT TIRE UPGRADE IS ELIGIBLE
+			PooClickerData.getAllUpgradeName( ).forEach( ( el ) => {
+				if( _playerState["Upgrades"][el]["lock"] != true 
+					&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * PooClickerData.getUpgradeBase(el) ) ) {
+					_playerState["Upgrades"][el]["lock"] = true;
+					retValue = true;					
 				}
-			}
+			});
+
+			// for( key in PooClickerData.upgrade ) {
+			// 	if( _playerState["Upgrades"][key]["lock"] != true 
+			// 		&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * PooClickerData.getUpgradeBase(key) ) ) {
+			// 		_playerState["Upgrades"][key]["lock"] = true;
+			// 		retValue = true;
+			// 	}
+			// }
 
 			return retValue;
 		}

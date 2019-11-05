@@ -1,8 +1,8 @@
 var hackMode     = false;
 var hackClickAmt = 250000;
 
-var loopTimer    = 10;		//RECORDED AS MILLISECONDS
-var msgTimer     = 12500;	//RECORDED AS MILLISECONDS
+var msgTimer 	 = 12500;
+var autoSave     = false;
 
 // console.log( String( hackClickAmt ) );
 
@@ -926,9 +926,10 @@ function ED_Stages( ) {
 					let clone = document.getElementById( "tempTechIcon" ).cloneNode( true );
 
 					//ASSIGN CLONES WITH NEW INFORMATION
-					clone.id               = "tech" + element;
-					clone.style.background = "url('img/" + PooClickerData.getTechSprite( element ) + "')";
-					clone.style.display    = "block";
+					clone.id               			= "tech" + element;
+					clone.style.background 			= "url('img/" + PooClickerData.getTechSprite( element ) + "')";
+					clone.style.backgroundRepeat  	= "no-repeat";
+					clone.style.display    			= "block";
 
 					//ADD EVENTLISTENERS TO RESPONDE TO CLICKING
 					//ADD EVENTREGISTRY IF NEEDED TO REMOVE EVENTLISTENER
