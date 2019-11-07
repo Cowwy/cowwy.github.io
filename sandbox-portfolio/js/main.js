@@ -16,6 +16,7 @@ $( document ).ready( function( e ) {
 });
 
 
+// WILL BE ADDING DYNAMIC PROJECT DISPLAY INSTEAD OF ADDING MORE STATIC HTML
 const projectList = {
 	1 : { "projectTitle" : "Pooper Clicker (WIP)",
 		  "link"         : "http://cowwy.github.io/PooperClicker",
