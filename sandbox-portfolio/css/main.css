@@ -569,9 +569,9 @@ body, html {
 
 	div.burger-menu div.menu-item {
 		font-size:5vh;
-		height:160px;
-		line-height:160px;
-		margin-bottom:20px;
+		height:4vh;
+		line-height:4vh;
+		margin-bottom:10vh;
 	}
 
 	nav#mobile > div.burger-menu > div {
