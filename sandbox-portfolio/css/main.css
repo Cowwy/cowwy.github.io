@@ -9,56 +9,6 @@
 	I AM SURE IN A FEW YEARS THERE WILL BE A LOT
 	MORE. BECAUSE I INTEND TO BUILD A WHOLE 
 	LIBRARY OF COOL STUFF IN HERE.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 */
 
 
@@ -437,14 +387,13 @@ body, html {
 	div#social {
 		text-align:center;
 		padding:15px 0px;
-
-		border-top:3px double var(--a-link-hover);
-		border-bottom:3px double var(--a-link-hover);
 	}
 
-	div#social > a {
+	div#social > span {
 		color:white;
 		text-decoration: none;
+
+		margin-right:20px;
 
 		text-shadow: 0px 0px 40px var(--animation-slowGlow-color),
              	 	 0px 0px 30px var(--animation-slowGlow-color), 
@@ -454,19 +403,19 @@ body, html {
              	 	 0px 0px 0px  var(--animation-slowGlow-color);
 	}
 
-	div.sincere {
-		width:100%;
-		text-align: center;
-	}
-
-	a.contact {
-		color:var(--font-mintGreen);
+	a.contact, span.contact {
+		color:white;
 		font-size:2.0em;
 		transition: text-shadow 0.5s ease;
 	}
 
 	a.contact:hover { 
 		text-shadow: 0px 0px 50px yellow, 0px 0px 30px yellow, 0px 0px 10px yellow;
+	}
+
+	div.sincere {
+		width:100%;
+		text-align: center;
 	}
 /*\
 \*/
@@ -541,14 +490,14 @@ body, html {
 
 	nav#desktop {
 		position:fixed;
+		left:0px; right:0px;
 
-		width:100%;
 		height:80px;
 		line-height:80px;
 
 		display:flex;
 		flex-direction:row;
-		justify-content: space-around;
+		justify-content:center;
 
 		background-color:var(--portfolioBkg);
 	}
@@ -619,8 +568,9 @@ body, html {
 	}
 
 	div.burger-menu div.menu-item {
-		height:80px;
-		line-height:80px;
+		font-size:5vh;
+		height:160px;
+		line-height:160px;
 	}
 
 	nav#mobile > div.burger-menu > div {

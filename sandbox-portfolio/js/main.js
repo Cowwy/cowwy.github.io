@@ -1,5 +1,4 @@
 $( document ).ready( function( e ) {
-
 	//ADD FUNCTIONALITY TO BURGER BUTTON
 	$(".burger").bind( 'click', ( e ) => {
 		let display = $( "#burger-menu" ).css( "display" );
