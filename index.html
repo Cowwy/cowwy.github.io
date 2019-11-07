@@ -11,15 +11,29 @@
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
 
-		<script></script>
+		<script>
+		</script>
 	</head>
 
 	<body>
 		<div class="container absCenter">
-			<nav class="">
+			<nav id="desktop">
 				<div><a href="#aboutMe">ABOUT ME</a></div>
 				<div><a href="#project">PROJECTS</a></div>
+			</nav>
+
+			<nav id="mobile">
+				<div class="burger"><i class="fas fa-hamburger"></i></div>
+
+				<div id="burger-menu" class="burger-menu">
+					<div class="burger-menu-container absCenter">
+						<div id="mobileLinkClick" class="menu-item"><a href="#aboutMe">ABOUT ME</a></div>
+						<div id="mobileLinkClick" class="menu-item"><a href="#project">PROJECTS</a></div>
+					</div>
+				</div>
 			</nav>
 
 
@@ -32,22 +46,32 @@
 					<div id="me"><h3>Hello <span class="blink">. . .</span></h3></div>
 
 					<div id="aboutMe">
-						<p>I've been working with Front End languages for the past 2 years.
-						I have created this game called <a class="link glowing" href="http://Cowwy.github.io/PooperClicker" target="_blank">Pooper Clicker</a> as my ongoing project using HTML, CSS and VanillaJS.</p>
-						
-						<p>My next target is learning JQuery API and Bootstrap Framework and 
-						build projects surrounding these popular libraries.</p>
+						<p>I've been coding for the past 10 years as a hobby starting with C/C++.
+						I am currently working towards a career in Front End Development, then
+						slowly work my way to backend.</p>
 
-						<p>Then slowly, I will make my way to WebGL VR/AR</p>
+						<p>I have created this game called <a class="link glowing" href="http://Cowwy.github.io/PooperClicker" target="_blank">Pooper Clicker</a> as my ongoing project using HTML, CSS and VanillaJS.</p>
+						
+						<p>My next target is Mastering React and build projects surrounding this popular library.  My ultimate goal is to work with WebGL and VR/AR technologies.</p>
+
+						<p>Once I have accommplish all that maybe I will start a blog, then a business, then a corporation... then an empire... then become a living legend.</p>
 
 						<br/>
 
 						<div id="social">
-							<a class="contact" href="https://bit.ly/35hRp2y" target="_blank"><i class="fab fa-linkedin"></i></a>
+							<span>
+								<a class="contact" href="https://bit.ly/35hRp2y" target="_blank">
+									<i class="fab fa-linkedin"></i></a>
+							</span>
+							
+							<span>
+								<a class="contact" href="http://cowwy.github.io" target="_blank">
+									<i class="fab fa-github-square"></i></a>
+							</span>
 						</div>
 
 						<br/>
-						<div class="sincere"><p>- Frankie -</p></div>
+						<div class="sincere"><p>- frankie.sc.law @ hotmail.ca -</p></div>
 					</div>
 				</div>
 			</div>

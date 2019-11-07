@@ -1,5 +1,22 @@
+$( document ).ready( function( e ) {
+	//ADD FUNCTIONALITY TO BURGER BUTTON
+	$(".burger").bind( 'click', ( e ) => {
+		let display = $( "#burger-menu" ).css( "display" );
+
+		display == "block" ?
+			$( "#burger-menu" ).css( "display", "none" ) :
+			$( "#burger-menu" ).css( "display", "block" );
+		
+	});
+
+	//ADD FUNCTIONALITY TO BURGER-MENU
+	$("#burger-menu").bind( 'click', ( e ) => {
+		$( "#burger-menu" ).css( "display", "none" );
+	});
+});
 
 
+// WILL BE ADDING DYNAMIC PROJECT DISPLAY INSTEAD OF ADDING MORE STATIC HTML
 const projectList = {
 	1 : { "projectTitle" : "Pooper Clicker (WIP)",
 		  "link"         : "http://cowwy.github.io/PooperClicker",
@@ -24,4 +41,6 @@ const projectList = {
 	6 : { "projectTitle" : "CSS Grid - Pokedex",
 		  "link"         : "http://cowwy.github.io/project5",
 		  "desc"         : "CSS Grid" }
-}
+};
+
+Object.freeze( projectList );

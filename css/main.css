@@ -9,56 +9,6 @@
 	I AM SURE IN A FEW YEARS THERE WILL BE A LOT
 	MORE. BECAUSE I INTEND TO BUILD A WHOLE 
 	LIBRARY OF COOL STUFF IN HERE.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 */
 
 
@@ -247,10 +197,13 @@ body, html {
 \*/
 	/* MOBILE */
 	@media screen and (min-width:320px) and (max-width:719px) {
-		nav > div {
+		nav#mobile { display:block; }
+
+		nav#desktop { top:-200px; }
+		nav#desktop > div {
 			width:200px;
 			font-size:1.5em;
-		}
+		}		
 
 		div.contentBlock {
 			min-width:400px;
@@ -280,7 +233,10 @@ body, html {
 
 	/* TABLET */
 	@media screen and (min-width:720px) and (max-width:1023px) {
-		nav > div {
+		nav#mobile { display:block; }
+
+		nav#desktop { top:-200px; }
+		nav#desktop > div {
 			width:200px;
 			font-size:1.5em;
 		}
@@ -296,7 +252,7 @@ body, html {
 		h3 { font-size:1.4em; }
 
 		p {
-			font-size:1.4em;
+			font-size:1.3em;
 			line-height:1.5em;
 		}
 
@@ -313,7 +269,10 @@ body, html {
 
 	/* DESKTOP */
 	@media screen and (min-width:1024px) {
-		nav > div {
+		nav#mobile { display:none; }
+
+
+		nav#desktop > div {
 			width:200px;
 			font-size:1.5em;
 		}
@@ -428,14 +387,13 @@ body, html {
 	div#social {
 		text-align:center;
 		padding:15px 0px;
-
-		border-top:3px double var(--a-link-hover);
-		border-bottom:3px double var(--a-link-hover);
 	}
 
-	div#social > a {
+	div#social > span {
 		color:white;
 		text-decoration: none;
+
+		margin-right:20px;
 
 		text-shadow: 0px 0px 40px var(--animation-slowGlow-color),
              	 	 0px 0px 30px var(--animation-slowGlow-color), 
@@ -445,19 +403,19 @@ body, html {
              	 	 0px 0px 0px  var(--animation-slowGlow-color);
 	}
 
-	div.sincere {
-		width:100%;
-		text-align: center;
-	}
-
-	a.contact {
-		color:var(--font-mintGreen);
+	a.contact, span.contact {
+		color:white;
 		font-size:2.0em;
 		transition: text-shadow 0.5s ease;
 	}
 
 	a.contact:hover { 
 		text-shadow: 0px 0px 50px yellow, 0px 0px 30px yellow, 0px 0px 10px yellow;
+	}
+
+	div.sincere {
+		width:100%;
+		text-align: center;
 	}
 /*\
 \*/
@@ -469,7 +427,7 @@ body, html {
 |*|  PROJECT Page2 formatting
 |*| ====================================
 \*/
-	h3 {
+	div#aboutProject > h3 {
 		width:100%;
 		text-align:center;
 	}
@@ -500,6 +458,7 @@ body, html {
 |*| ====================================
 \*/
 	nav 	  { z-index:1000; }
+	.burger   { z-index:1000; }
 	.fullPage {	z-index:0; }
 /*\
 \*/
@@ -514,23 +473,36 @@ body, html {
 |*|		<div><a>
 |*| ====================================
 \*/
-	nav {
-		position:fixed;
-		top:0px;
+	nav > div.burger {
+		position:absolute;
+		top:3vh; right:3vh;
 
-		width:100%;
+		line-height:3vh;
+		font-size:3vh;
+
+		color:white;
+	}
+
+	nav > div.burger:hover {
+		cursor: pointer;
+	}
+
+
+	nav#desktop {
+		position:fixed;
+		left:0px; right:0px;
+
 		height:80px;
 		line-height:80px;
 
 		display:flex;
 		flex-direction:row;
-		justify-content: space-around;
+		justify-content:center;
 
 		background-color:var(--portfolioBkg);
 	}
 
-	nav > div {
-		/*width:150px;*/
+	nav#desktop > div {
 		text-align: center;
 
 		font-weight:bold;
@@ -542,13 +514,77 @@ body, html {
              	 0px 0px 5px  var(--animation-slowGlow-color);
 	}
 
-	nav > div > a {
+	nav#desktop > div > a {
 		color:white;
 		text-decoration: none;
 		transition:letter-spacing 0.6s ease;
 	}
 
-	nav > div > a:hover {
+	nav#desktop > div > a:hover {
+		letter-spacing:7px;
+	}
+
+
+
+
+	nav#mobile {
+		position:fixed;
+		top:0px;
+
+		width:100%;
+		height:100%;
+	}
+
+	
+	nav#mobile > div.burger, nav#mobile > div.burger-menu {
+		text-shadow: 0px 0px 30px var(--animation-slowGlow-color),
+             	 0px 0px 30px var(--animation-slowGlow-color), 
+             	 0px 0px 20px var(--animation-slowGlow-color), 
+             	 0px 0px 10px var(--animation-slowGlow-color), 
+             	 0px 0px 5px  var(--animation-slowGlow-color), 
+             	 0px 0px 5px  var(--animation-slowGlow-color);
+	}
+
+	nav#mobile > div.burger-menu {
+		display:none;
+
+		width:100%;
+		height:100%;
+
+		color:white;
+
+		padding-top:100px;
+
+		font-weight:bold;
+		font-size:1.5em;
+
+		text-align:center;
+
+		background-color:rgba(45, 45, 45, 1);
+	}
+
+	div.burger-menu-container {
+		height:200px;
+	}
+
+	div.burger-menu div.menu-item {
+		font-size:5vh;
+		height:4vh;
+		line-height:4vh;
+		margin-bottom:10vh;
+	}
+
+	nav#mobile > div.burger-menu > div {
+		padding:20px;
+	}
+
+	nav#mobile > div.burger-menu a {
+		color:white;
+		text-decoration: none;
+		transition:letter-spacing 0.6s ease;
+	}
+
+	nav#mobile > div.burger-menu a:hover {
 		letter-spacing:7px;
 	}
 /*\
