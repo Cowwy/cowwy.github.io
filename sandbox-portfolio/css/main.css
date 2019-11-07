@@ -475,10 +475,10 @@ body, html {
 \*/
 	nav > div.burger {
 		position:absolute;
-		top:5vh; right:5vh;
+		top:15vh; right:15vh;
 
-		line-height:5vh;
-		font-size:5vh;
+		line-height:15vh;
+		font-size:15vh;
 
 		color:white;
 	}
