@@ -475,10 +475,10 @@ body, html {
 \*/
 	nav > div.burger {
 		position:absolute;
-		right:30px;
+		top:30px; right:60px;
 
 		line-height:80px;
-		font-size:1.8em;
+		font-size:2.5em;
 
 		color:white;
 	}
@@ -571,6 +571,7 @@ body, html {
 		font-size:5vh;
 		height:160px;
 		line-height:160px;
+		margin-bottom:20px;
 	}
 
 	nav#mobile > div.burger-menu > div {
