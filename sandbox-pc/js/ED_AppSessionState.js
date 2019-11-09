@@ -276,11 +276,11 @@ function AppSessionState( ) {
 				},
 
 				"Upgrades" : {
-					"Hand"		   : { "level" : 0, "lock" : true , "upgradeable" : false, "multiplier" : 1.0 },
-					"Shovel"       : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 1.0 },
-					"Baby"         : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 1.0 },
-					"Animal Farm"  : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 1.0 },
-					"Toilet"       : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 1.0 }
+					"Hand"		   : { "level" : 0, "lock" : true , "upgradeable" : false, "multiplier" : 0.0 },
+					"Shovel"       : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0 },
+					"Baby"         : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0 },
+					"Animal Farm"  : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0 },
+					"Toilet"       : { "level" : 0, "lock" : false, "upgradeable" : false, "multiplier" : 0.0 }
 				},
 
 				"TechTree" : {
@@ -292,18 +292,18 @@ function AppSessionState( ) {
 
 				"StoryBoard" : { },
 
-				"WorldName" : "Name this World",
+				"WorldName" : "Poopy World",
 
 				"Achievement" : {
 					1:0,	2:0,	3:0,	4:0,	5:0,	6:0,	7:0,	8:0,	9:0,	10:0,
 				   11:0,   12:0,   13:0,   14:0,   15:0,   16:0,   17:0
 				}
 			};
-
-			console.clear( );
 		}
 
 		function setFromSaveSlot( slotID, slotData ) {
+			reset( );
+
 			_storageKey = slotID;
 			_quickKey   = "pc-v1-quickSlot";
 			_window     = { current : "page2", previous : "" };
@@ -323,6 +323,7 @@ function AppSessionState( ) {
 			_playerState["Upgrades"] = slotData["Upgrades"];
 			upgradeToggle( );
 			isUpgradeEligible( );
+			generateList( );
 
 
 			//==============================================
@@ -348,6 +349,12 @@ function AppSessionState( ) {
 			// LOADING ACHIEVEMENT
 			//==============================================
 			_playerState["Achievement"] = checkAchievementSlotData( slotData["Achievement"] );
+
+
+			//==============================================
+			// LOADING MESSAGE BOARD DATA
+			//==============================================
+			PooClickerData.getMessageBoardUpdate( );
 		}
 
 
@@ -570,14 +577,6 @@ function AppSessionState( ) {
 				}
 			});
 
-			// for( key in PooClickerData.upgrade ) {
-			// 	if( _playerState["Upgrades"][key]["lock"] != true 
-			// 		&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * PooClickerData.getUpgradeBase(key) ) ) {
-			// 		_playerState["Upgrades"][key]["lock"] = true;
-			// 		retValue = true;
-			// 	}
-			// }
-
 			return retValue;
 		}
 
@@ -624,6 +623,7 @@ function AppSessionState( ) {
 		console.groupCollapsed( "Session State Condition" );
 			console.log( "Storage Key: " + _storageKey );
 			console.log( "Quick Key: "   + _quickKey );
+			console.log(  _playerState["GameTime"] );
 
 			console.group( "Window Page" );
 				console.log( _window );
@@ -783,52 +783,3 @@ function AppSessionState( ) {
 
 	return AppSessionStateAPI;
 };
-
-
-
-
-
-// ==================================================
-// registry is closed off from the outside world
-// ==================================================
-function AppEventRegistry( ) {
-	let eventKeys = { };
-
-	function addEventRegistry( id, eType, eCall ) {
-		if( !eventKeys.hasOwnProperty( id ) ) {
-			eventKeys[ id ] = [ ];
-		}
-
-		eventKeys[ id ].push( { eventType : eType, callback : eCall	} );
-	}
-
-	function removeEventRegistry( id, eType ) {
-		eventKeys[ id ] = eventKeys[ id ].filter( ( element ) => {
-			return element.eventType === eType ? false : true;
-		});
-
-		if( eventKeys[ id ].length === 0 ) {
-			delete eventKeys[ id ];
-		}
-	}
-
-	function getEventRegistry( id, eType ) {
-		let event = "";
-
-		eventKeys[ id ].forEach( ( element ) => {
-			if( element.eventType === eType ) {
-				event = element;
-			}
-		});
-
-		return event;
-	}
-
-	let registryAPI = {
-		add  	 : addEventRegistry,
-		remove 	 : removeEventRegistry,
-		getEvent : getEventRegistry
-	}
-
-	return registryAPI;
-}

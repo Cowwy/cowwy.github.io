@@ -1,39 +1,15 @@
 /*\
 |*| =======================================================
-|*|  TODO LIST
-|*| =======================================================
-|*|    - CHANGE ENDLESS DUNGEON NAME
-|*|	   - ADD JQUERY FEATURES
+|*|  GLOBAL letIABLES - REQUIRED
 |*| =======================================================
 \*/
+let   SessionState    = new AppSessionState( );		//PLAYER'S CURRENT STATE
+let   SaveData        = new App_SaveState( );		//ACCESS TO SAVE/LOAD
+const PooClickerData  = new GameData( );
+const GameUtility 	  = new GameUtilityAPI( );
 
-/*\
-|*| ====================================================================================
-|*|  TABLE OF CONTENT - SHORTCUTS			[V]ARIABLES  ||  [F]UNCTION  ||  [D]ATA
-|*| ====================================================================================
-|*|    [V] - GLOBAL VARIABLES					
-|*|
-|*|	   [F] - MAIN
-|*|	   [F] - devNoteControlSetup
-|*|
-|*|    [D] - GAMEDATA
-|*| =======================================================
-\*/
-
-
-
-
-
-/*\
-|*| =======================================================
-|*|  GLOBAL VARIABLES - REQUIRED
-|*| =======================================================
-\*/
-	var   SessionState    = new AppSessionState( );		//PLAYER'S CURRENT STATE
-	var   SaveData        = new App_SaveState( );		//ACCESS TO SAVE/LOAD
-	const PooClickerData  = new GameData( );
-
-	var   EventRegistry   = new AppEventRegistry( );
+let   messageTimer    = null;
+let	  updateTimer     = null;
 /*\
 \*/
 
@@ -44,37 +20,138 @@
 |*|  MAIN - START OF THE PROGRAM
 |*| =======================================================
 \*/
-	function EndlessDungeon( ) {
-		ED_Stage_Setup( );
+function EndlessDungeon( ) {
+	document.getElementById( "page4" ).style.display = "block";
 
-		devNoteControlSetup( );		// DOCUMENTATION CONTROLS
-	}
-/*\
-\*/
+	devNoteControlSetup( );	// DOCUMENTATION CONTROLS
+
+	initPanelControl( );	// PANEL CONTROLS
+	initPooStoreContorl( );	// POO STORE
+	initSettingControl( );	// SETTING
+	initGameControls( );	// MAIN GAME AREA
+	initSessionState( );	// Session State
+
+	enterGameLoop( );
+}
+
+function enterGameLoop( ) {
+	//=========================================
+	// Enter Main-Game [Stage]
+	//=========================================
+	let chevoUpdateFreq    = 125;				//NUMBER OF FRAMES ELAPSED
+	let chevoCurrentFreq   = 0;
+	let achievementPopUp   = [];
+
+	//START GAME TIMER | MESSAGE BOARD | WORLD NAME 
+	//POO STORE | TECH TREE | STATISTICS | CHEVO
+	startGame( );
+
+	//ENTERED GAME LOOP
+	updateTimer = setInterval( ( ) => {
+		//===================================================
+		// IF YOU ARE BUYING - EXECUTE THE FOLLOWING CODE
+		//===================================================
+		if( SessionState.getBuyOrSell( ) ) {
+			//TOGGLE "ANY" UPGRADE THAT IS PURCHASEABLE
+			//CHANGE CSS ON UPGRADE THAT IS PURCHASEABLE
+			SessionState.upgradeToggle( );
+			let upgradeList = SessionState.getUpgradeList( );
+			
+
+			for( key in upgradeList ) {
+				//IF IT IS NOT LOCKED - DO SOMETHING
+				//ELSE - DO NOTHING
+				if( upgradeList[key]["lock"] != false ) {
+					if( upgradeList[key]["upgradeable"] ) {
+						let tempTitle = document.getElementById( key + "Title" );
+							tempTitle.setAttribute( "class", "label" );
+
+						let tempCost  = document.getElementById( key + "Cost" );
+							tempCost.setAttribute( "class", "cost purchaseable" );
+
+					} else {
+						let tempTitle = document.getElementById( key + "Title" );
+							tempTitle.setAttribute( "class", "label notPurchaseable" );
+
+						let tempCost  = document.getElementById( key + "Cost" );
+							tempCost.setAttribute( "class", "cost notPurchaseable" );
+					}
+				}
+			}
+		}
+
+		//===================================================
+		// IF YOU ARE SELLING - EXECUTE THE FOLLOWING CODE
+		//===================================================
+		else {
+			let upgradeList = SessionState.getUpgradeList( );
+
+			for( key in upgradeList ) {
+
+				//CHECK IF THE ELEMENT EXIST
+				if( document.getElementById( key + "Upgrade" ) ) {
+					document.getElementById( key + "Title" ).className = "label";
+					document.getElementById( key + "Cost" ).className  = "cost purchaseable";
+				}
+			}
+		}
+		
+		//UPDATE TECH - IS CONTROL BY ONCLICK OF AN UPGRADE
+
+		SessionState.addPoo( SessionState.getPPS( ) / 100 );	//UPDATE POO ACCUMULATION
+		SessionState.isUpgradeEligible( ) && generateList( );	//UPDATE UPGRADE LIST
+		updateStatistics( );									//UPDATE STATISTICS SCREEN
+		
+		//CHECK IF ACHIEVEMENT HAS BEEN UNLOCKED
+		//ONLY UPDATE ONCE EVERY 125 FRAMES
+		if( chevoCurrentFreq == chevoUpdateFreq ) {
+			////POPUP RESET
+			chevoCurrentFreq = 0;
+			achievementPopUp = [];	
+
+			//CHECK TO SEE IF NEW ACHIEVEMENT IS UNLOCKED.
+			achievementPopUp = PooClickerData.checkAchievement( SessionState.getAchievement( ) );
+
+			//==========================================================
+			// UPDATE ACHIEVEMENT NOTIFICATION
+			//==========================================================
+			achievementPopUp.forEach( function( element ) {
+				let chevoContainer = document.getElementById( "chevoContainer" );
+				let chevoClone     = document.getElementById( "tempAchievement" ).cloneNode( true );
+				let chevoData      = PooClickerData.getAchievementById( element );
+
+				let chevoClose     = chevoClone.children[0];                //Close Button
+				let chevoTitle     = chevoClone.children[2].children[0];    //Chevo Title
+				let chevoIcon      = chevoClone.children[1].children[0];    //Chevo Icon Link
+				let chevoDesc      = chevoClone.children[2].children[1];    //Chevo Description
+
+				chevoTitle.innerHTML            = chevoData["title"];
+				chevoIcon.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
+				chevoDesc.innerHTML             = chevoData["desc"];
+				chevoClone.style.display        = "block";
+
+				//SETUP ONCLICK EVENT FOR THE X BUTTON
+				chevoClose.addEventListener( "click", function( e ) {
+					let container = document.getElementById( "chevoContainer" );
+					container.removeChild( this.parentNode );
+				});
+
+				//ATTACH IT TO THE ALLOCATED SPOT
+				chevoContainer.appendChild( chevoClone );
+			});
 
 
+			//==========================================================
+			// ALSO UPDATE ACHIEVEMENT TAB TO REFLECT RECENT UNLOCK
+			//==========================================================
+			if( achievementPopUp.length >= 1 ) {
+				generateAchievementIcon( );
+			}
+		}
 
-/*\
-|*| =======================================================
-|*|  FUNCTION 	devNoteControlSetup
-|*|  TOGGLE DEVELOPMENT PAGE
-|*| =======================================================
-\*/
-	function devNoteControlSetup( ) {
-		document.getElementById( "devNoteToggle" ).addEventListener( "click", function( ) {
-			document.getElementById( "devNote" ).style.display = "block";
-		});
-
-		document.getElementById( "closeDevNote" ).addEventListener( "click", function( ) {
-			var devNote = document.getElementById( "devNote" );
-
-			devNote.scrollTop = 0;
-			devNote.style.display = "none";
-		});
-	}
-/*\
-\*/
-
+		chevoCurrentFreq++;		//CONTROL HOW FREQUENT ACHIEVEMENT UPDATE GETS CHECKED
+	}, 10 );
+}
 
 
 
@@ -189,9 +266,11 @@
 					let totalPPS = 0.0;
 
 					for( key in sessionStateUpgradeList ) {
-						totalPPS += ( sessionStateUpgradeList[key]["level"] * getUpgradePPS( key ) ) * ( 1 + sessionStateUpgradeList[key]["multiplier"] );
-					}
+						const upgradeKey = sessionStateUpgradeList[key];
 
+						totalPPS += ( upgradeKey["level"] * getUpgradePPS( key ) ) * ( 1 + upgradeKey["multiplier"] );
+					}
+					
 					return totalPPS;
 				}
 			/*\
@@ -249,7 +328,7 @@
 					// THEN USE CURRENT LEVEL AND SELL EVERYTHING
 					//========================================================
 					if( decrement > curLevel ) {
-						for( var i = 1; i <= curLevel; i++ ) {
+						for( let i = 1; i <= curLevel; i++ ) {
 							sum += calcPrice( name, i ) * getUpgradeRefund( name );
 						}
 					} 
@@ -258,7 +337,7 @@
 					// OTHERWISE SELL QUANTITY BASED ON SELECTION 1x | 10x | 100x
 					//============================================================
 					else {
-						for( var i = 0; i < decrement; i++ ) {
+						for( let i = 0; i < decrement; i++ ) {
 							sum += calcPrice( name, curLevel - i ) * getUpgradeRefund( name );
 						}
 					}
@@ -469,7 +548,7 @@
 					let sessionStatTech = SessionState.getAllLockedTech( );
 
 					//CHECK EACH LOCKED TECH TO SEE WHICH IS PURCHASABLE
-					for( var key in sessionStatTech ) {
+					for( let key in sessionStatTech ) {
 						if( isTechEligible( SessionState.getUpgradeList( ), key ) ) {
 							retValue.push( key );
 						}
@@ -525,7 +604,7 @@
 			function getMessageBoardUpdate( ) {
 				SessionState.resetStoryBoard( );
 
-				for( var id in message ) {
+				for( let id in message ) {
 					if( checkRequirement( SessionState.getUpgradeList( ), getMessageRequireById( id ) ) ) {
 						SessionState.addRandomMessage( message[id]["quote"] );
 					}
@@ -545,7 +624,7 @@
 				let retValue = true;	//Prove it wrong
 
 				//GET EVERY SINGLE TOOLS INSIDE THE REQUIRMENT
-				for( var tool in requirement ) {
+				for( let tool in requirement ) {
 					let curLevel = SessionState.getLevel( tool );
 
 					if( curLevel < requirement[tool] ) { retValue = false; }
@@ -784,7 +863,7 @@
 
 
 
-var GameUtility = new GameUtilityAPI( );
+
 function GameUtilityAPI( ) {
 	//==================================================
 	// RANDOMLY GRAB A NUMBER BETWEEN A RANGE
@@ -1003,7 +1082,7 @@ function GameUtilityAPI( ) {
 
 		//  0   1   2   3   4   5   6   7   8   9   
 		//[48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
-		for( var i = 0; i < string.length; i++ ) {
+		for( let i = 0; i < string.length; i++ ) {
 			if( string.charCodeAt(i) >= 49 && string.charCodeAt(i) <= 57 ) {
 				retValue = false;
 				break;

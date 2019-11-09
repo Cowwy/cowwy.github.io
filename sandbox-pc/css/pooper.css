@@ -2,96 +2,131 @@
 =========================================
  DEBUG
 ========================================= */
-.debug {
-	outline:2px solid black;
-}
+	.debug {
+		outline:2px solid black;
+	}
 
-.debug1 {
-	background-color:#FFCCFF;
-	outline:2px solid black;
-}
+	.debug1 {
+		background-color:#FFCCFF;
+		outline:2px solid black;
+	}
 
-.debug2 {
-	background-color:#FFFFCC;
-	outline:2px solid black;
-}
+	.debug2 {
+		background-color:#FFFFCC;
+		outline:2px solid black;
+	}
 
-.debug3 {
-	background-color:#CCFFFF;
-	outline:2px solid black;
-}
+	.debug3 {
+		background-color:#CCFFFF;
+		outline:2px solid black;
+	}
 
-.debug4 {
-	background-color:#CCCCFF;
-	outline:2px solid black;
-}
+	.debug4 {
+		background-color:#CCCCFF;
+		outline:2px solid black;
+	}
 
-.debugPos1 {
-	position:absolute;
-	top:150px;
-	left:150px; right:0px;
-	margin:auto;
+	.debugPos1 {
+		position:absolute;
+		top:150px;
+		left:150px; right:0px;
+		margin:auto;
 
-	color:black;
-}
+		color:black;
+	}
 
-div.tempUnavailable {
-	position:absolute;
-	top:0px; bottom:0px; left:0px; right:0px;
-	margin:auto;
+	div.tempUnavailable {
+		position:absolute;
+		top:0px; bottom:0px; left:0px; right:0px;
+		margin:auto;
 
-	color:white;
-	font-size:5em;
-}	
+		color:white;
+		font-size:5em;
+	}	
+
+
 
 /**
 =========================================
  GLOBAL LAYOUT RESET
 ========================================= */
-:root {
-	--gold-border-image : url('../img/iconBorder2_6x6.png');
-}
+	:root {
+		--gold-border-image : url('../img/iconBorder2_6x6.png');
+	}
 
-@font-face {
-	font-family:"Penny Pinch";
-	src:url("font/PennyPinch.ttf");
+	@font-face {
+		font-family:"Penny Pinch";
+		src:url("font/PennyPinch.ttf");
+	}	
 
-}	
+	* {
+		margin:0px;
+		padding:0px;
+		border:0px;
+		outline:0px solid black;
+		box-sizing:border-box;
+		position:relative;
 
-* {
-	margin:0px;
-	padding:0px;
-	border:0px;
-	outline:0px solid black;
-	box-sizing:border-box;
-	position:relative;
+		font-family:'Quicksand', 'Chilanka', 'Penny Pinch';
+		font-size:18pt;
+		font-weight:999;
 
-	font-family:'Quicksand', 'Chilanka', 'Penny Pinch';
-	font-size:18pt;
-	font-weight:999;
+		-webkit-user-select: none; /* Safari */        
+		-moz-user-select: none; /* Firefox */
+		-ms-user-select: none; /* IE10+/Edge */
+		user-select: none; /* Standard */
+	}
 
-	-webkit-user-select: none; /* Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+/Edge */
-	user-select: none; /* Standard */
-}
-
-html, body {
-	width:100%;
-	height:100%;
-	overflow: hidden;
-	margin:0px;
-}
-
+	html, body {
+		width:100%;
+		height:100%;
+		overflow: hidden;
+		margin:0px;
+	}
 
 
-.cursorOpen {
-	cursor:url("../img/handOpen32x32.png"), auto;
-}
 
-.cursorGrabbing {
-	cursor:url("../img/handClose32x32.png"), auto;
-}
+
+/**
+=========================================
+ GIANT POO STYLES
+========================================= */
+	.cursorOpen {
+		cursor:url("../img/handOpen32x32.png"), auto;
+	}
+
+	.cursorGrabbing {
+		cursor:url("../img/handClose32x32.png"), auto;
+	}
+
+	div.pooBlock {
+		/* Center is [120x105]*/
+		height:210px;
+		width:240px;
+	
+		position:absolute;
+		top:80%; bottom:20%; left:0px; right:0px;
+		margin:auto;
+	}
+	
+	div.pooBlock img {
+		height:200px;
+	}
+	
+	div.pooBlock div.pooClicked {
+		position:absolute;
+		top:0px; bottom:0px; left:0px; right:0px;
+
+		width:200px;
+		height:1px;
+		font-size:12pt;
+
+		opacity:1.0;
+
+		text-align:center;
+		z-index:1000;
+	}
+
 
 
 /**
@@ -129,7 +164,7 @@ div.pc-stats-gridLayout {
 		}
 
 
-		div.col1-title, div.upgrade-title {
+		div.col1-title, div.upgrade-title, div.setting-title {
 			text-align:center;
 			padding:5px 0px;
 
@@ -202,7 +237,7 @@ div.pc-stats-gridLayout {
 
 
 /* ============================================
-	Navigation Bar
+	Navigation Bar & Footers
 ============================================ */
 div.navBar, div.footer {
 	width:100%;
@@ -254,6 +289,8 @@ div.navBar ul li#devNoteToggle:hover {
 div.footer {
 	bottom:0px;
 }
+
+
 
 div.SaveMsgBox {
 	width:250px;
@@ -378,7 +415,7 @@ div.upgradeBlock, div.statisticBlock {
 
 div.upgradeBlock   { 
 	right:0px;
-	outline-left:20px solid rgba(0,0,0,0.5);
+	outline:20px solid rgba(0,0,0,0.5);
 
 /*	border-left:30px solid black;
 	border-image:url('../img/iconBorder2_6x6.png') 6 round;*/
@@ -529,44 +566,12 @@ div.contentBtnBlock
 
 
 
-div.pooBlock {
-	/* Center is [120x105]*/
-	height:210px;
-	width:240px;
 
-	position:absolute;
-	top:80%; bottom:20%; left:0px; right:0px;
-	margin:auto;
-}
-
-
-div.pooBlock img {
-	height:200px;
-}
-
-
-div.pooBlock 
-	div.pooClicked {
-		position:absolute;
-		top:0px; bottom:0px; left:0px; right:0px;
-
-		width:200px;
-		height:1px;
-		font-size:12pt;
-
-		opacity:1.0;
-
-		text-align:center;
-		z-index:1000;
-	}
 
 
 /*
 	PAGE 4 - BUTTONS
 */
-div#p4-saveBtn {
-
-}
 
 
 
@@ -588,9 +593,6 @@ div#p4-saveBtn {
 
 
 
-
-
-div.upgradeCell > * { /*outline:2px dotted blue;*/ }
 div.upgradeCell {
 	height:70px;
 	padding:10px;
@@ -666,6 +668,26 @@ div.upgradeCell div.overlay {
 /* ========================================
 	Poop Collected Display & Per Second
 ======================================== */
+div.staticMessage {
+	min-width:250px;
+	width:50%;
+
+	position:absolute;
+	left:0px; right:0px;
+	top:60px;
+
+	margin:auto;
+
+	font-size:12pt;
+	letter-spacing:1px;
+	word-wrap: break-word;
+
+	text-shadow: 0px 3px 5px rgba(0,0,0,0.8);
+	color:rgba( 255,255,255,1.0);
+
+	opacity: 1.0;
+}
+
 div.randomMessage {
 	min-width:250px;
 	width:50%;
@@ -1025,7 +1047,7 @@ div.selected {
 				0px 0px 10px gold;
 }
 
-div.upgradeScreen {
+div.upgradeScreen, div.settingScreen  {
 	display:none;
 
 	position:absolute;
@@ -1043,7 +1065,7 @@ div.upgradeScreen {
 }
 
 
-div.techScreen, div.statsScreen, div.settingScreen, div.mainScreen {
+div.techScreen, div.statsScreen, div.mainScreen {
 	display:none;
 
 	position:absolute;
@@ -1054,7 +1076,7 @@ div.techScreen, div.statsScreen, div.settingScreen, div.mainScreen {
 }
 
 div.mainScreen {
-	display:block; !important;
+	display:block;
 }
 
 div.cls {
@@ -1080,4 +1102,38 @@ div.cls {
 
 div#statisticTab {
 	text-align:left;
+}
+
+/* =============================
+ Setting Screen
+============================= */
+div.setting-body {
+	padding:10px 20px;
+}
+
+div.setting-saveBtn {
+	width:100%;
+	
+	padding:5px 5px;
+	margin:0px auto 10px auto;
+
+	color:black;
+	text-align:center;
+
+	background-color:rgba( 200, 200, 200, 0.2 );
+
+	border:2px dotted black;
+	border-radius:10px;
+
+	transition:background-color 0.6s ease;
+}
+
+div.setting-saveBtn:hover {
+	cursor:pointer;
+	background-color:rgba( 200, 200, 200, 1.0 );
+}
+
+div.gData {
+	font-size:0.6em;
+	font-weight:bold;
 }
