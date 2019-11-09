@@ -215,27 +215,6 @@ div.pc-stats-gridLayout {
 
 
 
-/**
-=========================================
- ENDLESS DUNGEON - BUTTON THEME
-========================================= */
-.ED-btn { 
-	width:200px;
-	height:50px;
-	line-height:30px;
-
-	border:8px solid black; 
-	background-color:rgba(139, 69, 19, 1);
-
-	border-radius: 25px;
-	color:white;
-}
-
-.ED-SaveFile 	{ background-color:#CCCCCC; }
-.ED-Reserved	{ background-color:#FFCCCC; }
-
-
-
 /* ============================================
 	Navigation Bar & Footers
 ============================================ */
@@ -322,75 +301,6 @@ div#pageContainer, div#page1, div#page2, div#page3, div#page4 {
 	background-repeat:no-repeat;
 	background-size:cover;
 	background-position:center;
-}
-
-
-/* ==================================== */
-/* Page1 - Splash Screen - CSS          */
-/* ==================================== */
-div#page1 
-	div.p1Container {
-		width:200px;
-		height:16.66%;
-
-		position:absolute;
-		margin:auto;
-
-		left:0px;	right:0px;	top:0px;	bottom:0px;
-}
-
-div#page1 
-	div.p1Container 
-		div.ED-btn {
-			position:relative;
-			margin-bottom:40px; 
-}
-
-
-/* ==================================== */
-/* Page2 - Save Game Table Screen - CSS */
-/* ==================================== */
-div#page2 
-	div.p2Container {
-		width:500px;
-		height:41.66%;
-
-		position:absolute;
-		margin:auto;
-
-		left:0px; 	right:0px; 	top:0px; 	bottom:0px;
-}
-
-div#page2 
-	div.p2Container 
-		div.saveSlotBlock {
-			width:100%;
-			position:relative;
-
-			height:400px; line-height:400px;
-			margin-bottom:40px;
-
-			overflow:auto;
-}
-
-div#page2 
-	div.p2Container 
-		div.slotConatiner 
-			div.saveBlock {
-				height:50px;  line-height:50px;
-				margin-bottom:20px;
-
-				background-color:rgba(150,150,150,0.25);
-
-				text-align:center;
-				padding-left:10px;
-			}
-
-div#page2 
-	div.p2Container 
-		div.ED-btn {
-			position:relative; 
-			margin:auto;		
 }
 
 
@@ -557,38 +467,6 @@ div.contentBtnBlock {
 	padding-left:15px;
 	padding-right:15px;
 }
-
-
-div.contentBtnBlock
-	div.ED-btn {
-		margin-bottom:15px;
-	}
-
-
-
-
-
-
-/*
-	PAGE 4 - BUTTONS
-*/
-
-
-
-.PC-btn {
-	width:60px;
-	height:60px;
-
-	border:8px solid black;
-	background-color:rgba(139, 69, 19, 1);
-
-	border-radius: 50px;
-	color:white;
-
-	margin-bottom:10px;
-}
-
-.PC-btn i {	top:8px; }
 
 
 

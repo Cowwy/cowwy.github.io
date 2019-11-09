@@ -10,6 +10,9 @@ const GameUtility 	  = new GameUtilityAPI( );
 
 let   messageTimer    = null;
 let	  updateTimer     = null;
+
+const hackMode        = false;
+const hackClickAmt    = 80000000000;
 /*\
 \*/
 
