@@ -14,7 +14,6 @@
 		<script type="text/javascript" src="js/Arithmetic.js"></script>
 		<script type="text/javascript" src="js/App_SaveState.js"></script>
 		<script type="text/javascript" src="js/ED_Timer.js"></script>
-		<script type="text/javascript" src="js/ED_Stages.js"></script>
 		<script type="text/javascript" src="js/ED_AppSessionState.js"></script>
 		<script type="text/javascript" src="js/App_update.js"></script>
 		<script type="text/javascript" src="js/App_init.js"></script>
@@ -48,6 +47,19 @@
 
 			<div id="devMessage" class="devMessage">
 				<h1>Development Note</h1>
+
+				<dl class="note">
+					<dt class="date">November 9, 2019</dt>
+					<dd class="definition">Wow!! This game is turning out better than I expected. 
+						Although it is not perfect and no new features added since September.  
+						I had been fixing the game flow issues before this project gets too big.</dd>
+					<dd class="definition">Fixed: Game flow issues</dd>
+					<dd class="definition">Fixed: Achievement Icons will load properly after loading a game.</dd>
+					<dd class="definition">Fixed: Poo Store will load all the tools proper during new game and load game.</dd>
+					<dd class="definition">Fixed: Poo Store will load all the tools proper during new game and load game.</dd>
+					<dd class="definition">Update: Redo all the game HUD/UI</dd>
+					<dd class="definition">Update: No more splash screen or load screen.  There is only the game.  New game | load game | save game will all appear in the settings.</dd>
+				</dl>
 
 				<dl class="note">
 					<dt class="date">November 5, 2019</dt>
@@ -126,40 +138,6 @@
 			</div>
 		</div>
 
-		<!-- Splash Screen -->
-		<div id="page1">
-			<div class="p1Container">
-				<div class="ED-btn"
-					id="p1-newGameBtn"
-					data-target="page4">
-					New Game
-				</div>
-
-				<div class="ED-btn"
-					id="p1-loadGameBtn" 
-					data-target="page2">
-					Load Game
-				</div>
-			</div>
-		</div>
-
-
-
-		<!-- Load Game Screen -->
-		<div id="page2">
-			<div class="p2Container">
-				<div id="saveSlotContainer" class="slotConatiner">
-				</div>
-
-				<div class="ED-btn"
-					id="p2-backBtn"
-					data-target="page1">
-					Back
-				</div>
-			</div>
-		</div>
-
-
 		<!-- Reconstruct In-Game Content -->
 		<div id="page4">
 			<div id="mainGame" class="p4Container">
@@ -192,6 +170,7 @@
 
 						<!-- UPGRADE SCREEN -->
 						<div id="upgradeScreen" class="upgradeScreen">
+							<div id="upgradeClsBtn" class="cls">x</div>
 							<div class="upgrade-title">Poo Store</div>
 
 							<div id="upgradeTab">
@@ -235,6 +214,8 @@
 
 						<!-- STATS SCREEN -->
 						<div id="statsScreen" class="statsScreen">
+							<div id="statsClsBtn" class="cls">x</div>
+
 							<div class="pc-stats-gridLayout">
 								<div class="">
 									<div class="col1-title">Overall Stats</div>
@@ -282,6 +263,7 @@
 
 						<!-- SETTING SCREEN -->
 						<div id="settingScreen" class="settingScreen">
+							<div id="settingClsBtn" class="cls">x</div>
 							<div class="setting-title">Settings</div>
 
 							<div class="setting-body">

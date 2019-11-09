@@ -190,12 +190,21 @@ function initSettingControl( ) {
 }
 
 function initPanelControl( ) {
+    let upgradeClsBtn     = document.getElementById( "upgradeClsBtn" );
+    let statsClsBtn       = document.getElementById( "statsClsBtn" );
+    let settingClsBtn     = document.getElementById( "settingClsBtn" );
+
     let upgradeBtn        = document.getElementById( "upgradeBtn" );
     let statsBtn          = document.getElementById( "statsBtn" );
     let settingBtn        = document.getElementById( "settingBtn" );
     //let techBtn           = document.getElementById( "techBtn" );
 
+    
     //PANEL CONTROLS
+    upgradeClsBtn.addEventListener( "click", (e) => toggleWindow( "upgradeScreen" ) );
+    statsClsBtn.addEventListener( "click", (e) => toggleWindow( "statsScreen" ) );
+    settingClsBtn.addEventListener( "click", (e) => toggleWindow( "settingScreen" ) );
+
     upgradeBtn.addEventListener( "click", (e) => toggleWindow( "upgradeScreen" ) );
     statsBtn.addEventListener(   "click", (e) => toggleWindow( "statsScreen" ) );
     settingBtn.addEventListener( "click", (e) => toggleWindow( "settingScreen" ) );

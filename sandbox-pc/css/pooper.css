@@ -762,6 +762,10 @@ div.worldNameBlock input {
 	background-color:rgba(0,0,0,0);
 }
 
+div.worldNameBlock input:hover {
+	cursor: pointer;
+}
+
 
 /* ========================================
 	Development Note Case
