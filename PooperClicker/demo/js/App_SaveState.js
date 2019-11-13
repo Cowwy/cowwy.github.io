@@ -1,16 +1,4 @@
 function App_SaveState( ) {
-
-	//=============================================================
-	// Game Data Structure
-	//	-> Data Slot Name
-	//	     -> Hero Info (Save the entire object, it must be consistent)
-	//
-	//		 -> Map Info (To Be Determine how to add additional
-	//					  information as the game becomes more complex. )
-	//=============================================================
-
-
-
 	//=============================================================
 	// Save Method - Required Game Slot Name
 	//				 Otherwise it will save over other save games.
@@ -20,15 +8,15 @@ function App_SaveState( ) {
 		// IF IT IS USING A TEMPORARY SLOT
 		// FIND A NEW SLOT FOR IT AUTOMATICALLY
 		//=============================================
-		if( SessionState.saveSlot( ) == "pc-v1-tempSlot" ) {
+		if( SessionState.saveSlot( ) == `pc-${v}-tempSlot` ) {
 			var length = Object.getOwnPropertyNames( localStorage ).length;
 
 			//Check if the SlotName already Exist
-			while( localStorage.getItem( "pc-v1-Slot" + length ) != null ) {
+			while( localStorage.getItem( `pc-${v}-Slot` + length ) != null ) {
 				length++;
 			};
 
-			SessionState.newSlot( "pc-v1-Slot" + length );	
+			SessionState.newSlot( `pc-${v}-Slot` + length );	
 		}
 
 
@@ -65,7 +53,7 @@ function App_SaveState( ) {
 		//==========================================
 		//	Quick Save Feature
 		//==========================================
-		localStorage.setItem( "pc-v1-quickSave", SessionState.saveSlot( ) );
+		localStorage.setItem( `pc-${v}-quickSave`, SessionState.saveSlot( ) );
 
 
 		//==========================================
@@ -88,12 +76,12 @@ function App_SaveState( ) {
 	//				 Otherwise it will not know which game to load.
 	//=============================================================
 	function loadFromLocalStorage( ) {
-		var count = 0;
+		let count = 0;
 		
 		//Filter Local Storage Data
 		//Retrieve all Save Slots, except quickSave
 		let keyArray        = Object.getOwnPropertyNames( localStorage );
-		let saveSlotPattern = /^pc-v1-Slot\d{0,2}$/g;
+		let saveSlotPattern = new RegExp( "^pc-" + v + "-Slot\\d{0,2}$", "g");
 
 		keyArray = keyArray.filter( function( data ) {
 			return data.match( saveSlotPattern );
@@ -109,7 +97,6 @@ function App_SaveState( ) {
 			let saveDat = JSON.parse( Decrypt( localStorage.getItem( keyArray[i] ) ) );
 			let saveTxt = saveDat["WorldName"];
 				saveTxt += " > Run Time: " + saveDat["GameTime"]["seconds"];
-			//let saveTxt = "crap";
 
 			let tempDiv = document.createElement( "div" );
 	    	let txtNode = document.createTextNode( saveTxt );
@@ -188,6 +175,39 @@ function App_SaveState( ) {
 	};
 
 
+
+	function localStorageToSetting( ) {
+		//Filter Local Storage Data
+		//Retrieve all Save Slots, except quickSave
+		let   keyArray        = Object.getOwnPropertyNames( localStorage );
+		const saveSlotPattern = new RegExp( "^pc-" + v + "-Slot\\d{0,2}$", "g");
+		const container = document.getElementById( "setting-saveData" );
+
+		let result = [];
+
+		keyArray = keyArray.filter( function( data ) {
+			return data.match( saveSlotPattern );
+		});
+
+		keyArray.forEach( (gameData) => {
+			const saveDat = JSON.parse( Decrypt( localStorage.getItem( gameData ) ) );
+			let saveTxt = `${saveDat["WorldName"]} @ ${saveDat["GameTime"]["seconds"]}s`;
+
+			result.push( saveDat );
+		});
+
+		return result;
+		function Decrypt( value ) {
+			let output = "";
+
+			for( let i = 0; i < value.length; i++ ) {
+				output += String.fromCharCode(value.charCodeAt(i) - 5);
+			}
+			return output;
+		}
+	}
+
+
 	function removeSaveSlotEvents( ) {
 		let saveSlots = document.getElementById( "saveSlotContainer" ).children;
 
@@ -209,9 +229,10 @@ function App_SaveState( ) {
 
 	let GameDataAPI = {
 		//curGame : curGameData,
-		saveToLocalStorage   : saveToLocalStorage,
-		loadFromLocalStorage : loadFromLocalStorage,
-		unload               : removeSaveSlotEvents
+		saveToLocalStorage    : saveToLocalStorage,
+		loadFromLocalStorage  : loadFromLocalStorage,
+		unload                : removeSaveSlotEvents,
+		localStorageToSetting : localStorageToSetting
 	};
 
 	return GameDataAPI;
