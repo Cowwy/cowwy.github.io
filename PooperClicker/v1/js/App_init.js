@@ -409,6 +409,18 @@ function devNoteControlSetup( ) {
         devNote.scrollTop = 0;
         devNote.style.display = "none";
     });
+
+    $D.id("version").addEventListener( "change", function( e ) {
+        const version = {
+            "DEMO" : "http://cowwy.github.io/PooperClicker",
+            "Version 1.0" : "http://cowwy.github.io/PooperClicker"
+        };
+
+        console.log( version );
+
+        // window.location.href = "http://stackoverflow.com";
+        console.log( e.target.value );
+    });
 }
 
 function headerSetup( ) {
