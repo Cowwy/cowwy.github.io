@@ -111,6 +111,7 @@ function initSettingControl( ) {
               container.innerHTML = "";
 
         data.forEach( (game) => {
+            console.log( game );
             let saveTxt = `${game[1]["WorldName"]} @ ${game[1]["Time"]["sessionRunTime"]}s`;
 
             let tempDiv = document.createElement( "div" );
