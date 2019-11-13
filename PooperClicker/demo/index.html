@@ -1,7 +1,7 @@
 <!DOCTYPE>
 <html>
 	<head>
-		<title>Pooper Clicker 2019 | Version 1.0 Demo</title>
+		<title>Pooper Clicker 2019 | Demo</title>
 
 		<link href="css/pooper.css" rel="stylesheet" />
 
@@ -10,11 +10,13 @@
 
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 
+		
 		<script type="text/javascript" src="js/Arithmetic.js"></script>
 		<script type="text/javascript" src="js/App_SaveState.js"></script>
 		<script type="text/javascript" src="js/ED_Timer.js"></script>
-		<script type="text/javascript" src="js/ED_Stages.js"></script>
 		<script type="text/javascript" src="js/ED_AppSessionState.js"></script>
+		<script type="text/javascript" src="js/App_update.js"></script>
+		<script type="text/javascript" src="js/App_init.js"></script>
 		<script type="text/javascript" src="js/EndlessDungeon.js"></script>
 		
 
@@ -45,6 +47,19 @@
 
 			<div id="devMessage" class="devMessage">
 				<h1>Development Note</h1>
+
+				<dl class="note">
+					<dt class="date">November 9, 2019</dt>
+					<dd class="definition">Wow!! This game is turning out better than I expected. 
+						Although it is not perfect and no new features added since September.  
+						I had been fixing the game flow issues before this project gets too big.</dd>
+					<dd class="definition">Fixed: Game flow issues</dd>
+					<dd class="definition">Fixed: Achievement Icons will load properly after loading a game.</dd>
+					<dd class="definition">Fixed: Poo Store will load all the tools proper during new game and load game.</dd>
+					<dd class="definition">Fixed: Poo Store will load all the tools proper during new game and load game.</dd>
+					<dd class="definition">Update: Redo all the game HUD/UI</dd>
+					<dd class="definition">Update: No more splash screen or load screen.  There is only the game.  New game | load game | save game will all appear in the settings.</dd>
+				</dl>
 
 				<dl class="note">
 					<dt class="date">November 5, 2019</dt>
@@ -123,103 +138,179 @@
 			</div>
 		</div>
 
-		<!-- Splash Screen -->
-		<div id="page1">
-			<div class="p1Container">
-				<div class="ED-btn"
-					id="p1-newGameBtn"
-					data-target="page4">
-					New Game
-				</div>
-
-				<div class="ED-btn"
-					id="p1-loadGameBtn" 
-					data-target="page2">
-					Load Game
-				</div>
-			</div>
-		</div>
-
-
-
-		<!-- Load Game Screen -->
-		<div id="page2">
-			<div class="p2Container">
-				<div id="saveSlotContainer" class="slotConatiner">
-				</div>
-
-				<div class="ED-btn"
-					id="p2-backBtn"
-					data-target="page1">
-					Back
-				</div>
-			</div>
-		</div>
-
-
 		<!-- Reconstruct In-Game Content -->
 		<div id="page4">
 			<div id="mainGame" class="p4Container">
-				
-				<div id="pooArea" class="pooBlock">
-					<img id="pooClicker" class="cursorOpen" draggable="false" src="img/poo2.png"/>
-				</div>
 
-				<div id="worldNameBlock" class="ppsBlock worldNameBlock">
-					<input id="nameInput" type="text" value="hello world" disabled="true">
-				</div>
+				<div class="pc-gridLayout">
+					<!-- VERSION 1.0 | LARGE CONTENT SCREEN -->
+					<div id="mainArea">
+						<div id="mainScreen" class="mainScreen">
+							<div id="pooArea" class="pooBlock">
+								<img id="pooClicker" class="cursorOpen" draggable="false" src="img/poo2.png"/>
+							</div>
 
-				<div id="scoreArea" class="ppsBlock scoreArea">
-					<div id="totalPooDisplay" class="totalPooDisplay">0 Poops</div>
-					<div id="ppsDisplay" class="ppsDisplay">per second: 0</div>
-				</div>
+							<div id="randomMessage" class="randomMessage">
+								There is a piece of poo laying around on our beautiful planes...
+							</div>
 
-				<div id="randomMessage" class="randomMessage">
-					There is a piece of poo laying around on our beautiful planes...
-				</div>
+							<div id="worldNameBlock" class="ppsBlock worldNameBlock">
+								<input id="nameInput" type="text" value="hello world" disabled="true">
+							</div>
 
-				
+							<div id="scoreArea" class="ppsBlock scoreArea">
+								<div id="totalPooDisplay" class="totalPooDisplay">0 Poops</div>
+								<div id="ppsDisplay" class="ppsDisplay">per second: 0</div>
+							</div>
 
-				<!-- STATISTICS AND ACHIEVEMENT BLOCK -->
-				<div id="contentArea" class="statisticBlock">
-					<span id="statisticTabBtn" class="header">+ STATISTICS</span>
-					<div id="statisticTab" style="display:block;">
-						<div class="row">
-							<div class="label">Game Started:</div>
-							<div id="currentTime">...</div>
+							<div id="chevoContainer" class="chevoContainer">
+							</div>
 						</div>
 
-						<div class="row">
-							<div class="label">Poop in Bank:</div>
-							<div id="totalPooCollected">0</div>
+
+						<!-- UPGRADE SCREEN -->
+						<div id="upgradeScreen" class="upgradeScreen">
+							<div id="upgradeClsBtn" class="cls">x</div>
+							<div class="upgrade-title">Poo Store</div>
+
+							<div id="upgradeTab">
+								<div class="quantityBlock">
+									<div class="quantityOption">
+										<span id="buyBtn"  class="optionBtn active">Buy</span>
+										<span id="sellBtn" class="optionBtn">Sell</span>
+									</div>
+
+									<div class="quantityAmount">
+										<span id="1x"   class="quantityBtn active">1</span>
+										<span id="10x"  class="quantityBtn">10</span>
+										<span id="100x" class="quantityBtn">100</span>
+									</div>
+								</div>
+
+								<!-- UpgradeList is a container -->
+								<div id="upgradeList" class="upgradeListContainer">
+								</div>
+							</div>
+
+
+							<div class="upgrade-title">Tool Upgrade</div>
+
+							<!-- TechList is a container -->
+							<div id="techTab">
+								<div id="techList"></div>
+							</div>
 						</div>
 
-						<div class="row">
-							<div class="label">Total Clicked:</div>
-							<div id="totalClicksMade">0</div>
+
+						<!-- TECH SCREEN -->
+						<!-- REMEMBER TO REMOVE THE COMMENTS INSIDE ED_STAGE.JS | page4 | toggleWindow( )-->
+
+						<!--
+							<div id="techScreen" class="techScreen">
+								<div id="clsTechScreen" class="cls">x</div>
+								<div class="tempUnavailable">Nothing In here Yet</div>
+							</div>
+						-->
+
+						<!-- STATS SCREEN -->
+						<div id="statsScreen" class="statsScreen">
+							<div id="statsClsBtn" class="cls">x</div>
+
+							<div class="pc-stats-gridLayout">
+								<div class="">
+									<div class="col1-title">Overall Stats</div>
+
+									<!-- updateStatistics( ) in ED_Stage.js -->
+									<div id="statisticTab" class="col1">
+										<div class="row">
+											<div class="label">Game Started:</div>
+											<div id="currentTime">...</div>
+										</div>
+
+										<div class="row">
+											<div class="label">Poop in Bank:</div>
+											<div id="totalPooCollected">0</div>
+										</div>
+
+										<div class="row">
+											<div class="label">Total Clicked:</div>
+											<div id="totalClicksMade">0</div>
+										</div>
+
+										<div class="row">
+											<div class="label">Total Poo Since Started:</div>
+											<div id="totalPooSinceStart">0</div>
+										</div>
+										
+										<div class="row">
+											<div class="label">Total Upgrades Purchased:</div>
+											<div id="totalUpgrades">0</div>
+										</div>
+									</div>
+								</div>
+
+								<div>
+									<div class="col1-title">Upgrades</div>
+								</div>
+
+								<div>
+									<div class="col1-title">Achievements</div>
+									<div id="achievementTab"></div>
+								</div>
+							</div>							
 						</div>
 
-						<div class="row">
-							<div class="label">Total Poo Since Started:</div>
-							<div id="totalPooSinceStart">0</div>
-						</div>
 
-						<br/>
-						
-						<div class="row">
-							<div class="label">Total Upgrades Purchased:</div>
-							<div id="totalUpgrades">0</div>
-						</div>
+						<!-- SETTING SCREEN -->
+						<div id="settingScreen" class="settingScreen">
+							<div id="settingClsBtn" class="cls">x</div>
+							<div class="setting-title">Settings</div>
 
-						<!-- updateStatistics( ) in ED_Stage.js -->
+							<div class="setting-body">
+								<div id="ngBtn" class="setting-saveBtn">New Game</div>
+								<div id="saveBtn" class="setting-saveBtn">Save Game</div>
+							</div>
+
+							<div class="setting-title">Load Poo</div>
+
+							<div id="setting-saveData" class="setting-body">
+							</div>
+						</div>
 					</div>
 
-					<span id="achievementTabBtn" class="header">+ ACHIEVEMENT</span>
-					<div id="achievementTab" style="display:block;"></div>
+
+					<!-- VERSION 1.0 | SINGLE COMMAND PANEL -->
+					<div id="panelArea">		
+						<div id="commandPanel" class="commandPanel">
+							<div id="upgradeBtn" class="cmdBtn">
+								<i class="fas fa-poop"></i> - POO STORE
+							</div>
+
+						<!--
+							<div id="techBtn" class="cmdBtn">
+								<i class="fas fa-baby-carriage"></i> - TECH
+							</div>
+						-->
+
+							<div id="statsBtn" class="cmdBtn">
+								<i class="fas fa-poll-h"></i> - STATISTICS
+							</div>
+
+							<div id="settingBtn" class="cmdBtn">
+								<i class="fas fa-cogs"></i> - SETTINGS
+							</div>
+						</div>
+					</div>
 				</div>
+				
 
 
-				<!-- TEMPORARY BUTTONS SAVE & QUIT -->
+				
+
+
+
+				<!-- VERSION 1.0 WILL REPLACE THE NEXT 4 DIVS IN THE FUTURE -->
+				<!-- TEMPORARY BUTTONS SAVE & QUIT 
 				<div id="Button" class="contentBtnBlock">
 					<div id="p4-saveBtn" class="PC-btn" data-target="page4">
 						<i class="fas fa-save"></i>
@@ -228,44 +319,7 @@
 					<div id="p4-endBtn" class="PC-btn" data-target="page1">
 						<i class="fas fa-sign-out-alt"></i>
 					</div>
-				</div>
-
-
-				<!-- BUY AND SELL && UPGRADE BLOCK -->				
-				<div id="upgrades" class="upgradeBlock">
-					<!-- Upgrade Tab-->
-					<span id="upgradeTabBtn" class="header">+ UPGRADE</span>
-
-					<div id="upgradeTab" style="display:block;">
-						<div class="quantityBlock">
-							<div class="quantityOption">
-								<span id="buyBtn"  class="optionBtn active">Buy</span>
-								<span id="sellBtn" class="optionBtn">Sell</span>
-							</div>
-
-							<div class="quantityAmount">
-								<span id="1x"   class="quantityBtn active">1</span>
-								<span id="10x"  class="quantityBtn">10</span>
-								<span id="100x" class="quantityBtn">100</span>
-							</div>
-						</div>
-
-					
-						<!-- UpgradeList is a container -->
-						<div id="upgradeList" class="upgradeListContainer">
-						</div>
-					</div>
-
-					<!-- Tech Tab -->
-					<span id="techTabBtn" class="header">+ TECH</span>
-					<div id="techTab" style="display:block;">
-						<div id="techList"></div>
-					</div>
-				</div>
-
-				<!-- ACHIEVEMENT CONTAINER -->
-				<div id="chevoContainer" class="chevoContainer">
-				</div>
+				</div>-->	
 			</div> 
 		</div> <!-- End of Container p4 -->
 
@@ -298,9 +352,5 @@
 				<p id="chevoDesc" class="chevoDesc fontSize10"></p>
 			</div>
 		</div>
-
-		<!-- <div class="testBorderImage">
-			x
-		</div> -->
 	</body>
 </html>
