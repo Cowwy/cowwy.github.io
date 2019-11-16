@@ -13,7 +13,7 @@ div.navBar, div.footer {
 	color:#DDDDDD;
 
 	position:absolute;
-	z-index:1000;
+	z-index:10000;
 
 	line-height:30px;
 
@@ -42,16 +42,22 @@ div.navbar ul li:nth-child(2) {
 }
 
 div.navBar ul li#devNoteToggle {
-	color:gold;
+	color:white;
 
 	font-size:10pt;
-	text-decoration:none;
 
-	transition:text-shadow 0.25s, box-shadow 0.25s;
+	text-shadow:
+		0px 0px 5px yellow,
+		0px 0px 5px yellow,
+		0px 0px 15px yellow,
+		0px 0px 15px yellow,
+		0px 0px 25px yellow;
+
+	transition:letter-spacing 0.25s;
 }
 
 div.navBar ul li#devNoteToggle:hover {
-	text-shadow:0px 0px 5px yellow;
+	letter-spacing:2px;
 }
 
 select {

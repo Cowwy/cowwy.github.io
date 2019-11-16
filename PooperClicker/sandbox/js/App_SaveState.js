@@ -8,23 +8,23 @@ function App_SaveState( ) {
 		// IF IT IS USING A TEMPORARY SLOT
 		// FIND A NEW SLOT FOR IT AUTOMATICALLY
 		//=============================================
-		if( $ST.saveSlot( ) == `pc-${copyright.version}-tempSlot` ) {
+		if( $ST.saveSlot( ) == `pc-${$ST.Copyright("version")}-tempSlot` ) {
 			let length = Object.getOwnPropertyNames( localStorage ).length;
 
 			//Check if the SlotName already Exist
-			while( localStorage.getItem( `pc-${copyright.version}-Slot` + length ) != null ) {
+			while( localStorage.getItem( `pc-${$ST.Copyright("version")}-Slot` + length ) != null ) {
 				length++;
 			};
 
-			$ST.newSlot( `pc-${copyright.version}-Slot` + length );	
+			$ST.newSlot( `pc-${$ST.Copyright("version")}-Slot` + length );	
 		}
 
 
 		//==========================================
 		//	Final Data that will be saved
 		//==========================================
-		let saveData = {};									//blank save data
-		saveData[$ST.saveSlot( )] = {};			//create save data slot = empty {}
+		let saveData = {};							//blank save data
+		saveData[$ST.saveSlot( )] = {};				//create save data slot = empty {}
 
 		let playerState = $ST.savePlayerState( );	//Get _playerState
 		saveData[$ST.saveSlot( )] = playerState;	//Put everything inside localStorage
@@ -53,7 +53,7 @@ function App_SaveState( ) {
 		//==========================================
 		//	Quick Save Feature
 		//==========================================
-		localStorage.setItem( `pc-${copyright.version}-quickSave`, $ST.saveSlot( ) );
+		localStorage.setItem( `pc-${$ST.Copyright("version")}-quickSave`, $ST.saveSlot( ) );
 
 
 		//==========================================
@@ -81,7 +81,7 @@ function App_SaveState( ) {
 		//Filter Local Storage Data
 		//Retrieve all Save Slots, except quickSave
 		let keyArray        = Object.getOwnPropertyNames( localStorage );
-		let saveSlotPattern = new RegExp( "^pc-" + copyright.version + "-Slot\\d{0,2}$", "g" );
+		let saveSlotPattern = new RegExp( "^pc-" + $ST.Copyright("version") + "-Slot\\d{0,2}$", "g" );
 
 		keyArray = keyArray.filter( function( data ) {
 			return data.match( saveSlotPattern );
@@ -175,12 +175,11 @@ function App_SaveState( ) {
 	};
 
 
-
 	function localStorageToSetting( ) {
 		//Filter Local Storage Data
 		//Retrieve all Save Slots, except quickSave
 		let   keyArray        = Object.getOwnPropertyNames( localStorage );
-		const saveSlotPattern = new RegExp( "^pc-" + copyright.version + "-Slot\\d{0,2}$", "g" );
+		const saveSlotPattern = new RegExp( "^pc-" + $ST.Copyright("version") + "-Slot\\d{0,2}$", "g" );
 		const container = document.getElementById( "setting-saveData" );
 
 		let result = [];
@@ -225,12 +224,37 @@ function App_SaveState( ) {
 		document.getElementById( "saveSlotContainer" ).innerHTML = "";
 	}
 
+	function saveGame( e ) { 
+        //FINAL CLEAN UP OF THE GAME
+        $ST.calcPPS( );                 //RECALCULATE PPS INCASE IT IS NOT MATCHING.
+
+        SaveData.saveToLocalStorage( );	
+
+        pooArea = $D.id( "mainScreen" );
+
+        //Add div element with the number pop up
+        //Div moves up over 1 seconds and disappears after 1 seconds
+        //absolute position it.
+        let tempDiv = document.createElement( "div" );
+        let txtNode = document.createTextNode( "GAME SAVED!" );
+
+        tempDiv.setAttribute( "class", "SaveMsgBox" );
+        tempDiv.style.opacity = 1.0;
+
+        tempDiv.appendChild( txtNode );
+        pooArea.appendChild( tempDiv );
+
+        let tempTimer = new StatusTimer( tempDiv );
+        tempTimer.start( );
+	}
+	
 	let GameDataAPI = {
-		//curGame : curGameData,
 		saveToLocalStorage    : saveToLocalStorage,
 		loadFromLocalStorage  : loadFromLocalStorage,
 		unload                : removeSaveSlotEvents,
-		localStorageToSetting : localStorageToSetting
+		localStorageToSetting : localStorageToSetting,
+
+		saveGame : saveGame
 	};
 
 	return GameDataAPI;

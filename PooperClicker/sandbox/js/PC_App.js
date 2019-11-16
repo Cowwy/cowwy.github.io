@@ -1,30 +1,21 @@
 // =======================================================
 //  GLOBAL letIABLES - REQUIRED
 // =======================================================
-const copyright = {
-	"gameName" : "Pooper Clicker",
-	"version"  : "DEMO",
-	"dateFrom" : 2019,
-	"dateTo"   : 2019,
-	"Author"   : "Cowwy"
-};
-
 const $ST    		  = new AppSessionState( );		//PLAYER'S CURRENT STATE
 const $D 			  = new DOM( );					//LIKE JQUERY
+const $PC 			  = new GameData( );
 const SaveData        = new App_SaveState( );		//ACCESS TO SAVE/LOAD
-const PooClickerData  = new GameData( );
 const GameUtility 	  = new GameUtilityAPI( );
 
 const hackMode        = false;
 const hackClickAmt    = 25;
-const FPS             = 50;
+const FPS             = 10;
 
 let	  updateTimer     = null;
 
-Object.freeze( PooClickerData );
 Object.freeze( GameUtility );
-Object.freeze( copyright );
 Object.freeze( $D );
+Object.freeze( $PC );
 
 
 // =======================================================
@@ -57,70 +48,101 @@ function enterGame( ) {
 	let sessionTimeFreq    = FPS * 1;  		//Every 1.0 Seconds
 	let sessionCurFreq     = 0;
 
-	let outOfFocusFrame    = 0;
-	let windowIsFocus      = true;
-	let notFocusTimer      = null;
+	let windowIsFocus      = true;			//DETECT IF PAGE IS FOCUS
+	let notFocusTimer      = null;			//FRAME SYSTEM WHEN PLAYER IS NOT FOCUS
 
-	window.onblur = ( ) => { 
+	//START GAME TIMER | MESSAGE BOARD | WORLD NAME 
+	//POO STORE | TECH TREE | STATISTICS | CHEVO
+	startGame( );
+
+
+	window.onblur = ( ) => {
+		let browserUpdateFreq = FPS * 5;
+		let browserCurFrame   = 0;
+
+		let cycleStart = null;
+		let cycleEnd   = null;
+
 		windowIsFocus = false; 
-		disableMsg( );
-		console.log( "out of  focus" );
+		disableMsg( );	//DISABLE RANDOM MESSAGE
+		
+		
+		//START CYCLE
+		cycleStart = Date.now( );
 
-		//WHEN OUT OF FOCUS, IT ONLY RUNS 1 FRAME PER SECOND
-		//A FULL 50 FRAME CYCLE WOULD MEAN 50 SECONDS.
 		notFocusTimer = setInterval( ( e ) => {
-			outOfFocusFrame++;
+			cycleEnd   = Date.now( );
+
+			//UPDATE CYCLE
+			const elapsedTime = ( cycleEnd - cycleStart ) / 1000;
+			
+			$ST.addPoo( $ST.getPPS( ) * elapsedTime );	//update POO collected
+			updateGameTime( elapsedTime );				//update Timer
+
+
+			if( $ST.getPPS( ) != 0 ) {
+				updateMainStats( );
+			}
+
+			//UPDATE POO STORE LIST - ONLY IF SOMETHING NEW IS AVAILABLE
+			if( $ST.getActiveScreen( ) == "upgradeScreen" ) {
+				updatePurchaseAvailability( );
+				$ST.isUpgradeEligible( ) && updatePooStore( );
+			}
+
+			//UPDATE STATISTICS SCREEN
+			if( $ST.getActiveScreen( ) == "statsScreen" ) {
+				updateStatistisScreen( );
+			}
+
+			$ST.isUpgradeEligible( ) && updatePooStore( );
+
+			if( browserCurFrame === browserUpdateFreq ) {
+				updateBrowserTitle( );
+				browserCurFrame = 0;
+			}
+
+			browserCurFrame++;
+			cycleStart = cycleEnd;	//READY FOR THE NEXT CYCLE
 		}, 1000/FPS );
 	}
 
 	window.onfocus = ( ) => { 
-		console.log( `Went out of focus for: ${outOfFocusFrame/FPS}s` );
+		clearInterval( notFocusTimer );
+		enableMsg( ); 
 
 		windowIsFocus    = true;
 		sessionCurFreq   = 0;
 		msgCurrentFreq   = 0;
 		chevoCurrentFreq = 0;
 		outOfFocusFrame  = 0;
-		
-		clearInterval( notFocusTimer );
-		enableMsg( ); 
 	}
-
-	//START GAME TIMER | MESSAGE BOARD | WORLD NAME 
-	//POO STORE | TECH TREE | STATISTICS | CHEVO
-	startGame( );
 
 	//ENTERED GAME LOOP
 	updateTimer = setInterval( ( ) => {
-
 		if( windowIsFocus ) {
 			//POOP PER SECOND ADDED
 			$ST.addPoo( $ST.getPPS( ) / FPS );
+			updateMainStats( );
 
-			//===================================================
-			// CHECK IF PLAYER HAS ENOUGH POO TO PURCHASE THE
-			// NEXT LEVEL OF UPGRADE.  FOR EXAMPLE: SHOVEL 11
-			//
-			// THIS NEEDS TO BE CHECKED EVERY GAME LOOP
-			// BECAUSE OF POO PER SECOND.
-			//===================================================
-			updatePurchaseAvailability( );
-			
 			//UPDATE POO STORE LIST - ONLY IF SOMETHING NEW IS AVAILABLE
-			$ST.isUpgradeEligible( ) && updatePooStore( );
+			if( $ST.getActiveScreen( ) == "upgradeScreen" ) {
+				updatePurchaseAvailability( );
+				$ST.isUpgradeEligible( ) && updatePooStore( );
+			}
 
 			//UPDATE STATISTICS SCREEN
-			updateStatistics( );									
+			if( $ST.getActiveScreen( ) == "statsScreen" ) {
+				updateStatistisScreen( );
+			}
+
 			
 			//CHECK IF ACHIEVEMENT HAS BEEN UNLOCKED
 			//ONLY UPDATE ONCE EVERY 1.0 sec
 			if( chevoCurrentFreq === chevoUpdateFreq ) {
-				//CHECK TO SEE IF NEW ACHIEVEMENT IS UNLOCKED.
-				const achievementPopUp = updateAchievementNotification( );
+				const chevoUnlocked = updateAchievementNotification( );
 
-				// ALSO UPDATE ACHIEVEMENT TAB TO REFLECT RECENT UNLOCK
-				if( achievementPopUp >= 1 ) { updateAchievementScreen( );	}
-
+				if( chevoUnlocked >= 1 ) { updateAchievementScreen( ); }
 				chevoCurrentFreq = 0;
 			}
 
@@ -128,20 +150,26 @@ function enterGame( ) {
 			if( msgCurrentFreq === msgUpdateFreq ) {
 				msgCurrentFreq = 0;
 				updateMessageBoard( );
+				updateBrowserTitle( );
+				
+				if( $D.id( "autoSaveInput" ).checked ) {
+					SaveData.saveGame( );
+				}
 			}
 
 			//UPDATE CURRENT GAME RUN TIME / 1.0 sec
 			if( sessionCurFreq === sessionTimeFreq ) {
-				sessionCurFreq = 0;
 				updateGameTime( 1 );
-				updateBrowserTitle( );
+				sessionCurFreq = 0;
 			}
+
+			
+
 
 			chevoCurrentFreq++;		//CONTROL HOW FREQUENT ACHIEVEMENT UPDATE GETS CHECKED
 			msgCurrentFreq++;
 			sessionCurFreq++;	
 		}
-		
 	}, 1000/FPS );
 }
 
@@ -151,7 +179,7 @@ function enterGame( ) {
 //  Initial Game Setup - Before game can start
 // =======================================================
 function startGame( ) {
-	const newName = PooClickerData.getRandomName( );
+	const newName = $PC.getRandomName( );
 
 	if( $ST.getWorldName( ) === "" ) {
 		$D.id( "nameInput" ).value = newName;
@@ -159,13 +187,18 @@ function startGame( ) {
 	} else {
 		$D.id( "nameInput" ).value = $ST.getWorldName( );	//SET WORLD NAME
 	}
-    
 
     //Initial Update => Upgrade | Tech | Achievement | Statistics
-    updatePooStore( );		//SET UPGRADE LIST VISUAL
-    updateTechTree( ); 		//SET TECH TREE ICON VISUAL
-    updateStatistics( );	//SET STATISTICS VISUAL
-	updateAchievementScreen( );	//GENERATE ACHIEVEMENTS
+    updatePooStore( );			//SET UPGRADE LIST VISUAL
+    updateTechTree( ); 			//SET TECH TREE ICON VISUAL
 	
+	updateMainStats( );			//STATISTICS -> MAIN SCREEN
+	updateStatistisScreen( );	//STATISTICS -> ALL THE NUMBERS
+	updateAchievementScreen( );	//STATISTICS -> UNLOCKED ACHIEVEMENT
+	updateOwnedTechScreen( "startGame( )" );			//STATISTICS -> OWNED TECH UPGRADES
+	
+	runTransition( );
+	$ST.calcPPS( );             //RECALCULATE PPS INCASE IT IS NOT MATCHING.
+
 	$ST.debug( "startGame( )" );
 }

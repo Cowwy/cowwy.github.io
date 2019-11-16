@@ -4,6 +4,7 @@
 		<title id="browserTitle"></title>
 
 		<link href="css/debug.css" rel="stylesheet" />
+		<link href="css/op-animation.css" rel="stylesheet" />
 		<link href="css/pooper.css" rel="stylesheet" />
 		<link href="css/pc-nav.css" rel="stylesheet" />
 		<link href="css/pc-dev.css" rel="stylesheet" />
@@ -29,7 +30,7 @@
 		<script type="text/JavaScript">			
 			window.onload = function( ) {
 				AppInit( );
-			}			
+			}
 		</script>
 	</head>
 
@@ -163,8 +164,9 @@
 		</div>
 
 		<!-- Reconstruct In-Game Content -->
-		<div id="mainGame">
+		<div id="transition"></div>
 
+		<div id="mainGame">
 			<div class="pc-gridLayout"> <!-- 2 Column Setup -->
 				
 				<!-- LEFT COLUMN | PLAYER INTERACTION AREA -->
@@ -265,7 +267,7 @@
 									</div>
 									
 									<div class="row">
-										<div class="label">Total Upgrades Purchased:</div>
+										<div class="label">Total Poo Store Purchased:</div>
 										<div id="totalUpgrades">0</div>
 									</div>
 								</div>
@@ -273,10 +275,14 @@
 
 							<div>
 								<h2>Owned Upgrades</h2>
+								<p id="techCount"></p>
+								<div id="upgradeOwnTab"></div>
 							</div>
 
 							<div>
 								<h2>Achievements</h2>
+								<p id="chevoCount"></p>
+								<p id="chevoNote"></p>
 								<div id="achievementTab"></div>
 							</div>
 						</div>							
@@ -289,13 +295,16 @@
 
 						<h2>Settings</h2>
 						<div class="setting-body">
-							<div id="ngBtn" class="setting-saveBtn">New Game</div>
-							<div id="saveBtn" class="setting-saveBtn">Save Game</div>
+							<div id="ngBtn" class="setting-saveBtn gData">New Game</div>
+							<div id="saveBtn" class="setting-saveBtn gData">Save Game</div>
+							<div id="autoSaveBtn">
+								<input id="autoSaveInput" class="autoSaveChkBox" type="checkbox" />
+								<label class="autoSaveLabel">Auto Save</label>
+							</div>
 						</div>
 
 						<h2>Visit another PooVerse</h2>
-						<div id="setting-saveData" class="setting-body">
-						</div>
+						<div id="setting-saveData" class="setting-body"></div>
 					</div>
 				</div>
 
@@ -355,6 +364,11 @@
 				<p id="chevoTitle" class="chevoTitle fontSize14"></p>
 				<p id="chevoDesc" class="chevoDesc fontSize10"></p>
 			</div>
+		</div>
+
+		<div id="tempSaveSlot" class="dataGrid">
+			<div><div class="setting-saveBtn gData"></div></div>
+			<div><div class="setting-saveBtn gData deleteSaveData">x</div></div>
 		</div>
 	</body>
 </html>

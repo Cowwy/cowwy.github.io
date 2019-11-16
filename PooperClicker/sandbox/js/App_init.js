@@ -41,7 +41,7 @@ function initPooStoreContorl( ) {
 
     //Utility Function
     function removeAllActiveQuantity( ) {
-        PooClickerData.getQuantity( ).forEach( function(element) {
+        $PC.getQuantity( ).forEach( function(element) {
             $D.id( element ).className = "quantityBtn";
         });
     }
@@ -64,7 +64,7 @@ function initPooStoreContorl( ) {
                 let costId         = name + "Cost";							//ShovelCost
                 let upgradeElement = $D.id( costId );		//Shovel Upgrade Element
 
-                let sum            = PooClickerData.calcSumPrice( name, curLevel, increment );
+                let sum            = $PC.calcSumPrice( name, curLevel, increment );
                 let newCost        = $ST.getDisplayNotation( sum );
                 
                 upgradeElement.innerHTML = newCost;
@@ -83,7 +83,7 @@ function initPooStoreContorl( ) {
                 let costId         = name + "Cost";							//ShovelCost
                 let upgradeElement = $D.id( costId );		//Shovel Upgrade Element
 
-                let sum            = PooClickerData.calcSellPrice( name, curLevel, decrement );
+                let sum            = $PC.calcSellPrice( name, curLevel, decrement );
                 let refundAmt      = $ST.getDisplayNotation( sum );
                 
                 upgradeElement.innerHTML = refundAmt;
@@ -96,7 +96,10 @@ function initSettingControl( ) {
     let ngBtn   = $D.id( "ngBtn" );
     let saveBtn = $D.id( "saveBtn" );
 
-    saveBtn.addEventListener( "click", saveGame );		
+    saveBtn.addEventListener( "click", ( e ) => {
+        SaveData.saveGame( e );
+        _makeSaveDataSlot( );
+    });		
     ngBtn.addEventListener( "click", ng );
 
     //SET ALL THE LOADING STUFF HERE
@@ -111,55 +114,32 @@ function initSettingControl( ) {
               container.innerHTML = "";
 
         data.forEach( (game) => {
-            let saveTxt = `${game[1]["WorldName"]} @ ${game[1]["Time"]["sessionRunTime"]}s`;
+            let time    = formatMinimalGameTime( reduceTime( game[1]["Time"]["sessionRunTime"] ) );
+            let saveTxt = `${game[1]["WorldName"]} @ ${time}`;
 
-            let tempDiv = document.createElement( "div" );
-            let txtNode = document.createTextNode( saveTxt );
-            
-            //Set Class Attribute
-            tempDiv.setAttribute( "class", "setting-saveBtn gData" );
-            tempDiv.setAttribute( "id", game[0] );
+            let tmpCont = $D.id( "tempSaveSlot" ).cloneNode( true );
+            let tmpName = tmpCont.children[0].children[0];
+            let tmpCls  = tmpCont.children[1].children[0];
 
-            //Dynamically create event listeners
-            tempDiv.addEventListener( "click", (e) => {
+            //INSERT CONTENT
+            tmpName.setAttribute( "id", game[0] );
+            tmpCls.setAttribute( "id", game[0] );
+
+            tmpName.innerHTML = saveTxt;
+
+            //INSERT LISTENER
+            tmpName.addEventListener( "click", (e) => {
                 ng( e.srcElement.id, game[1] );
             });
-    
-            //Attach SaveSlot Element to Container
-            tempDiv.appendChild( txtNode );
-            container.appendChild( tempDiv );
+
+            tmpCls.addEventListener( "click", (e) => {
+                localStorage.removeItem( e.srcElement.id );
+                _makeSaveDataSlot( );
+            });
+
+            container.appendChild( tmpCont );
         });
     }
-
-    // =========================================
-    //  SETTING - SAVE GAME FUNCTION
-    // =========================================
-    function saveGame( e ) { 
-        SaveData.saveToLocalStorage( );	
-
-        pooArea = $D.id( "mainScreen" );
-
-        //Add div element with the number pop up
-        //Div moves up over 1 seconds and disappears after 1 seconds
-        //absolute position it.
-        let tempDiv = document.createElement( "div" );
-        let txtNode = document.createTextNode( "GAME SAVED!" );
-
-        tempDiv.setAttribute( "class", "SaveMsgBox" );
-        tempDiv.style.opacity = 1.0;
-
-        tempDiv.appendChild( txtNode );
-        pooArea.appendChild( tempDiv );
-
-        let tempTimer = new StatusTimer( tempDiv );
-        tempTimer.start( );
-
-
-        //NEED TO UPDATE LOAD SETTING
-        //SO THAT YOUR SAVE GAME WILL APPEAR RIGHT AFTER SAVING
-        _makeSaveDataSlot( );
-    }
-
 
     // =======================================================
     //  FUNCTION 	clearGame
@@ -214,7 +194,7 @@ function initSettingControl( ) {
         // RESET CONTROL - UTILITY METHODS
         //=================================================================
         function resetQuantity( ) {
-            PooClickerData.getQuantity( ).forEach( function( element ) {
+            $PC.getQuantity( ).forEach( function( element ) {
                 $D.id( element ).className = "quantityBtn";
             });
         
@@ -237,77 +217,17 @@ function initPanelControl( ) {
 
     
     //PANEL CONTROLS
-    upgradeClsBtn.addEventListener( "click", (e) => toggleWindow( "upgradeScreen" ) );
-    statsClsBtn.addEventListener( "click", (e) => toggleWindow( "statsScreen" ) );
-    settingClsBtn.addEventListener( "click", (e) => toggleWindow( "settingScreen" ) );
+    upgradeClsBtn.addEventListener( "click", (e) => toggleControl( "upgradeScreen" ) );
+    statsClsBtn.addEventListener( "click",   (e) => toggleControl( "statsScreen" ) );
+    settingClsBtn.addEventListener( "click", (e) => toggleControl( "settingScreen" ) );
 
-    upgradeBtn.addEventListener( "click", (e) => toggleWindow( "upgradeScreen" ) );
-    statsBtn.addEventListener(   "click", (e) => toggleWindow( "statsScreen" ) );
-    settingBtn.addEventListener( "click", (e) => toggleWindow( "settingScreen" ) );
+    upgradeBtn.addEventListener( "click", (e) => toggleControl( "upgradeScreen" ) );
+    statsBtn.addEventListener(   "click", (e) => toggleControl( "statsScreen" ) );
+    settingBtn.addEventListener( "click", (e) => toggleControl( "settingScreen" ) );
 
-    function toggleWindow( id ) {
-        switch( id ) {
-            case "upgradeScreen":
-            //	techScreen.style.display    = "none";
-                statsScreen.style.display   = "none";
-                settingScreen.style.display = "none";
-
-            //	techBtn.className    = "cmdBtn";
-                statsBtn.className   = "cmdBtn";
-                settingBtn.className = "cmdBtn";
-
-                toggleClass( upgradeBtn, "selected" );
-            break;
-
-            case "techScreen":
-                upgradeScreen.style.display = "none";
-                statsScreen.style.display   = "none";
-                settingScreen.style.display = "none";
-
-                upgradeBtn.className    = "cmdBtn";
-                statsBtn.className      = "cmdBtn";
-                settingBtn.className    = "cmdBtn";
-
-                toggleClass( techBtn, "selected" );
-            break;
-
-            case "statsScreen":
-                upgradeScreen.style.display = "none";
-            //	techScreen.style.display    = "none";
-                settingScreen.style.display = "none";
-
-                upgradeBtn.className  = "cmdBtn";
-            //	techBtn.className     = "cmdBtn";
-                settingBtn.className  = "cmdBtn";
-
-                toggleClass( statsBtn, "selected" );
-            break;
-
-            case "settingScreen":
-                upgradeScreen.style.display = "none";
-            //	techScreen.style.display    = "none";
-                statsScreen.style.display   = "none";
-
-                upgradeBtn.className  = "cmdBtn";
-            //	techBtn.className     = "cmdBtn";
-                statsBtn.className    = "cmdBtn";
-
-                toggleClass( settingBtn, "selected" );
-            break;
-        }
-        
-        let selectedScreen = $D.id( id );
-        selectedScreen.style.display = ( selectedScreen.style.display == "block" ) ? "none" : "block";
-
-        function toggleClass( el, className ) {
-            let classList = el.className;
-
-            if( classList.match( className ) ) {
-                el.className = classList.replace(" " + className, "");
-            } else {
-                el.className += " " + className;
-            }
-        }
+    function toggleControl( id ) {
+        $PC.toggleScreen( id );
+        $ST.toggleActiveScreen( id );
     }
 }
 
@@ -350,7 +270,7 @@ function initGameControls( ) {
         //Pop up number after clicking
         //disappears after 1 seconds
         createPooNumber( );
-
+    
         if( hackMode ) {
             $ST.addPoo( hackClickAmt );
             $ST.addPooSinceStart( hackClickAmt );
@@ -390,7 +310,7 @@ function initGameControls( ) {
 }
 
 function initSessionState( ) {
-    PooClickerData.getMessageBoardUpdate( ); 	//SET RANDOM MESSAGE BOARD ID 1 & 2
+    $PC.getMessageBoardUpdate( ); 	//SET RANDOM MESSAGE BOARD ID 1 & 2
 }
 
 
@@ -409,7 +329,7 @@ function devNoteControlSetup( ) {
 
         devNote.scrollTop = 0;
         devNote.style.display = "none";
-    });
+    }); 
 
     // $D.id("version").addEventListener( "change", function( e ) {
     //     const version = {
@@ -425,7 +345,19 @@ function devNoteControlSetup( ) {
 }
 
 function headerSetup( ) {
-    const title = `POOPER CLICKER &copy ${copyright.dateTo}`;
-    $D.id( "browserTitle" ).innerHTML = `${title} | ${copyright.version}`;
-    $D.id( "navTitle" ).innerHTML = `${title} | ${copyright.version}`;
+    const title = `POOPER CLICKER &copy ${$ST.Copyright("dateTo")}`;
+    $D.id( "browserTitle" ).innerHTML = `${title} | ${$ST.Copyright("version")}`;
+    $D.id( "navTitle" ).innerHTML = `${title} | ${$ST.Copyright("version")}`;
+}
+
+function runTransition( ) {
+    const transEl = $D.id( "transition" );
+    transEl.style.display = "block";
+    transEl.className = "transAnimation";
+
+    const ngTransition = setInterval( ( e ) => {    
+        transEl.className = "";
+        transEl.style.display = "none";
+        clearInterval( ngTransition );
+    }, 500 );
 }

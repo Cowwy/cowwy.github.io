@@ -3,10 +3,11 @@
 // 	   Hard Code Game Data for PooperClicker
 // 	   Contains all the upgrades, screen activity information.
 //
-//  Change this section if you want the game
-//  to run a little different.  This is use for
-//  tweeking game mechanics and fun factor of the
-//  game.
+//  Change this section if you want the game to run a little different.  
+//  This is use for tweeking game mechanics and fun factor of the game.
+//
+//	CP Const => upgrade | techTree | techTree | message | achievement | random name
+//  UI Const => quantity | screens
 // =====================================================================
 
 function GameData( ) {
@@ -26,7 +27,7 @@ function GameData( ) {
 		"Animal Farm"  : { "name" : "Animal Farm", "factor" : 0.20, "base" :  17000,   "PPS" :   3.00,	"refund" : 0.20 },
 		"Toilet"       : { "name" : "Toilet",      "factor" : 0.20, "base" :  65000,   "PPS" :  14.00,	"refund" : 0.20 }
 	};
-
+	Object.freeze( upgrade );
 
 	//=======================================================================
 	// UPGRADE - SEARCH METHODS
@@ -84,7 +85,7 @@ function GameData( ) {
 		// Parameters  :
 		// 	@sessionStateUpgradeList : SessionState upgradeList {Obj}
 		//===================================================================
-		function calcAllPPS( ST_UpgradeList ) {
+		function calcAllPPS( ) {
 			//CALCULATE ALL TECH MULTIPLIER AGAIN
 			calcTechMultiplier( );
 			return calcAllMultiplier( );
@@ -118,13 +119,14 @@ function GameData( ) {
 
 			function calcAllMultiplier( ) {
 				let totalPPS = 0.0;
+				let chevoBonus = 1 + ( $ST.getAllUnlockedChevo( ).length / 100 );
 
 				//CALCULATE ALL THE PPS FROM EACH UPGRADE
 				Object.keys( upgrade ).forEach( (key) => {
 					const { PPS } = upgrade[key];
 					const { level, multiplier } = $ST.getUpgradeByName( key );
 
-					totalPPS += ( level * PPS ) * multiplier;
+					totalPPS += ( ( level * PPS ) * multiplier ) * chevoBonus;
 				});
 
 				return totalPPS;
@@ -165,7 +167,6 @@ function GameData( ) {
 		//					  SessionState
 		// 	@increment	: How many level decrease will it be.
 		//===================================================================
- 
 		function calcSellPrice( name, curLevel, decrement ) {
 			let sum = 0;
 
@@ -193,24 +194,6 @@ function GameData( ) {
 
 
 
-
-	//==============================================================================
-	// const upgradeTabs
-	//		A structural way of organizing the panels within the game without
-	//		the need to use DOM to track all my panels in the game.
-	//
-	//		Data Type: 		Array
-	//		Value: 			[Element ID]
-	// 		upgradeTab 		- Tab that contains all the upgrades - Shovel - Baby - etc
-	// 		techTab    		- Not implemented yet will contain tech tree to enhance game experience.
-	// 		statisticTab    - Hows all the fun facts about your current run of the game.
-	// 		aboutchievementTab  - Not implemented yet.
-	//==============================================================================
-	const upgradeTabs = ["upgradeTab", "techTab", "statisticTab", "achievementTab"];
-
-	function getUpgradeTabs( ) { return upgradeTabs; }
-
-
 	//==============================================================================
 	// const quantity
 	//		Controls the the quantity of upgrade that a player can purchase.
@@ -221,8 +204,10 @@ function GameData( ) {
 	//		Values: 	[Element ID]
 	//==============================================================================	
 	const quantity    = ["1x", "10x", "100x"];
+	Object.freeze( quantity );
 
 	function getQuantity( ) { return quantity; }
+
 
 
 	//==============================================================================
@@ -237,8 +222,8 @@ function GameData( ) {
 	//		change SessionState LOAD/RESET/HeroState
 	//==============================================================================	
 	const techTree = {
-		1 : { "owner" : "Hand",			"title" : "Handy Handy",			"desc" : "- Clean them poo up with both your hands and twice as fast please. -",																		"effect" : "Hand Multiplier +1.0",			"multiplier" :   2.00,		"amp" : 0.0, 		"cost" : 1500,					"sprite" : "handTech1.png",			"require" : { "Hand" : 10  } },
-		2 : { "owner" : "Hand",			"title" : "All Hands on Deck",		"desc" : "- Embracing your destiny from here on out as professional janitor.  Better get ready. -",														"effect" : "Hand Multiplier +1.0",			"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 5000,					"sprite" : "handTech2.png",			"require" : { "Hand" : 20  } },
+		1 : { "owner" : "Hand",			"title" : "Handy Handy",			"desc" : "- Clean them poo up with both your hands and twice as fast please. -",																		"effect" : "Hand Multiplier +1.0",			"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 1500,					"sprite" : "handTech1.png",			"require" : { "Hand" : 10  } },
+		2 : { "owner" : "Hand",			"title" : "All Hands on Deck",		"desc" : "- Embracing your destiny from here on out as professional janitor.  Better get ready. -",														"effect" : "Hand Amplifier  x2.0",			"multiplier" :   0.00,		"amp" : 1.0, 		"cost" : 5000,					"sprite" : "handTech2.png",			"require" : { "Hand" : 20  } },
 		3 : { "owner" : "Hand",			"title" : "Dabby Hand",				"desc" : "- You're the only expert on this land, better be proud. -",																					"effect" : "Hand Multiplier +1.0",			"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 2.500e4,				"sprite" : "handTech3.png",			"require" : { "Hand" : 30  } },
 		4 : { "owner" : "Hand",			"title" : "Gimme a Hand",			"desc" : "- Pleading for help cleaning up other people's poo? Not many people will say yes, but a man gotta try. -",									"effect" : "Hand Multiplier +1.0",			"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 2.000e5,				"sprite" : "handTech4.png",			"require" : { "Hand" : 40  } },
 		5 : { "owner" : "Hand",			"title" : "It Goes Hand to Hand",	"desc" : "- Are you having fun playing with this?  Please say you are, I worked very hard to get this far. -",											"effect" : "Hand Multiplier +2.0",			"multiplier" :   2.00,		"amp" : 0.0, 		"cost" : 1.400e6,				"sprite" : "handTech5.png",			"require" : { "Hand" : 50  } },
@@ -250,8 +235,8 @@ function GameData( ) {
 	   11 : { "owner" : "Hand",			"title" : "The Holding of Hand",	"desc" : "- New martial art technique to help you pick up poo faster, it turns out that you smoosh them in your hand and poo multiplies. -",			"effect" : "Hand Multiplier +3.0",			"multiplier" :   3.00,		"amp" : 0.0, 		"cost" : 2.000e11,				"sprite" : "handTech11.png",		"require" : { "Hand" : 100 } },
 
 
-	   12 : { "owner" : "Shovel",		"title" : "A Wooden Shovel",		"desc" : "- Not much of a shovel.  Just a piece of wood so you don't have to use your hands. -",														"effect" : "Shovel Multiplier +1.0",		"multiplier" :   2.00,		"amp" : 0.0, 		"cost" : 1500,					"sprite" : "shovelTech1.png",		"require" : { "Shovel" : 10  } },
-	   13 : { "owner" : "Shovel",		"title" : "A Garden Shovel",		"desc" : "- Improvement from the wooden shovel.  It doesn't make a mess on you. -",																		"effect" : "Shovel Multiplier +1.0",		"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 9500,					"sprite" : "shovelTech2.png",		"require" : { "Shovel" : 20  } },
+	   12 : { "owner" : "Shovel",		"title" : "A Wooden Shovel",		"desc" : "- Not much of a shovel.  Just a piece of wood so you don't have to use your hands. -",														"effect" : "Shovel Multiplier +1.0",		"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 1500,					"sprite" : "shovelTech1.png",		"require" : { "Shovel" : 10  } },
+	   13 : { "owner" : "Shovel",		"title" : "A Garden Shovel",		"desc" : "- Improvement from the wooden shovel.  It doesn't make a mess on you. -",																		"effect" : "Shovel Amplifier  x2.0",		"multiplier" :   0.00,		"amp" : 1.0, 		"cost" : 9500,					"sprite" : "shovelTech2.png",		"require" : { "Shovel" : 20  } },
 	   14 : { "owner" : "Shovel",		"title" : "Scoop Shovel",			"desc" : "- That's a load of poo you're going to shovel with that... -",																				"effect" : "Shovel Multiplier +1.0",		"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 5.900e4,				"sprite" : "shovelTech3.png",		"require" : { "Shovel" : 30  } },
 	   15 : { "owner" : "Shovel",		"title" : "MultiGrip Shovel",		"desc" : "- Sturdier handing, solid steel head, flexible handling, and state of the art all wheel drive.  Can't go wrong with that. -",					"effect" : "Shovel Multiplier +1.0",		"multiplier" :   1.00,		"amp" : 0.0, 		"cost" : 3.650e5,				"sprite" : "shovelTech4.png",		"require" : { "Shovel" : 40  } },
 	   16 : { "owner" : "Shovel",		"title" : "Trench Shovel",			"desc" : "- Poo had became so popular that fights break out in neighborhoods and nations is discussing how to secure this precious resources. -",		"effect" : "Shovel Multiplier +2.0",		"multiplier" :   2.00,		"amp" : 0.0, 		"cost" : 2.260e6,				"sprite" : "shovelTech5.png",		"require" : { "Shovel" : 50  } },
@@ -263,7 +248,7 @@ function GameData( ) {
 	   22 : { "owner" : "Shovel",		"title" : "Round Shovel",			"desc" : "- Not practical for use on land, but who said anything about digging the land?  We can find poos in waters too... -",							"effect" : "Shovel Multiplier +3.0",		"multiplier" :   3.00,		"amp" : 0.0, 		"cost" : 2.000e10,				"sprite" : "shovelTech11.png",		"require" : { "Shovel" : 100 } },
 
 
-	   23 : { "owner" : "Baby",			"title" : "Yea Baby!",				"desc" : "- Automatic 'Poo' Generator every minute of the day. Can't wait for them to grow up. -",														"effect" : "Baby Multiplier +1.0", 			"multiplier" :   2.00, 		"amp" : 0.0, 		"cost" : 1.800e4, 				"sprite" : "babyTech1.png", 		"require" : { "Baby" : 10  } },
+	   23 : { "owner" : "Baby",			"title" : "Yea Baby!",				"desc" : "- Automatic 'Poo' Generator every minute of the day. Can't wait for them to grow up. -",														"effect" : "Baby Multiplier +1.0", 			"multiplier" :   1.00, 		"amp" : 0.0, 		"cost" : 1.800e4, 				"sprite" : "babyTech1.png", 		"require" : { "Baby" : 10  } },
 	   24 : { "owner" : "Baby", 		"title" : "Eat Baby~~", 			"desc" : "- Got the baby to eat the veges, and the clean up is twices as bad. -", 																		"effect" : "Baby Multiplier +1.0", 			"multiplier" :   1.00, 		"amp" : 0.0, 		"cost" : 1.140e5, 				"sprite" : "babyTech2.png", 		"require" : { "Baby" : 20  } },
 	   25 : { "owner" : "Baby", 		"title" : "Potty Pooper", 			"desc" : "- The babies is starting to have intelligence of their own, disturbing you every minute of the day. But we still love them. -",				"effect" : "Baby Multiplier +1.0", 			"multiplier" :   1.00, 		"amp" : 0.0, 		"cost" : 7.080e5, 				"sprite" : "babyTech3.png", 		"require" : { "Baby" : 30  } },
 	   26 : { "owner" : "Baby", 		"title" : "Meconium", 				"desc" : "- This is not what anyone would expect, but do expect them, is part of the job. -",															"effect" : "Baby Multiplier +1.0", 			"multiplier" :   1.00, 		"amp" : 0.0, 		"cost" : 4.400e6, 				"sprite" : "babyTech4.png", 		"require" : { "Baby" : 40  } },
@@ -280,6 +265,7 @@ function GameData( ) {
 	//NEED TO UPDATE LOAD
 	};
 
+	Object.freeze( techTree );
 
 	//=======================================================================
 	// TECHTREE - SEARCH METHODS
@@ -393,6 +379,8 @@ function GameData( ) {
 	   13 : { "quote" : "Citizen reported that they are funnelling poo into the rivers, turning fish to poo.",      "require" : { "Hand" : 100 } }
 	}
 
+	Object.freeze( message );
+
 	//==============================================================================
 	// MESSAGE - SEACH METHODS
 	//==============================================================================
@@ -413,8 +401,6 @@ function GameData( ) {
 		}
 
 
-
-
 	//==============================================================================
 	// MESSAGE - VALIDATION METHODS
 	//==============================================================================
@@ -430,6 +416,8 @@ function GameData( ) {
 
 			return retValue;
 		}
+
+
 
 
 	//==============================================================================
@@ -459,6 +447,7 @@ function GameData( ) {
 	   17 : { "title" : "Brave Soul",  			"desc" : "Let's clean up this world.", 															"sprite" : "chevo17.png", 			"require" : { "TotalPoo"    : 1.000e7 } }
 	};
 
+	Object.freeze( achievement );
 
 	function getAchievementById( id )      { return achievement[ id ]; }
 	function getAchievementReqById( id )   { return achievement[ id ]["require"]; }
@@ -551,19 +540,61 @@ function GameData( ) {
 	// const randomName - Random Name generated at the start of the game.
 	//==============================================================================
 	const prefix = [
-		"Pre-Historic", "Stone", "Bronze", "Ancient", "Medieval", "Atomic", "Iron", "Epic", "Mr", "Mrs",
-		"Justice", "Average", "Handy"
+		"Pre-Historic", "Stoned", "Medieval", "Atomic", "Iron", "Epic", "Mr", "Mrs",
+		"Average", "Captain", "Grand Priest", "Uncle", "Aunty", "St."
 	];
 
 	const worldName = [
-		"Fraise", "Schmitz", "Trump", "Duke", "Jinx", "Sparda", "Argentia", "Joe", "Dandy"
+		"Fraise", "Schmitz", "Trump", "Duke", "Jinx", "Sparda", "Argentia", "Joe", "Dandy", "America",
+		"Bob"
 	]
+
+	const subfix = [
+		"the Ruler", "the Devastator", "the Dictator", "XXIII", "the Man", "the Troll", "the Destroyer"
+	]
+
+	Object.freeze( prefix );
+	Object.freeze( worldName );
+	Object.freeze( subfix );
 
 	function getRandomName( ) {
 		const a = GameUtility.between( 1, prefix.length ) - 1;
 		const b = GameUtility.between( 1, worldName.length ) - 1;
+		const c = GameUtility.between( 1, subfix.length ) - 1;
 
-		return prefix[a] + " " + worldName[b]
+		return prefix[a] + " " + worldName[b] + " " + subfix[c];
+	}
+
+
+	//==============================================================================
+	// const panelState = State of the Panel, use for resetting
+	//==============================================================================
+	const screenID = [ "upgradeScreen", "statsScreen", "settingScreen" ];
+	const panelID  = [ "upgradeBtn", "statsBtn", "settingBtn" ];
+
+	Object.freeze( screenID );
+	Object.freeze( panelID );
+
+	function toggleScreen( exception ) {
+		const i         = screenID.indexOf( exception );
+		const newPanel  = panelID.filter( (el, index) => { return index != i; });
+		const newScreen = screenID.filter( (el, index) => {	return index != i; });
+
+		newScreen.forEach( (screen) => { $D.id( screen ).style.display = "none"; });
+		newPanel.forEach( (btn) => { $D.id( btn ).className = "cmdBtn";	});
+
+		// SHOW OR HIDE
+        //  IF SCREEN IS BLOCK -> TURN IT OFF
+        //  IF SCREEN IS NONE  -> TURN IT ON
+		const selected = $D.id( screenID[i] );
+		selected.style.display = ( selected.style.display == "block" ) ? "none" : "block";
+		
+		const btnSelected = $D.id( panelID[i] );
+		if( ( btnSelected.className ).match( "selected" ) ) {
+			btnSelected.className = "cmdBtn";
+		} else {
+			btnSelected.className = "cmdBtn selected";
+		}
 	}
 
 
@@ -610,11 +641,9 @@ function GameData( ) {
 		getPurchasbleTechTreeUpgrade : getPurchasbleTechTreeUpgrade,
 		
 
-
 		//==========================================
-		// MISC
+		// POO STORE
 		//==========================================
-		getUpgradeTabs : getUpgradeTabs,
 		getQuantity    : getQuantity,
 
 
@@ -632,6 +661,16 @@ function GameData( ) {
 		getAchievementLength 	 : getAchievementLength,
 		selectAllChevoByProperty : selectAllChevoByProperty,
 
-		getRandomName : getRandomName
+		//==========================================
+		// RANDOM NAME
+		//==========================================
+		getRandomName : getRandomName,
+
+
+		//==========================================
+		// PANEL CONTROLS
+		//==========================================
+		toggleScreen       : toggleScreen
+
 	};
 }

@@ -2,6 +2,72 @@
 // UPDATE THE NUMBERS WITHIN STATISTICS
 //=================================================================
 function updateStatistics( ) {
+    updateMainStats( );
+    updateStatistisScreen( );
+}
+
+function reduceTime( dataTime ) {
+    let tmpTime = dataTime;
+    let time = { "d" : 0, "h" : 0, "m" : 0, "s" : 0 };
+
+    if( tmpTime >= 86400 ) {
+        time["d"] = Math.floor( tmpTime / 86400 );
+        tmpTime -= 86400 * time["d"];
+    }   
+
+    if( tmpTime >= 3600 ) {
+        time["h"] = Math.floor( tmpTime / 3600 );
+        tmpTime -= 3600 * time["h"];
+    }
+
+    if( tmpTime >= 60 ) {
+        time["m"] = Math.floor( tmpTime / 60 );
+        tmpTime -= 60 * time["m"];
+    }
+
+    time["s"] = tmpTime;
+    tmpTime -= time["s"];
+
+    return time;
+}
+
+function formatStatisticalGameTime( time ) {
+    return (
+    `${time["d"] == 0 ? "" : time["d"] + "d: "}` + 
+    `${time["h"] == 0 ? "" : time["h"] + "h: "}` + 
+    `${time["m"] == 0 ? "" : time["m"] + "m: "}` + 
+    `${Math.floor(time["s"])}s` );
+}
+
+function formatMinimalGameTime( time ) {
+    if( time["d"] > 0 ) {
+        return `${time["d"]}d`;
+    }
+    
+    else if( time["h"] > 0 ) {
+        return `${time["h"]}h`
+    }
+
+    else if( time["m"] > 0 ) {
+        return `${time["m"]}m`;
+    }
+
+    else {
+        return `${Math.round(time["s"])}s`;
+    }
+}
+
+function updateMainStats( ) {
+    const totalPooText     = $ST.getDisplayNotation( "totalPoo" );
+    const ppsDisplay  	   = $D.id( "ppsDisplay" );			    //Center Stage
+    const pooDisplay  	   = $D.id( "totalPooDisplay" );		//Center Stage
+
+    //SCORE DISPLAY
+    pooDisplay.innerHTML = totalPooText + " POOPS";
+    ppsDisplay.innerHTML = `per second: ${ ( $ST.getPPS( ) ).toFixed(2) }`;
+}
+
+function updateStatistisScreen( ) {
     const totalPooText  = $ST.getDisplayNotation( "totalPoo" );
     const pooSinceStart = $ST.getDisplayNotation( "pooSinceStart" );
 
@@ -10,18 +76,11 @@ function updateStatistics( ) {
 	const totalClicks 	     = $D.id( "totalClicksMade" );		//STATISTICS TAB
 	const totalPooSinceStart = $D.id( "totalPooSinceStart" );	//STATISTICS TAB
 	const totalUpgrades      = $D.id( "totalUpgrades" );		//STATISTICS TAB
-	
-    const ppsDisplay  	   = $D.id( "ppsDisplay" );			//Center Stage
-    const pooDisplay  	   = $D.id( "totalPooDisplay" );		//Center Stage
 
     const s                = reduceTime( $ST.getCurSessionTime( ) );
 
     //TIMER
-    currentTime.innerHTML    = 
-    `${s["d"] == 0 ? "" : s["d"] + "d: "}` + 
-    `${s["h"] == 0 ? "" : s["h"] + "h: "}` + 
-    `${s["m"] == 0 ? "" : s["m"] + "m: "}` + 
-    `${s["s"]}s`;
+    currentTime.innerHTML  = formatStatisticalGameTime( s );
 
     //PLAYER'S ACTION SCORE
     totalClicks.innerHTML        = $ST.getTotalClicks( );
@@ -32,46 +91,119 @@ function updateStatistics( ) {
     //PLAYER'S POO SCORES
     totalPooCollected.innerHTML  = totalPooText;
     totalPooSinceStart.innerHTML = pooSinceStart;
-
-    //SCORE DISPLAY
-    pooDisplay.innerHTML         = totalPooText + " POOPS";
-
-
-    if( $ST.getPPS( ) == 0 ) { 
-        ppsDisplay.innerHTML = "per second: " + 0; 
-
-    } else if( $ST.getPPS( ) < 100 ) {
-        let pps = ($ST.getPPS( )).toFixed(2);
-        ppsDisplay.innerHTML = "per second: " + pps; 
-    } else {
-        ppsDisplay.innerHTML = "per second: " + Math.round( $ST.getPPS( ) );
-    }
-
-    function reduceTime( dataTime ) {
-        let tmpTime = dataTime;
-        let time = { "d" : 0, "h" : 0, "m" : 0, "s" : 0 };
-
-        if( tmpTime >= 86400 ) {
-            time["d"] = Math.floor( tmpTime / 86400 );
-            tmpTime -= 86400 * time["d"];
-        }   
-
-        if( tmpTime >= 3600 ) {
-            time["h"] = Math.floor( tmpTime / 3600 );
-            tmpTime -= 3600 * time["h"];
-        }
-
-        if( tmpTime >= 60 ) {
-            time["m"] = Math.floor( tmpTime / 60 );
-            tmpTime -= 60 * time["m"];
-        }
-
-        time["s"] = tmpTime;
-        tmpTime -= time["s"];
-
-        return time;
-    }
 }
+
+//=================================================================
+// UPDATE ACHIEVEMENTS
+//=================================================================
+function updateAchievementScreen( ) {
+    let chevoEarnedBox = $D.id( "achievementTab" );	//attachTo
+    let allChevoKeys   = $ST.getAchievementKeys( );	//[1][2][3]
+    
+    let chevoUnlocked  = $ST.getAllUnlockedChevo( ).length;
+    let chevoCountStr  = `${chevoUnlocked} / ${$ST.getAchievementLength( )}`;
+
+    //RESET ACHIEVEMENT DISPLAY CASE
+    chevoEarnedBox.innerHTML = "";	
+
+    //SET ACHIEVEMENTS UNLOCKED
+    $D.id( "chevoCount" ).innerHTML = `Achievements Unlocked: ${chevoCountStr}`;
+    $D.id( "chevoNote" ).innerHTML  = `PPS Bonus: +${chevoUnlocked}%`;
+
+    //UPDATE EVERY ICON ON THE LIST TO MAKE SURE NOTHING IS MISSING
+    allChevoKeys.forEach( function( keys ) {
+
+        //CLONE THE TECH ICON AS ACHIEVEMENT ICON
+        if( $ST.getAchievementById( keys ) ) {
+            let chevoData   = $PC.getAchievementById( keys );
+
+            let chevoDisplayClone = $D.id( "tempTechIcon" ).cloneNode( true );
+                chevoDisplayClone.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
+                chevoDisplayClone.style.display         = "block";
+
+            //ADD MOUSEOVER EVENT TO POP UP ACHIEVEMENT DETAILS
+            chevoDisplayClone.addEventListener( "mouseover", function( e ) {
+                //CLONE TEMP TECH DESCRIPTION BOX
+                let container     = $D.id( "statsScreen" );		//CONTAINER FOR TIP BOX
+                let chevoBoxClone = $D.id( "tempAchievement" ).cloneNode( true );
+                let panelWidth    = $D.id( "upgradeScreen" ).getBoundingClientRect( ).width;
+
+                
+                let chevoBoxClose  = chevoBoxClone.children[0];                //Close Button
+                let chevoBoxTitle  = chevoBoxClone.children[2].children[0];    //Chevo Title
+                let chevoBoxIcon   = chevoBoxClone.children[1].children[0];    //Chevo Icon Link
+                let chevoBoxDesc   = chevoBoxClone.children[2].children[1];    //Chevo Description
+
+                //PLACEMENT OF THE CHEVO BOX
+                chevoBoxClone.id                   = "chevoClone";
+                chevoBoxClone.style.position       = "absolute";
+                chevoBoxClone.style.display        = "block"; 
+                chevoBoxClone.style.left           = e.x - 400;  //panelWidth + 10;
+                chevoBoxClone.style.top            = e.y;  //e.clientY - 30;
+
+                //ATTRIBUTES AND DETAIL OF THE CHEVO BOX
+                chevoBoxClose.style.display        = "none";
+                chevoBoxTitle.innerHTML            = chevoData["title"];
+                chevoBoxIcon.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
+                chevoBoxDesc.innerHTML             = chevoData["desc"];
+
+                container.appendChild( chevoBoxClone );
+            });
+
+            chevoDisplayClone.addEventListener( "mouseout", function( e ) {
+                let clone = $D.id( "chevoClone" );
+                ( clone.parentNode ).removeChild( clone );
+            });
+
+            chevoEarnedBox.appendChild( chevoDisplayClone );
+        }
+        
+        else {
+            let chevoDisplayClone = $D.id( "tempTechIcon" ).cloneNode( true );
+                chevoDisplayClone.className = "chevoBlankIcon";
+                chevoDisplayClone.style.backgroundImage = "url('img/chevo0.png')";
+                chevoDisplayClone.style.backgroundColor = "";
+                chevoDisplayClone.style.display         = "block";
+
+            chevoEarnedBox.appendChild( chevoDisplayClone );
+        }
+    });
+}
+
+function updateAchievementNotification( ) {
+    let achievementPopUp = $PC.checkAchievement( $ST.getAchievement( ) );
+
+    //==========================================================
+    // UPDATE ACHIEVEMENT NOTIFICATION
+    //==========================================================
+    achievementPopUp.forEach( function( element ) {
+        let chevoContainer = $D.id( "chevoContainer" );
+        let chevoClone     = $D.id( "tempAchievement" ).cloneNode( true );
+        let chevoData      = $PC.getAchievementById( element );
+
+        let chevoClose     = chevoClone.children[0];                //Close Button
+        let chevoTitle     = chevoClone.children[2].children[0];    //Chevo Title
+        let chevoIcon      = chevoClone.children[1].children[0];    //Chevo Icon Link
+        let chevoDesc      = chevoClone.children[2].children[1];    //Chevo Description
+
+        chevoTitle.innerHTML            = chevoData["title"];
+        chevoIcon.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
+        chevoDesc.innerHTML             = chevoData["desc"];
+        chevoClone.style.display        = "block";
+
+        //SETUP ONCLICK EVENT FOR THE X BUTTON
+        chevoClose.addEventListener( "click", function( e ) {
+            let container = $D.id( "chevoContainer" );
+            container.removeChild( this.parentNode );
+        });
+
+        //ATTACH IT TO THE ALLOCATED SPOT
+        chevoContainer.appendChild( chevoClone );
+    });
+
+    return achievementPopUp.length;
+}
+
 
 //=================================================================
 // GENERATE UPGRADE LIST [HANDS][SHOVEL][ETC]
@@ -84,7 +216,7 @@ function updatePooStore( ) {
     $ST.upgradeToggle( );
     $ST.isUpgradeEligible( );
 
-    for( key in PooClickerData.upgrade ) {
+    $PC.getAllUpgradeName( ).forEach( (key) => {
         if( $ST.isUpgradeUnLock( key ) ) {
             //===================
             // DIV ELEMENT
@@ -153,7 +285,7 @@ function updatePooStore( ) {
                     cost.setAttribute( "class", "cost notPurchaseable" );
                 }
 
-            let sum = PooClickerData.calcPrice( key, $ST.getUpgradeLevel( key ) );
+            let sum = $PC.calcPrice( key, $ST.getUpgradeLevel( key ) );
                 cost.innerHTML = $ST.getDisplayNotation( sum );
 
             //=======================
@@ -201,7 +333,7 @@ function updatePooStore( ) {
                     if( $ST.isUpgradePurchaseable( id ) ) {
                         //-Poo from Total Collected
                         let pooStats  = $D.id( "totalPooCollected" );
-                        $ST.subtractPoo( PooClickerData.calcSumPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) ) );
+                        $ST.subtractPoo( $PC.calcSumPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) ) );
                         pooStats.innerHTML = $ST.getDisplayNotation( "totalPoo");
 
                         //Increase Level +Quantity
@@ -211,7 +343,7 @@ function updatePooStore( ) {
 
                         //Recalculate Cost
                         let cost  = $D.id( id + "Cost" );	
-                        let sum   = PooClickerData.calcSumPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) );			
+                        let sum   = $PC.calcSumPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) );			
                         cost.innerHTML = $ST.getDisplayNotation( sum );
 
                         //Calculate the new PPS
@@ -229,7 +361,7 @@ function updatePooStore( ) {
                 else {
                     // SELL UPGRADE AND ADD ONTO TOTAL POO
                     let pooStats = $D.id( "totalPooCollected" );
-                    $ST.addPoo( PooClickerData.calcSellPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) ) );
+                    $ST.addPoo( $PC.calcSellPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) ) );
                     pooStats.innerHTML = $ST.getTotalPoo( );
 
                     //===============================
@@ -253,7 +385,7 @@ function updatePooStore( ) {
                     // Recalculate Cost
                     //===============================
                     let cost  = $D.id( id + "Cost" );	
-                    cost.innerHTML = PooClickerData.calcSellPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) );
+                    cost.innerHTML = $PC.calcSellPrice( id, $ST.getUpgradeLevel( id ), $ST.getBuyOrSellQuantity( ) );
 
 
                     //Calculate the new PPS
@@ -264,10 +396,10 @@ function updatePooStore( ) {
                 }
 
                 updateTechTree( );
-                PooClickerData.getMessageBoardUpdate( );
+                $PC.getMessageBoardUpdate( );
             }
         }
-    }
+    });
 }
 
 function updatePurchaseAvailability( ) {
@@ -307,11 +439,7 @@ function updatePurchaseAvailability( ) {
 	// IF YOU ARE SELLING - EXECUTE THE FOLLOWING CODE
 	//===================================================
 	else {
-		let upgradeList = $ST.getUpgradeList( );
-
-		const temp = Object.keys( $ST.getUpgradeList( ) );
-
-		// console.log( temp );
+    	const temp = Object.keys( $ST.getUpgradeList( ) );
 
 		temp.forEach( ( key ) => {
 			//CHECK IF THE ELEMENT EXIST
@@ -331,7 +459,7 @@ function updatePurchaseAvailability( ) {
 //=================================================================
 function updateTechTree( ) {
     let techTreeContainer = $D.id( "techList" );
-    let techTreeArray     = PooClickerData.getPurchasbleTechTreeUpgrade( );
+    let techTreeArray     = $PC.getPurchasbleTechTreeUpgrade( );
 
     //CLEAR TECH TREE ICONS
     techTreeContainer.innerHTML = "";
@@ -343,7 +471,7 @@ function updateTechTree( ) {
 
         //ASSIGN CLONES WITH NEW INFORMATION
         clone.id               			= "tech" + element;
-        clone.style.background 			= "url('img/" + PooClickerData.getTechSprite( element ) + "')";
+        clone.style.background 			= "url('img/" + $PC.getTechSprite( element ) + "')";
         clone.style.backgroundRepeat  	= "no-repeat";
         clone.style.display    			= "block";
 
@@ -351,7 +479,7 @@ function updateTechTree( ) {
         //ADD EVENTREGISTRY IF NEEDED TO REMOVE EVENTLISTENER
         clone.addEventListener( "click", function( ) {
             let id       = (this.id).replace("tech", "" );
-            let techCost = PooClickerData.getTechCost( id );
+            let techCost = $PC.getTechCost( id );
 
             //MAKE SURE THAT THE TECH IS PURCHASEABLE
             if( $ST.getTotalPoo( ) >= techCost ) {
@@ -359,8 +487,6 @@ function updateTechTree( ) {
 
                 $ST.setTechPurchased( id );	    //MARK TECHTREE PURCHASED (TRUE)
                 $ST.subtractPoo( techCost );	//SUBTRACT THE COST FROM TOTAL POO POOL
-
-                $ST.calcTechPPSBonus( );		//RECALCULATE ALL THE PPS BONUS
 
                 techTreeContainer.removeChild( this );	//REMOVE TECH ICON FROM THE TECH LIST
 
@@ -370,6 +496,7 @@ function updateTechTree( ) {
 
                 //Calculate the new PPS
                 $ST.calcPPS( );
+                updateOwnedTechScreen( );
             }
         });
 
@@ -388,7 +515,7 @@ function updateTechTree( ) {
 
 
             //ASSIGN CLONES WITH NEW INFORMATION
-            let techData    = PooClickerData.getTechById( ( e.srcElement.id ).replace( "tech", "" ) );
+            let techData    = $PC.getTechById( ( e.srcElement.id ).replace( "tech", "" ) );
 
                 techBoxClone.id                   = "clone";
                 techDescBox.children[0].innerHTML = techData["title"];
@@ -429,98 +556,68 @@ function updateTechTree( ) {
     });	
 }
 
-//=================================================================
-// UPDATE ACHIEVEMENTS
-//=================================================================
-function updateAchievementScreen( ) {
-    let chevoEarnedBox = $D.id( "achievementTab" );	//attachTo
-    let allChevoKeys   = $ST.getAchievementKeys( );			//[1][2][3]
-    
-    //RESET ACHIEVEMENT DISPLAY CASE
-    chevoEarnedBox.innerHTML = "";	
+function updateOwnedTechScreen( callFrom ) {
+    console.log( "call From: " + callFrom );
 
-    //UPDATE EVERY ICON ON THE LIST TO MAKE SURE NOTHING IS MISSING
-    allChevoKeys.forEach( function( keys ) {
-        let isNotLocked = $ST.getAchievementById( keys );	//ONLY ADD THE ONE IS UNLOCKED									
-        let chevoData   = PooClickerData.getAchievementById( keys );
+    //GET ALL THE OWNED TECH FROM $ST
+    //GET ID = upgradeOwnTab
+    //CLONE THE ICONS -> REPLACE INFORMATION -> ATTACH TO CONTAINER
+    const ownedTech = $ST.getAllOwnedTech( );
+    const container = $D.id( "upgradeOwnTab" );
+          
+    //REST OWNED UPDATE CONTAINER
+    container.innerHTML = "";   
+    $D.id( "techCount" ).innerHTML = `Tech Unlocked: ${ownedTech.length} / ${$PC.getTechTreeLength( )}`;
 
-        if( isNotLocked ) {
-            //CLONE THE TECH ICON AS ACHIEVEMENT ICON
-            let chevoDisplayClone = $D.id( "tempTechIcon" ).cloneNode( true );
-                chevoDisplayClone.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
-                chevoDisplayClone.style.display         = "block";
+    ownedTech.forEach( ( key ) => {
+        const techDetail = $PC.getTechById( key );
+        const clone      = $D.id( "tempTechIcon" ).cloneNode( true );
 
-            //ADD MOUSEOVER EVENT TO POP UP ACHIEVEMENT DETAILS
-            chevoDisplayClone.addEventListener( "mouseover", function( e ) {
-                //CLONE TEMP TECH DESCRIPTION BOX
-                let container     = $D.id( "statsScreen" );		//CONTAINER FOR TIP BOX
-                let chevoBoxClone = $D.id( "tempAchievement" ).cloneNode( true );
-                let panelWidth    = $D.id( "upgradeScreen" ).getBoundingClientRect( ).width;
+        //ASSIGN CLONES WITH NEW INFORMATION
+        clone.id               			= "tech" + key;
+        clone.style.backgroundImage     = "url('img/" + techDetail["sprite"] + "')";
+        clone.style.backgroundRepeat  	= "no-repeat";
+        clone.style.display    			= "block";
 
-                
-                let chevoBoxClose  = chevoBoxClone.children[0];                //Close Button
-                let chevoBoxTitle  = chevoBoxClone.children[2].children[0];    //Chevo Title
-                let chevoBoxIcon   = chevoBoxClone.children[1].children[0];    //Chevo Icon Link
-                let chevoBoxDesc   = chevoBoxClone.children[2].children[1];    //Chevo Description
+        //WHEN PLAYER MOVE MOUSE OVER AN TECH UPGRADE
+        //POP UP DISPLAY WILL TELL THE PLAYER WHAT THE TECH DOES.
+        clone.addEventListener( "mouseover", function( e ) {
+            let attachTo    = $D.id( "statsScreen" );
 
-                //PLACEMENT OF THE CHEVO BOX
-                chevoBoxClone.id                   = "chevoClone";
-                chevoBoxClone.style.position       = "absolute";
-                chevoBoxClone.style.display        = "block"; 
-                chevoBoxClone.style.left           = e.x - 400;  //panelWidth + 10;
-                chevoBoxClone.style.top            = e.y;  //e.clientY - 30;
+            //CLONE TEMP TECH DESCRIPTION BOX
+            let techBoxClone = $D.id( "tempTechDescBox" ).cloneNode( true );
+            let techDescBox  = techBoxClone.children[0];
+            let techTipBox   = techBoxClone.children[1];
 
-                //ATTRIBUTES AND DETAIL OF THE CHEVO BOX
-                chevoBoxClose.style.display        = "none";
-                chevoBoxTitle.innerHTML            = chevoData["title"];
-                chevoBoxIcon.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
-                chevoBoxDesc.innerHTML             = chevoData["desc"];
 
-                container.appendChild( chevoBoxClone );
-            });
+            //ASSIGN CLONES WITH NEW INFORMATION
+            techBoxClone.id                   = "clone";
+            techDescBox.children[0].innerHTML = techDetail["title"];
+            techDescBox.children[1].innerHTML = techDetail["effect"];
+            techTipBox.children[0].innerHTML  = techDetail["desc"];
 
-            chevoDisplayClone.addEventListener( "mouseout", function( e ) {
-                let clone = $D.id( "chevoClone" );
-                ( clone.parentNode ).removeChild( clone );
-            });
+            techTipBox.children[1].innerHTML  = "Cost: " + 
+                "<span class='purchaseable'>" + $ST.getDisplayNotation( techDetail["cost"] ) + "</span>" + " poo";
 
-            chevoEarnedBox.appendChild( chevoDisplayClone );
-        }
-    });
-}
 
-function updateAchievementNotification( ) {
-    let achievementPopUp = PooClickerData.checkAchievement( $ST.getAchievement( ) );
+            //ASSIGN CLONES WITH NEW POSITION
+            techBoxClone.style.display = "block";
+            techBoxClone.style.left    = e.x;
+            techBoxClone.style.top     = e.y;
 
-    //==========================================================
-    // UPDATE ACHIEVEMENT NOTIFICATION
-    //==========================================================
-    achievementPopUp.forEach( function( element ) {
-        let chevoContainer = $D.id( "chevoContainer" );
-        let chevoClone     = $D.id( "tempAchievement" ).cloneNode( true );
-        let chevoData      = PooClickerData.getAchievementById( element );
-
-        let chevoClose     = chevoClone.children[0];                //Close Button
-        let chevoTitle     = chevoClone.children[2].children[0];    //Chevo Title
-        let chevoIcon      = chevoClone.children[1].children[0];    //Chevo Icon Link
-        let chevoDesc      = chevoClone.children[2].children[1];    //Chevo Description
-
-        chevoTitle.innerHTML            = chevoData["title"];
-        chevoIcon.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
-        chevoDesc.innerHTML             = chevoData["desc"];
-        chevoClone.style.display        = "block";
-
-        //SETUP ONCLICK EVENT FOR THE X BUTTON
-        chevoClose.addEventListener( "click", function( e ) {
-            let container = $D.id( "chevoContainer" );
-            container.removeChild( this.parentNode );
+            //TOP MIGHT REQUIRE EXTRA ATTENTION BECAUSE THE ICON COULD BE SOMEWHERE REALLY LOW.
+            attachTo.appendChild( techBoxClone );
         });
 
-        //ATTACH IT TO THE ALLOCATED SPOT
-        chevoContainer.appendChild( chevoClone );
-    });
+        clone.addEventListener( "mouseout", function( ) {
+            let attachFrom   = $D.id( "statsScreen" );
+            let techBoxClone = $D.id( "clone" );
 
-    return achievementPopUp.length;
+            attachFrom.removeChild( techBoxClone );
+        });
+
+        container.appendChild( clone );
+    });
 }
 
 
@@ -554,10 +651,12 @@ function updateGameTime( s ) {
 //=================================================================
 // UPDATE GAME (IN FOCUS & OUT OF FOCUS)
 //=================================================================
-function updateBrowserTitle( ) {
+function updateBrowserTitle( userMsg = "", tm = `POOPER CLICKER &copy ${$ST.Copyright("dateTo")} | ${$ST.Copyright("version")}`) {
     const poo = $ST.getDisplayNotation( "totalPoo" );
+    const prefix = ( poo == 0 ) ? "" : `${poo} POOS | `;
     const title = $D.id( "browserTitle" );
-    title.innerHTML = `${poo == 0 ? "" : poo + " POOS | "}POOPER CLICKER &copy ${copyright.dateTo} | ${copyright.version}`;
+
+    title.innerHTML = prefix + userMsg + tm;
 }
 
 function updateWindowInFocus( frames ) {
@@ -570,5 +669,5 @@ function updateWindowInFocus( frames ) {
 
 function updateWindowOutofFocus( frames ) {
     const secondsElapsed = Math.floor( frames / FPS );
-    $D.id( "browserTitle" ).innerHTML = `Away ${secondsElapsed}s | POOPER CLICKER &copy ${copyright.dateTo} | ${copyright.version}`;
+    $D.id( "browserTitle" ).innerHTML = `Away ${secondsElapsed}s | POOPER CLICKER &copy ${$ST.Copyright("dateTo")} | ${$ST.Copyright("version")}`;
 }

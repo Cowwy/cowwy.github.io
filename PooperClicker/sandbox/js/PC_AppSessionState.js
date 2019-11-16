@@ -14,6 +14,16 @@ function AppSessionState( ) {
 //=======================================================
 // [x] Session State - Variables
 //=======================================================
+	const copyright = {
+		"gameName" : "Pooper Clicker",
+		"version"  : "DEMO",
+		"dateFrom" : 2019,
+		"dateTo"   : 2019,
+		"Author"   : "Cowwy"
+	};
+
+	function Copyright( prop ) { return copyright[ prop ]; }
+
 	//=======================================================
 	// Required Variables about SaveGame
 	//=======================================================
@@ -28,6 +38,8 @@ function AppSessionState( ) {
 	let _quantity   = { current : 1 };
 	let _curMsg     = -1;										//-1 Is the initial message set in HTML
 	
+	let _activeScreen = "";
+
 
 	//=======================================================
 	// [v1] Required Variables about Current Game Run State
@@ -165,7 +177,7 @@ function AppSessionState( ) {
 	function isUpgradeUnLock( name ) 			{ return _playerState["Upgrades"][name]["lock"]; }
 
 	function isUpgradePurchaseable( name ) {
-		let upgradeCost = PooClickerData.calcSumPrice( name, _playerState["Upgrades"][name]["level"], _quantity.current );
+		let upgradeCost = $PC.calcSumPrice( name, _playerState["Upgrades"][name]["level"], _quantity.current );
 		const totalPoo  = _playerState["Statistics"]["TotalPooCollect"];
 
 		_playerState["Upgrades"][name]["upgradeable"] = upgradeCost <= totalPoo ? true : false;
@@ -177,9 +189,9 @@ function AppSessionState( ) {
 		let retValue    = false;
 
 		// CHECK IF NEXT TIRE UPGRADE IS ELIGIBLE
-		PooClickerData.getAllUpgradeName( ).forEach( ( el ) => {
+		$PC.getAllUpgradeName( ).forEach( ( el ) => {
 			if( _playerState["Upgrades"][el]["lock"] != true 
-				&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * PooClickerData.getUpgradeBase(el) ) ) {
+				&& _playerState["Statistics"]["TotalPooCollect"] >= ( 0.9 * $PC.getUpgradeBase(el) ) ) {
 				_playerState["Upgrades"][el]["lock"] = true;
 				retValue = true;					
 			}
@@ -204,7 +216,11 @@ function AppSessionState( ) {
 	function getAchievementById( id )        { return _playerState["Achievement"][id]; }
 
 	function setAchievementById( id, value ) { _playerState["Achievement"][id] = value; }
-
+	function getAllUnlockedChevo( ) {
+		return Object.keys( _playerState["Achievement"] ).filter( ( index ) => {
+			return _playerState["Achievement"][index] == 1;
+		});
+	}
 
 	//=======================================
 	// CHANGING WORLD NAME
@@ -258,6 +274,12 @@ function AppSessionState( ) {
 		return retValue;
 	}
 	
+	function getAllOwnedTech( ) {
+		return Object.keys( _playerState["TechTree"] ).filter( (techID) => {
+			return _playerState["TechTree"][techID] === 1;
+		});
+	}
+
 	//remove this function when it is all done.
 	function getTechTree( )    { return _playerState["TechTree"]; }
 	function getTechById( id ) { return _playerState["TechTree"][ id ]; }
@@ -266,7 +288,7 @@ function AppSessionState( ) {
 	function setMultiplierByName( name, value ) { _playerState["Upgrades"][name]["multiplier"] = value; }
 
 	//CALCULATE ALL THE TECH BONUS
-	function calcTechPPSBonus( )                { PooClickerData.calcAllPPS( ); }
+	function calcTechPPSBonus( )                { $PC.calcAllPPS( ); }
 
 
 
@@ -328,11 +350,11 @@ function AppSessionState( ) {
 		//==============================================
 		// LOADING MESSAGE BOARD DATA
 		//==============================================
-		PooClickerData.getMessageBoardUpdate( );
+		$PC.getMessageBoardUpdate( );
 	}
 
 	function checkAchievementSlotData( slotData ) {
-		let totalChevoLength = PooClickerData.getAchievementLength( );
+		let totalChevoLength = $PC.getAchievementLength( );
 		let retObj           = {};
 
 		if( Object.keys( slotData ).length < totalChevoLength ) {
@@ -351,7 +373,7 @@ function AppSessionState( ) {
 	}
 
 	function checkTechSlotData( slotData ) {
-		let totalTechLength = PooClickerData.getTechTreeLength( );
+		let totalTechLength = $PC.getTechTreeLength( );
 		let retObj          = {};
 
 		//RECONSTRUCT TECH TREE DATA &
@@ -417,7 +439,7 @@ function AppSessionState( ) {
 	
 
 	function calcPPS( ) { 
-		_playerState["Statistics"]["PPS"] = PooClickerData.calcAllPPS( _playerState["Upgrades"] ); 
+		_playerState["Statistics"]["PPS"] = $PC.calcAllPPS( _playerState["Upgrades"] ); 
 	}
 
 	function getTotalUpgrade( ) {
@@ -458,6 +480,18 @@ function AppSessionState( ) {
 
 	function setBuyOrSellQuantity( num ) 	{ _quantity.current = num; }
 	function getBuyOrSellQuantity( ) 		{ return _quantity.current; }
+
+
+
+	//================================================
+	// [v1] GAME - WINDOW TOGGLE CONTROLS
+	//================================================
+	function toggleActiveScreen( id ) {
+		_activeScreen = _activeScreen == id  ? "" : id;
+	}
+
+	function getActiveScreen( ) { return _activeScreen; }
+
 
 
 	//================================================
@@ -512,6 +546,11 @@ function AppSessionState( ) {
 	// [x] API Return
 	//=======================================================
 	const AppSessionStateAPI = {
+		//========================
+		// Copyright Details
+		//========================
+		Copyright : Copyright,
+
 		//========================
 		// GAME - SAVE/LOAD/RESET
 		//========================
@@ -577,11 +616,15 @@ function AppSessionState( ) {
 		// GAME - TECH TREE CONTROL
 		//==========================
 		getTechTree         : getTechTree,
-		getAllLockedTech    : getAllLockedTech,
-		setTechPurchased    : setTechPurchased,
-		calcTechPPSBonus    : calcTechPPSBonus,
 		getTechById         : getTechById,
+		getAllLockedTech    : getAllLockedTech,
+		getAllOwnedTech     : getAllOwnedTech,
+
 		setMultiplierByName : setMultiplierByName,
+		setTechPurchased    : setTechPurchased,
+
+		calcTechPPSBonus    : calcTechPPSBonus,
+		
 
 		
 		//==========================
@@ -607,7 +650,10 @@ function AppSessionState( ) {
 		getAchievementById   : getAchievementById,
 		getAchievementLength : getAchievementLength,
 		setAchievementById   : setAchievementById,
+		getAllUnlockedChevo  : getAllUnlockedChevo,
 
+		toggleActiveScreen   : toggleActiveScreen,
+		getActiveScreen      : getActiveScreen,
 
 		//========================
 		// GAME - DEBUGGING
