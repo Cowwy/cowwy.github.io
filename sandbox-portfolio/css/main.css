@@ -231,7 +231,7 @@ body, html {
 	}
 
 
-	/* TABLET */
+	/* TABLET OR HIGH PPI MOBILE */
 	@media screen and (min-width:720px) and (max-width:1023px) {
 		nav#mobile { display:block; }
 
@@ -252,7 +252,6 @@ body, html {
 		h3 { font-size:2.8rem; }
 
 		p {
-			font-size:2.1vh;
 			line-height:1.5em;
 		}
 
@@ -266,6 +265,13 @@ body, html {
 		}
 	}
 
+	@media screen and (min-width:720px) and (max-width:1023px) and (orientation:landscape) {
+		p { font-size:2.1vw; }
+	}
+
+	@media screen and (min-width:720px) and (max-width:1023px) and (orientation:portrait ) {
+		p { font-size:2.1vh;}
+	}
 
 	/* DESKTOP */
 	@media screen and (min-width:1024px) {
