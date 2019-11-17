@@ -15,43 +15,13 @@
 		<script type="text/javascript" src="js/main.js"></script>
 
 		<script>
-function findApsectRatio( width, height ) {
-	let denominator = 1;
-	let lowest      = false;
-
-	let _width  = width;
-	let _height = height;
-
-	//common denominator 2-9.  If there is none.  That means it is the loweest.
-	for( let i = 9; i >= 2 && !lowest; i-- ) {
-		const w = _width  % i;
-		const h = _height % i;
-
-		if( w === 0 && h === 0 ) {
-			denominator *= i;
-			_width  /= i;
-			_height /= i;
-			i = 9;
-		}
-
-		if( i == 2 && ( w > 0 || h > 0 ) ) {
-			lowest = true;
-		}
-
-		
-	}
-
-	return { d: denominator, ratioW : _width, ratioH : _height };
-}
-
-console.log( findApsectRatio( screen.availWidth, screen.availHeight ) );
 		</script>
 	</head>
 
 	<body>
 		<div class="container absCenter">
 			<nav id="desktop">
-				<div><a href="#aboutMe">ABOUT ME</a></div>
+				<div><a href="#aboutMe">ABOUT ME 2</a></div>
 				<div><a href="#project">PROJECTS</a></div>
 			</nav>
 
