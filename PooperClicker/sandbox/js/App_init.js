@@ -188,6 +188,7 @@ function initSettingControl( ) {
             $D.id("ppsDisplay").innerHTML = "per second: 0";  //RESET POO PER SECONDS
             $D.id("totalPooDisplay").innerHTML = "0 POOPS";   //RESET POO COUNT
             $D.id("nameInput").value = "Poopy World";         //RESET WORLD NAME
+            $D.id("upgradeStatistics").innerHTML = "";
         }
         
         //=================================================================
@@ -265,7 +266,7 @@ function initGameControls( ) {
     //  MAIN SCREEN -> GIANT POO
     // =========================================
     function poo_onClick( e ) {
-        let manualPooGenerated = hackMode ? hackClickAmt : calcPooPerClick( );
+        let manualPooGenerated = hackMode ? hackClickAmt : $ST.calcPooPerClick( );
 
         //Pop up number after clicking
         //disappears after 1 seconds
@@ -300,11 +301,6 @@ function initGameControls( ) {
 
             let tempTimer = new PooNumber( tempDiv );
             tempTimer.start( );
-        }
-
-        function calcPooPerClick( ) {
-            const multiplier = $ST.getMultiplierByName( "Hand" ) === 0 ? 1 : $ST.getMultiplierByName( "Hand" );
-            return ( 1 + $ST.getUpgradeLevel( "Hand" ) ) * multiplier;
         }
     }
 }

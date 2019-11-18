@@ -163,9 +163,6 @@ function enterGame( ) {
 				sessionCurFreq = 0;
 			}
 
-			
-
-
 			chevoCurrentFreq++;		//CONTROL HOW FREQUENT ACHIEVEMENT UPDATE GETS CHECKED
 			msgCurrentFreq++;
 			sessionCurFreq++;	

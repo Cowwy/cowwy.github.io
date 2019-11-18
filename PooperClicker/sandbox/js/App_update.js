@@ -71,26 +71,104 @@ function updateStatistisScreen( ) {
     const totalPooText  = $ST.getDisplayNotation( "totalPoo" );
     const pooSinceStart = $ST.getDisplayNotation( "pooSinceStart" );
 
-    const currentTime 	     = $D.id( "currentTime" );			//STATISTICS TAB
-	const totalPooCol 	     = $D.id( "totalPooCollected" );	//STATISTICS TAB
-	const totalClicks 	     = $D.id( "totalClicksMade" );		//STATISTICS TAB
-	const totalPooSinceStart = $D.id( "totalPooSinceStart" );	//STATISTICS TAB
-	const totalUpgrades      = $D.id( "totalUpgrades" );		//STATISTICS TAB
+    const currentTime 	       = $D.id( "currentTime" );		    //STATISTICS TAB
+	const totalPooCol 	       = $D.id( "totalPooCollected" );	    //STATISTICS TAB
+	const totalClicks 	       = $D.id( "totalClicksMade" );	    //STATISTICS TAB
+	const totalPooSinceStart   = $D.id( "totalPooSinceStart" );	    //STATISTICS TAB
+	const totalUpgrades        = $D.id( "totalUpgrades" );		    //STATISTICS TAB
+    const totalUpgradeUnlocked = $D.id( "totalUpgradeUnlocked" );	//STATISTICS TAB
+    const currentPPS           = $D.id( "currentPPS" );
+    const ppsMultiplier        = $D.id( "ppsMultiplier" );
 
-    const s                = reduceTime( $ST.getCurSessionTime( ) );
+    const s = reduceTime( $ST.getCurSessionTime( ) );
 
-    //TIMER
-    currentTime.innerHTML  = formatStatisticalGameTime( s );
-
-    //PLAYER'S ACTION SCORE
+    //OVERALL STATS
+    currentTime.innerHTML        = formatStatisticalGameTime( s );
     totalClicks.innerHTML        = $ST.getTotalClicks( );
-
-    //UPGRADE SCORES
     totalUpgrades.innerHTML      = $ST.getTotalUpgrade( );
-
-    //PLAYER'S POO SCORES
     totalPooCollected.innerHTML  = totalPooText;
     totalPooSinceStart.innerHTML = pooSinceStart;
+    currentPPS.innerHTML         = ( $ST.getPPS( ) ).toFixed( 2 );
+    ppsMultiplier.innerHTML      = `+${$ST.getAllUnlockedChevo( ).length}%`;
+    
+    //UPGRADE STATISTICS
+    totalUpgradeUnlocked.innerHTML = `${$ST.getAllOwnedTech( ).length} / ${$PC.getTechTreeLength( )}`;
+
+
+    //================================
+    // DYNAMIC - UPGRADE STATISTICS
+    //================================
+    //FIND OUT WHICH UPGRADE IS UNLOCKED AND ONLY PROCESS THOSE UPGRADES
+    Object.keys( $ST.getUpgradeList( ) ).forEach( (key) => {
+        if( $ST.isUpgradeUnLock( key ) ) {
+            const keyMultiplier = $D.id( key + "Multiplier" ) == undefined ? undefined : $D.id( key + "Multiplier" );
+            const keyPower      = $D.id( key + "Power" );
+            const keyLabel      = $D.id( key + "Label" );
+
+            if( keyMultiplier == undefined ) {
+                createKeyMultiplierDOM( key );
+                createKeyPowerDOM( key );
+            }
+
+            //update routinely
+            else {
+                keyMultiplier.innerHTML = `${ ($ST.getUpgradeByName( key )["multiplier"]).toFixed(2) }`;
+
+                if( key === "Hand" ) { keyPower.innerHTML = `${$ST.calcPooPerClick( )}`; }
+
+                else {
+                    keyLabel.textContent = `${key} PPS @ Level ${$ST.getUpgradeLevel(key)}:`
+                    keyPower.innerHTML   = `${ ( $ST.calcPPSByName( key ) ).toFixed(2) }`;
+                }
+            }
+        }
+    });
+
+    function createKeyMultiplierDOM( key ) {
+        const container     = $D.id( "upgradeStatistics" );
+        const cloneStats    = $D.clone( "tempUpgradeStatsRow", true );
+        const txtMultiplier = document.createTextNode( `${key} Multiplier:` );
+
+        const labelNode = cloneStats.children[0];
+        const imgNode   = cloneStats.children[0].children[0];
+        const keyNode   = cloneStats.children[1].children[0];
+
+        cloneStats.removeAttribute( "id" );
+        imgNode.setAttribute( "src", `./img/${$PC.getUpgradeShop(key)}`)
+        labelNode.appendChild( txtMultiplier );    //added the text
+
+        keyNode.setAttribute( "id", `${key}Multiplier`);
+        keyNode.innerHTML = `${ ($ST.getUpgradeByName( key )["multiplier"]).toFixed(2) }`;
+
+        container.appendChild( cloneStats );
+    }
+
+    function createKeyPowerDOM( key ) {
+        const container     = $D.id( "upgradeStatistics" );
+        const cloneStats    = $D.clone( "tempUpgradeStatsRow", true );
+        const txtMultiplier = key === "Hand" ? document.createTextNode( "Hand Clicking Power:" ) 
+                                             : document.createTextNode( `${key} PPS @ Level ${$ST.getUpgradeLevel(key)}:` );
+
+        const labelNode = cloneStats.children[0];
+        const imgNode   = cloneStats.children[0].children[0];
+        const keyNode   = cloneStats.children[1].children[0];
+
+        cloneStats.removeAttribute( "id" );
+        labelNode.removeChild( imgNode );
+
+        labelNode.setAttribute( "id", `${key}Label` );
+        labelNode.appendChild( txtMultiplier );    //added the text
+        keyNode.setAttribute( "id", `${key}Power`);
+
+        if( key === "Hand" ) {
+            keyNode.innerHTML = `${$ST.calcPooPerClick( )}`;
+        } else {
+            keyNode.innerHTML = `${ ( $ST.calcPPSByName( key ) ).toFixed(2) }`;
+        }
+
+        container.appendChild( cloneStats );
+        container.appendChild( document.createElement( "br" ) );
+    }
 }
 
 //=================================================================
@@ -138,8 +216,8 @@ function updateAchievementScreen( ) {
                 chevoBoxClone.id                   = "chevoClone";
                 chevoBoxClone.style.position       = "absolute";
                 chevoBoxClone.style.display        = "block"; 
-                chevoBoxClone.style.left           = e.x - 400;  //panelWidth + 10;
-                chevoBoxClone.style.top            = e.y;  //e.clientY - 30;
+                chevoBoxClone.style.left           = ( e.x - 400 ) + "px";  //panelWidth + 10;
+                chevoBoxClone.style.top            = e.y + "px";  //e.clientY - 30;
 
                 //ATTRIBUTES AND DETAIL OF THE CHEVO BOX
                 chevoBoxClose.style.display        = "none";
@@ -537,8 +615,8 @@ function updateTechTree( ) {
 
             //ASSIGN CLONES WITH NEW POSITION
                 techBoxClone.style.display = "block";
-                techBoxClone.style.left    = bodyWidth - panelWidth - cmdPanelWid - 360;
-                techBoxClone.style.top     = e.y - 45;
+                techBoxClone.style.left    = ( bodyWidth - panelWidth - cmdPanelWid - 360 ) + "px";
+                techBoxClone.style.top     = ( e.y - 45 ) + "px";
 
                 //TOP MIGHT REQUIRE EXTRA ATTENTION BECAUSE THE ICON COULD BE SOMEWHERE REALLY LOW.
             attachTo.appendChild( techBoxClone );
@@ -557,8 +635,6 @@ function updateTechTree( ) {
 }
 
 function updateOwnedTechScreen( callFrom ) {
-    console.log( "call From: " + callFrom );
-
     //GET ALL THE OWNED TECH FROM $ST
     //GET ID = upgradeOwnTab
     //CLONE THE ICONS -> REPLACE INFORMATION -> ATTACH TO CONTAINER
@@ -567,7 +643,7 @@ function updateOwnedTechScreen( callFrom ) {
           
     //REST OWNED UPDATE CONTAINER
     container.innerHTML = "";   
-    $D.id( "techCount" ).innerHTML = `Tech Unlocked: ${ownedTech.length} / ${$PC.getTechTreeLength( )}`;
+    // $D.id( "techCount" ).innerHTML = `Tech Unlocked: ${ownedTech.length} / ${$PC.getTechTreeLength( )}`;
 
     ownedTech.forEach( ( key ) => {
         const techDetail = $PC.getTechById( key );
@@ -602,8 +678,8 @@ function updateOwnedTechScreen( callFrom ) {
 
             //ASSIGN CLONES WITH NEW POSITION
             techBoxClone.style.display = "block";
-            techBoxClone.style.left    = e.x;
-            techBoxClone.style.top     = e.y;
+            techBoxClone.style.left    = e.x + "px";
+            techBoxClone.style.top     = e.y + "px";
 
             //TOP MIGHT REQUIRE EXTRA ATTENTION BECAUSE THE ICON COULD BE SOMEWHERE REALLY LOW.
             attachTo.appendChild( techBoxClone );

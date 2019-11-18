@@ -21,11 +21,11 @@ function GameData( ) {
 	// Refund - Percentage of poo return if an upgrade were to be sold.
 	//=======================================================================
 	const upgrade = {
-		"Hand"         : { "name" : "Hand",        "factor" : 0.25, "base" :     15,   "PPS" :   0.00,  "refund" : 0.80 },
-		"Shovel"       : { "name" : "Shovel",      "factor" : 0.20, "base" :    100,   "PPS" :   0.10,	"refund" : 0.20 },
-		"Baby"         : { "name" : "Baby",        "factor" : 0.20, "base" :   1200,   "PPS" :   1.00,	"refund" : 0.20 },
-		"Animal Farm"  : { "name" : "Animal Farm", "factor" : 0.20, "base" :  17000,   "PPS" :   3.00,	"refund" : 0.20 },
-		"Toilet"       : { "name" : "Toilet",      "factor" : 0.20, "base" :  65000,   "PPS" :  14.00,	"refund" : 0.20 }
+		"Hand"         : { "name" : "Hand",        "factor" : 0.25, "base" :     15,   "PPS" :   0.00,  "refund" : 0.80,	"shop" : "handOpen32x32.png"   },
+		"Shovel"       : { "name" : "Shovel",      "factor" : 0.20, "base" :    100,   "PPS" :   0.10,	"refund" : 0.20,	"shop" : "shovel32x32.png"     },
+		"Baby"         : { "name" : "Baby",        "factor" : 0.20, "base" :   1200,   "PPS" :   1.00,	"refund" : 0.20,	"shop" : "baby32x32.png"       },
+		"Animal Farm"  : { "name" : "Animal Farm", "factor" : 0.20, "base" :  17000,   "PPS" :   3.00,	"refund" : 0.20,	"shop" : "moomoofarm32x32.png" },
+		"Toilet"       : { "name" : "Toilet",      "factor" : 0.20, "base" :  65000,   "PPS" :  14.00,	"refund" : 0.20,	"shop" : "toilet32x32.png"     }
 	};
 	Object.freeze( upgrade );
 
@@ -37,6 +37,7 @@ function GameData( ) {
 		function getUpgradeBase( name )   { return upgrade[name]["base"]; }		//RETRIEVE AN UPGRADE'S BASE COST ONLY
 		function getUpgradePPS( name )    { return upgrade[name]["PPS"]; }		//RETRIEVE AN UPGRADE'S PPS ONLY
 		function getUpgradeRefund( name ) { return upgrade[name]["refund"]; }	//RETRIEVE AN UPGRADE'S REFUND PERCENTAGE ONLY
+		function getUpgradeShop( name )   { return upgrade[name]["shop"]; }
 		function getAllUpgradeName( )     { return Object.keys( upgrade );	}
 
 
@@ -88,7 +89,7 @@ function GameData( ) {
 		function calcAllPPS( ) {
 			//CALCULATE ALL TECH MULTIPLIER AGAIN
 			calcTechMultiplier( );
-			return calcAllMultiplier( );
+			return $ST.calcAllTotalPPS( );
 
 			function calcTechMultiplier( ) {
 				let result = {};
@@ -115,21 +116,6 @@ function GameData( ) {
 				Object.keys( result ).forEach( (key) => {
 					$ST.setMultiplierByName( key, result[key].m * ( Math.pow( 2, result[key].a ) ) );
 				});
-			}
-
-			function calcAllMultiplier( ) {
-				let totalPPS = 0.0;
-				let chevoBonus = 1 + ( $ST.getAllUnlockedChevo( ).length / 100 );
-
-				//CALCULATE ALL THE PPS FROM EACH UPGRADE
-				Object.keys( upgrade ).forEach( (key) => {
-					const { PPS } = upgrade[key];
-					const { level, multiplier } = $ST.getUpgradeByName( key );
-
-					totalPPS += ( ( level * PPS ) * multiplier ) * chevoBonus;
-				});
-
-				return totalPPS;
 			}
 		}
 
@@ -614,7 +600,8 @@ function GameData( ) {
 		getUpgradePPS    			: getUpgradePPS,
 		getUpgradeRefund 			: getUpgradeRefund,
 		getAllUpgradeName  			: getAllUpgradeName,
-
+		getUpgradeShop              : getUpgradeShop,
+		
 		selectAllUpgradeByProperty 	: selectAllUpgradeByProperty,
 
 		calcPrice      				: calcPrice,

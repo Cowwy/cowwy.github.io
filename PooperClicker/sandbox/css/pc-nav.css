@@ -31,7 +31,11 @@ div.navBar {
 	background-color:rgba(20,20,20,1);
 }
 
-div.navBar ul { list-style-type:none; }
+div.navBar ul { 
+	min-width:1000px;
+	list-style-type:none; 
+}
+
 div.navBar ul li { 
 	float:left; 
 	margin-right:10px;

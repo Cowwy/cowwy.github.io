@@ -170,6 +170,29 @@ function AppSessionState( ) {
 	function getUpgradeByName( name )           { return _playerState["Upgrades"][name]; }
 	function getUpgradeLevel( name )            { return _playerState["Upgrades"][name]["level"]; }
 	function getMultiplierByName( name )        { return _playerState["Upgrades"][name]["multiplier"]; }
+	function calcAllTotalPPS( ) {
+		let totalPPS = 0.0;
+
+		//CALCULATE ALL THE PPS FROM EACH UPGRADE
+		$PC.getAllUpgradeName( ).forEach( (key) => {
+			totalPPS += calcPPSByName( key )
+		});
+
+		return totalPPS;
+	}
+
+	function calcPooPerClick( ) {
+		const multiplier = getMultiplierByName( "Hand" ) === 0 ? 1 : getMultiplierByName( "Hand" );
+		return ( 1 +getUpgradeLevel( "Hand" ) ) * multiplier;
+	}
+
+	function calcPPSByName( name ) {
+		const chevoBonus = 1 + ( $ST.getAllUnlockedChevo( ).length / 100 );
+		const { level, multiplier } = getUpgradeByName( name );
+		const { PPS }               = $PC.getUpgradeByName( name );
+
+		return ( ( level * PPS ) * multiplier ) * chevoBonus;
+	}
 
 	function upgradeLevelUp( name, quantity )   { _playerState["Upgrades"][name]["level"] += quantity; }
 	function upgradeLevelDown( name, quantity ) { _playerState["Upgrades"][name]["level"] -= quantity; }
@@ -551,6 +574,7 @@ function AppSessionState( ) {
 		//========================
 		Copyright : Copyright,
 
+
 		//========================
 		// GAME - SAVE/LOAD/RESET
 		//========================
@@ -594,6 +618,10 @@ function AppSessionState( ) {
 		getUpgradeLevel       : getUpgradeLevel,
 		getMultiplierByName   : getMultiplierByName,
 
+		calcPooPerClick       : calcPooPerClick,
+		calcAllTotalPPS       : calcAllTotalPPS,
+		calcPPSByName         : calcPPSByName,
+
 		upgradeLevelUp  	  : upgradeLevelUp,
 		upgradeLevelDown      : upgradeLevelDown,
 
@@ -625,7 +653,6 @@ function AppSessionState( ) {
 
 		calcTechPPSBonus    : calcTechPPSBonus,
 		
-
 		
 		//==========================
 		// GAME - RANDOM MESSAGE

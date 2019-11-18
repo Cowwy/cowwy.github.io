@@ -1,4 +1,4 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title id="browserTitle"></title>
@@ -40,6 +40,7 @@
 			<ul>
 				<li id="navTitle">POOPER CLICKER &copy; 2019 | DEMO</li>
 				<li id="devNoteToggle">- Development Note -</li>
+				<li id="devNoteToggle">- Help Wanted -</li>
 			</ul>
 
 			<!-- <div class="version">
@@ -239,53 +240,92 @@
 					<!-- STATS SCREEN -->
 					<div id="statsScreen" class="statsScreen">
 						<div id="statsClsBtn" class="cls">x</div>
-
 						<div class="pc-stats-gridLayout">
 							<div>
-								<h2>Overall Stats</h2>
-
 								<!-- updateStatistics( ) in ED_Stage.js -->
 								<div id="statisticTab">
+									<h2>Overall Stats</h2>
 									<div class="row">
 										<div class="label">Game Started:</div>
-										<div id="currentTime">...</div>
+										
+										<div class="statsFormat">
+											<div id="currentTime">...</div>
+										</div>
 									</div>
 
 									<div class="row">
 										<div class="label">Poop in Bank:</div>
-										<div id="totalPooCollected">0</div>
-									</div>
-
-									<div class="row">
-										<div class="label">Total Clicked:</div>
-										<div id="totalClicksMade">0</div>
+										<div class="statsFormat">
+											<div id="totalPooCollected">0</div>
+											<img src="./img/poo2.png" />
+										</div>
 									</div>
 
 									<div class="row">
 										<div class="label">Total Poo Since Started:</div>
-										<div id="totalPooSinceStart">0</div>
+										<div class="statsFormat">
+											<div id="totalPooSinceStart">0</div>
+											<img src="./img/poo2.png" />
+										</div>
 									</div>
+
+									<div class="row">
+										<div class="label">PPS (Poo Per Second):</div>
+										<div class="statsFormat">
+											<div id="currentPPS">0</div>
+											<img src="./img/poo2.png" />
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="label">Total Clicked:</div>
+										<div class="statsFormat">
+											<div id="totalClicksMade">0</div>
+										</div>
+									</div>									
 									
 									<div class="row">
 										<div class="label">Total Poo Store Purchased:</div>
-										<div id="totalUpgrades">0</div>
+										<div class="statsFormat">
+											<div id="totalUpgrades">0</div>
+										</div>
 									</div>
+
+									<div class="row">
+										<div class="label">Global PPS Multiplier:</div>
+										<div class="statsFormat">
+											<div id="ppsMultiplier">0</div>
+										</div>
+									</div>	
 								</div>
 							</div>
 
 							<div>
-								<h2>Owned Upgrades</h2>
-								<p id="techCount"></p>
-								<div id="upgradeOwnTab"></div>
-							</div>
+								<div id="allUpgradeTab">
+									<h2>Upgrade Statistics</h2>
 
+									<div id="upgradeStatistics">
+									</div>
+
+									<h2>Owned Upgrades</h2>
+									<div class="row">
+										<div class="label">Total Tech Unlocked:</div>
+										<div class="statsFormat">
+											<div id="totalUpgradeUnlocked">0</div>
+										</div>
+									</div>
+
+									<div id="upgradeOwnTab"></div>
+								</div>
+							</div>
+						
 							<div>
 								<h2>Achievements</h2>
 								<p id="chevoCount"></p>
 								<p id="chevoNote"></p>
 								<div id="achievementTab"></div>
 							</div>
-						</div>							
+						</div>	
 					</div>
 
 
@@ -369,6 +409,17 @@
 		<div id="tempSaveSlot" class="dataGrid">
 			<div><div class="setting-saveBtn gData"></div></div>
 			<div><div class="setting-saveBtn gData deleteSaveData">x</div></div>
+		</div>
+
+
+		<div id="tempUpgradeStatsRow" class="row">
+			<div class="label">
+				<img class="smallIcon" src="./img/handOpen32x32.png"/>
+			</div>
+
+			<div class="statsFormat">
+				<div id="handMultiplier"></div>
+			</div>
 		</div>
 	</body>
 </html>

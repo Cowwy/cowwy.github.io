@@ -667,7 +667,7 @@ div.pc-gridLayout {
 								margin-bottom:10px;
 							}
 
-							div#statisticTab {
+							div#statisticTab, div#allUpgradeTab {
 								text-align:left;
 							}
 
@@ -685,6 +685,7 @@ div.pc-gridLayout {
 
 							div.pc-stats-gridLayout > div {
 								padding:0px 20px;
+								overflow-y:auto;
 							}
 							
 							div#statisticTab {
@@ -692,20 +693,27 @@ div.pc-gridLayout {
 								margin:auto;
 							}
 							
-							div#statisticTab div { font-size:11pt; }
+							div#statisticTab div,
+							div#allUpgradeTab div { font-size:11pt; }
 							
-							div#statisticTab div.row {
-								width:100%;
-								margin-bottom:10px;
-							}
-							
-							div.label {
-								float:left; 
-								margin-right:20px;
-							}
-							
-							div.row div:nth-child(2) { text-align:right; }
+							div.row {
+								display:grid;
+								grid-template-columns:75% 25%;
 
+								width:100%;
+								margin-bottom:1vh;
+								padding:0px 1vw;
+							}
+							
+							div.row:first-child { float:left; }
+							
+							.statsFormat > * { float:right; }
+							.statsFormat > img { 
+								height:20px;
+								margin-right:10px; 
+							}
+							
+							.smallIcon { height:20px; top:3px; }
 
 							/* ======================================== */
 							/*  PANEL SCREEN - SETTINGS                 */
