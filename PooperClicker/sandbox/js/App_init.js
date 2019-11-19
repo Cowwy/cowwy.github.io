@@ -188,7 +188,8 @@ function initSettingControl( ) {
             $D.id("ppsDisplay").innerHTML = "per second: 0";  //RESET POO PER SECONDS
             $D.id("totalPooDisplay").innerHTML = "0 POOPS";   //RESET POO COUNT
             $D.id("nameInput").value = "Poopy World";         //RESET WORLD NAME
-            $D.id("upgradeStatistics").innerHTML = "";
+            
+            $D.id( "upgradeChart" ).innerHTML = "";
         }
         
         //=================================================================
@@ -271,7 +272,8 @@ function initGameControls( ) {
         //Pop up number after clicking
         //disappears after 1 seconds
         createPooNumber( );
-    
+        $PC.playPooClickSFX( );
+
         if( hackMode ) {
             $ST.addPoo( hackClickAmt );
             $ST.addPooSinceStart( hackClickAmt );
@@ -299,8 +301,8 @@ function initGameControls( ) {
             tempDiv.appendChild( txtNode );
             pooArea.appendChild( tempDiv );
 
-            let tempTimer = new PooNumber( tempDiv );
-            tempTimer.start( );
+            const selfDestruct = new PooTimer( tempDiv, 3000, 15, "poo" );
+            selfDestruct.start( );
         }
     }
 }
@@ -327,17 +329,14 @@ function devNoteControlSetup( ) {
         devNote.style.display = "none";
     }); 
 
-    // $D.id("version").addEventListener( "change", function( e ) {
-    //     const version = {
-    //         "DEMO" : "http://cowwy.github.io/PooperClicker",
-    //         "Version 1.0" : "http://cowwy.github.io/PooperClicker"
-    //     };
+    dNote.getDNotes.forEach( (entry) => {
+        $D.id( "devNoteEntry" ).innerHTML += entry;
+    });
+    
+}
 
-    //     console.log( version );
+function addDevNotes( ) {
 
-    //     // window.location.href = "http://stackoverflow.com";
-    //     console.log( e.target.value );
-    // });
 }
 
 function headerSetup( ) {

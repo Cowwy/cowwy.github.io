@@ -64,7 +64,7 @@ function updateMainStats( ) {
 
     //SCORE DISPLAY
     pooDisplay.innerHTML = totalPooText + " POOPS";
-    ppsDisplay.innerHTML = `per second: ${ ( $ST.getPPS( ) ).toFixed(2) }`;
+    ppsDisplay.innerHTML = `per second: ${ ( $ST.calcAllTotalPPS( ) ).toFixed(2) }`;
 }
 
 function updateStatistisScreen( ) {
@@ -79,6 +79,7 @@ function updateStatistisScreen( ) {
     const totalUpgradeUnlocked = $D.id( "totalUpgradeUnlocked" );	//STATISTICS TAB
     const currentPPS           = $D.id( "currentPPS" );
     const ppsMultiplier        = $D.id( "ppsMultiplier" );
+    const handStats            = $D.id( "handStats" );
 
     const s = reduceTime( $ST.getCurSessionTime( ) );
 
@@ -94,80 +95,58 @@ function updateStatistisScreen( ) {
     //UPGRADE STATISTICS
     totalUpgradeUnlocked.innerHTML = `${$ST.getAllOwnedTech( ).length} / ${$PC.getTechTreeLength( )}`;
 
+    handStats.children[1].innerHTML = $ST.getUpgradeLevel( "Hand" );                //level
+    handStats.children[2].innerHTML = $ST.getMultiplierByName( "Hand" ).toFixed(2); //multiplier
+    handStats.children[3].innerHTML = $ST.calcPooPerClick( );                       //Clicking power
+
 
     //================================
     // DYNAMIC - UPGRADE STATISTICS
     //================================
     //FIND OUT WHICH UPGRADE IS UNLOCKED AND ONLY PROCESS THOSE UPGRADES
     Object.keys( $ST.getUpgradeList( ) ).forEach( (key) => {
-        if( $ST.isUpgradeUnLock( key ) ) {
-            const keyMultiplier = $D.id( key + "Multiplier" ) == undefined ? undefined : $D.id( key + "Multiplier" );
-            const keyPower      = $D.id( key + "Power" );
-            const keyLabel      = $D.id( key + "Label" );
+        if( $ST.isUpgradeUnLock( key ) && key != "Hand" ) {
 
-            if( keyMultiplier == undefined ) {
-                createKeyMultiplierDOM( key );
-                createKeyPowerDOM( key );
-            }
+            const curRow = $D.id( key + "Row" ) == undefined ? undefined : $D.id( key + "Row" );
 
-            //update routinely
+            //RESET UPGRADE CHART
+            if( $D.id( "upgradeHeader" ) == undefined ) {
+                resetUpgradeChartHeader( );
+            }            
+            
+            if( curRow == undefined ) {
+                const container = $D.id( "upgradeChart" );
+                const clone     = $D.clone( "tempUpgradeChartRow", true );
+
+                //CLONE THE REST OF THE UPGRADES
+                clone.setAttribute( "id", `${key}Row` );
+                clone.children[0].children[0].setAttribute( "src", `./img/${$PC.getUpgradeShop(key)}` );
+                clone.children[1].innerHTML = $ST.getUpgradeLevel(key);
+                clone.children[2].innerHTML = $ST.getMultiplierByName(key).toFixed(2);
+                clone.children[3].innerHTML = $ST.calcPPSByName( key ).toFixed(2);
+
+                container.appendChild( clone );
+            } 
+            
             else {
-                keyMultiplier.innerHTML = `${ ($ST.getUpgradeByName( key )["multiplier"]).toFixed(2) }`;
-
-                if( key === "Hand" ) { keyPower.innerHTML = `${$ST.calcPooPerClick( )}`; }
-
-                else {
-                    keyLabel.textContent = `${key} PPS @ Level ${$ST.getUpgradeLevel(key)}:`
-                    keyPower.innerHTML   = `${ ( $ST.calcPPSByName( key ) ).toFixed(2) }`;
-                }
+                curRow.children[1].innerHTML = $ST.getUpgradeLevel(key);
+                curRow.children[2].innerHTML = $ST.getMultiplierByName(key).toFixed(2);
+                curRow.children[3].innerHTML = $ST.calcPPSByName( key ).toFixed(2);
             }
         }
     });
 
-    function createKeyMultiplierDOM( key ) {
-        const container     = $D.id( "upgradeStatistics" );
-        const cloneStats    = $D.clone( "tempUpgradeStatsRow", true );
-        const txtMultiplier = document.createTextNode( `${key} Multiplier:` );
+    function resetUpgradeChartHeader( ) {
+        const container = $D.id( "upgradeChart" );
+        const clone = $D.clone( "tempUpgradeChartRow", true );
+        
+        clone.setAttribute( "id", "upgradeHeader" );
+        clone.className += " chartHeader";
+        clone.children[1].innerHTML = "Lv";
+        clone.children[2].innerHTML = "Multiplier";
+        clone.children[3].innerHTML = "PPS";
 
-        const labelNode = cloneStats.children[0];
-        const imgNode   = cloneStats.children[0].children[0];
-        const keyNode   = cloneStats.children[1].children[0];
-
-        cloneStats.removeAttribute( "id" );
-        imgNode.setAttribute( "src", `./img/${$PC.getUpgradeShop(key)}`)
-        labelNode.appendChild( txtMultiplier );    //added the text
-
-        keyNode.setAttribute( "id", `${key}Multiplier`);
-        keyNode.innerHTML = `${ ($ST.getUpgradeByName( key )["multiplier"]).toFixed(2) }`;
-
-        container.appendChild( cloneStats );
-    }
-
-    function createKeyPowerDOM( key ) {
-        const container     = $D.id( "upgradeStatistics" );
-        const cloneStats    = $D.clone( "tempUpgradeStatsRow", true );
-        const txtMultiplier = key === "Hand" ? document.createTextNode( "Hand Clicking Power:" ) 
-                                             : document.createTextNode( `${key} PPS @ Level ${$ST.getUpgradeLevel(key)}:` );
-
-        const labelNode = cloneStats.children[0];
-        const imgNode   = cloneStats.children[0].children[0];
-        const keyNode   = cloneStats.children[1].children[0];
-
-        cloneStats.removeAttribute( "id" );
-        labelNode.removeChild( imgNode );
-
-        labelNode.setAttribute( "id", `${key}Label` );
-        labelNode.appendChild( txtMultiplier );    //added the text
-        keyNode.setAttribute( "id", `${key}Power`);
-
-        if( key === "Hand" ) {
-            keyNode.innerHTML = `${$ST.calcPooPerClick( )}`;
-        } else {
-            keyNode.innerHTML = `${ ( $ST.calcPPSByName( key ) ).toFixed(2) }`;
-        }
-
-        container.appendChild( cloneStats );
-        container.appendChild( document.createElement( "br" ) );
+        container.appendChild( clone );
     }
 }
 
@@ -268,12 +247,16 @@ function updateAchievementNotification( ) {
         chevoIcon.style.backgroundImage = "url('img/" + chevoData["sprite"] + "')";
         chevoDesc.innerHTML             = chevoData["desc"];
         chevoClone.style.display        = "block";
+        chevoClone.style.opacity        = 1.0;
 
         //SETUP ONCLICK EVENT FOR THE X BUTTON
         chevoClose.addEventListener( "click", function( e ) {
             let container = $D.id( "chevoContainer" );
             container.removeChild( this.parentNode );
         });
+
+        const selfDestruct = new PooTimer( chevoClone, 18000, 35, "chevo", 10000 );
+		selfDestruct.start( );
 
         //ATTACH IT TO THE ALLOCATED SPOT
         chevoContainer.appendChild( chevoClone );

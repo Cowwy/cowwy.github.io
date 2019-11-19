@@ -698,7 +698,7 @@ div.pc-gridLayout {
 							
 							div.row {
 								display:grid;
-								grid-template-columns:75% 25%;
+								grid-template-columns:55% 45%;
 
 								width:100%;
 								margin-bottom:1vh;
@@ -707,13 +707,32 @@ div.pc-gridLayout {
 							
 							div.row:first-child { float:left; }
 							
+							#upgradeOwnTab {
+								clear :both;
+							}
+
 							.statsFormat > * { float:right; }
 							.statsFormat > img { 
 								height:20px;
 								margin-right:10px; 
 							}
 							
-							.smallIcon { height:20px; top:3px; }
+							.smallIcon { height:20px; }
+
+							.upgradeChart-grid {
+								display:grid;
+								grid-template-columns:10% 10% 40% 40%;
+								margin-bottom:5px;
+							}
+
+							.upgradeChart-grid div {
+								text-align:center;
+							}
+
+							.chartHeader {
+								background-color:rgba(0,0,0,0.3);
+								padding:5px;
+							}
 
 							/* ======================================== */
 							/*  PANEL SCREEN - SETTINGS                 */

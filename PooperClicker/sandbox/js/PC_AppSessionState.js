@@ -183,7 +183,7 @@ function AppSessionState( ) {
 
 	function calcPooPerClick( ) {
 		const multiplier = getMultiplierByName( "Hand" ) === 0 ? 1 : getMultiplierByName( "Hand" );
-		return ( 1 +getUpgradeLevel( "Hand" ) ) * multiplier;
+		return ( 1 + getUpgradeLevel( "Hand" ) ) * multiplier;
 	}
 
 	function calcPPSByName( name ) {
@@ -192,6 +192,10 @@ function AppSessionState( ) {
 		const { PPS }               = $PC.getUpgradeByName( name );
 
 		return ( ( level * PPS ) * multiplier ) * chevoBonus;
+	}
+
+	function calcPPS( ) { 
+		_playerState["Statistics"]["PPS"] = $PC.calcAllPPS( ); 
 	}
 
 	function upgradeLevelUp( name, quantity )   { _playerState["Upgrades"][name]["level"] += quantity; }
@@ -461,9 +465,7 @@ function AppSessionState( ) {
 	function subtractPoo( quantity )      { _playerState["Statistics"]["TotalPooCollect"] -= quantity; }
 	
 
-	function calcPPS( ) { 
-		_playerState["Statistics"]["PPS"] = $PC.calcAllPPS( _playerState["Upgrades"] ); 
-	}
+	
 
 	function getTotalUpgrade( ) {
 		let sum = 0;

@@ -6,6 +6,7 @@ const $D 			  = new DOM( );					//LIKE JQUERY
 const $PC 			  = new GameData( );
 const SaveData        = new App_SaveState( );		//ACCESS TO SAVE/LOAD
 const GameUtility 	  = new GameUtilityAPI( );
+const dNote           = new Notes( );
 
 const hackMode        = false;
 const hackClickAmt    = 25;
@@ -16,6 +17,7 @@ let	  updateTimer     = null;
 Object.freeze( GameUtility );
 Object.freeze( $D );
 Object.freeze( $PC );
+Object.freeze( dNote );
 
 
 // =======================================================
@@ -60,6 +62,9 @@ function enterGame( ) {
 		let browserUpdateFreq = FPS * 5;
 		let browserCurFrame   = 0;
 
+		let saveFreq          = FPS * 30;
+		let saveCurFrame      = 0;
+
 		let cycleStart = null;
 		let cycleEnd   = null;
 
@@ -79,10 +84,7 @@ function enterGame( ) {
 			$ST.addPoo( $ST.getPPS( ) * elapsedTime );	//update POO collected
 			updateGameTime( elapsedTime );				//update Timer
 
-
-			if( $ST.getPPS( ) != 0 ) {
-				updateMainStats( );
-			}
+			updateMainStats( );
 
 			//UPDATE POO STORE LIST - ONLY IF SOMETHING NEW IS AVAILABLE
 			if( $ST.getActiveScreen( ) == "upgradeScreen" ) {
@@ -93,6 +95,12 @@ function enterGame( ) {
 			//UPDATE STATISTICS SCREEN
 			if( $ST.getActiveScreen( ) == "statsScreen" ) {
 				updateStatistisScreen( );
+			}
+
+			if( $D.id( "autoSaveInput" ).checked ) {
+				if( saveCurFrame === saveFreq ) {
+					SaveData.saveGame( );
+				}
 			}
 
 			$ST.isUpgradeEligible( ) && updatePooStore( );

@@ -3,6 +3,8 @@
 	<head>
 		<title id="browserTitle"></title>
 
+		<meta charset="utf-8"/>
+
 		<link href="css/debug.css" rel="stylesheet" />
 		<link href="css/op-animation.css" rel="stylesheet" />
 		<link href="css/pooper.css" rel="stylesheet" />
@@ -14,17 +16,21 @@
 
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet">
 
-		
+		<link rel="prefetch" href="js/audio/shovel_sfx_4.mp4" as="audio">
+		<link rel="prefetch" href="js/audio/shovel_sfx_2.mp4" as="audio">
+
+		<script type="text/javascript" src="js/Dev_Data.js"></script>
 		<script type="text/javascript" src="js/DOM.js"></script>
 		<script type="text/javascript" src="js/Arithmetic.js"></script>
 		<script type="text/javascript" src="js/App_SaveState.js"></script>
 		<script type="text/javascript" src="js/PC.js"></script>
 		<script type="text/javascript" src="js/PC_Num.js"></script>
-		<script type="text/javascript" src="js/ED_Timer.js"></script>
+		<script type="text/javascript" src="js/PC_Timer.js"></script>
 		<script type="text/javascript" src="js/PC_AppSessionState.js"></script>
 		<script type="text/javascript" src="js/App_update.js"></script>
 		<script type="text/javascript" src="js/App_init.js"></script>
 		<script type="text/javascript" src="js/PC_App.js"></script>
+		
 		
 
 		<script type="text/JavaScript">			
@@ -35,7 +41,6 @@
 	</head>
 
 	<body id="pooClickerBody">
-		<!-- Navigation & Foot Note -->
 		<div class="navBar">
 			<ul>
 				<li id="navTitle">POOPER CLICKER &copy; 2019 | DEMO</li>
@@ -51,126 +56,21 @@
 			</div> -->
 		</div>
 
-		<!-- <div id="fTitle" class="footer">
-			VERSION - DEMO
-		</div> -->
-
-		<!-- Development Notes -->
 		<div id="devNote" class="devNote">
 			<div id="closeDevNote" class="closeDevNote">x</div>
 
 			<div id="devMessage" class="devMessage">
-				<h1>Development Note</h1>
+				<h1 class="dev">Development Note</h1>
 
-				<dl class="note">
-					<dt class="date">November 14, 2019</dt>
-					<dd class="definition">I have been working on this none stop.
-						Because I think I just finished all the ground work for this game,
-						and I am super excited to fill in all the content.  Then I still
-						got all the artwork to do.
-					</dd>
-					<dd class="definition">Fixed: Reorganized my code!!</dd>
-					<dd class="definition">Fixed: Upgrades now shows correct PPS(Poo Per Second) amount.</dd>
-					<dd class="definition">Fixed: Saving Data, Loading Data all now show correct information.</dd>
-					<dd class="definition">Added: Random Name Generator when you start a new game.</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">November 9, 2019</dt>
-					<dd class="definition">Wow!! This game is turning out better than I expected. 
-						Although it is not perfect and no new features added since September.  
-						I had been fixing the game flow issues before this project gets too big.</dd>
-					<dd class="definition">Fixed: Game flow issues</dd>
-					<dd class="definition">Fixed: Achievement Icons will load properly after loading a game.</dd>
-					<dd class="definition">Fixed: Poo Store will load all the tools proper during new game and load game.</dd>
-					<dd class="definition">Update: Redo all the game HUD/UI</dd>
-					<dd class="definition">Update: No more splash screen or load screen.  There is only the game.  New game | load game | save game will all appear in the settings.</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">November 5, 2019</dt>
-					<dd class="definition">Replaced all the icon in Tech and Achievement.  Now everything looks a bit more unique and not with the same icon. </dd>
-					<dd class="definition">I am thinking about changing up the display a bit.  That's gonna be a lot of moving things around.</dd>
-					<dd class="definition">Fixed minor visual presentation.</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">October 26, 2019</dt>
-					<dd class="definition">It's been a month since my last update?! I am just that busy sigh... </dd>
-					<dd class="definition">Bug Fixed: Tech Upgrade couldn't be detected after loading a game.</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">September 28, 2019</dt>
-					<dd class="definition">Updated and added new tech for Hand.</dd>
-					<dd class="definition">Updated and added achievements for Hand.</dd>
-					<dd class="definition">Updated and balance cost for Hand upgrade.</dd>
-					<dd class="definition">Updated Hand Storyboard.</dd>
-					<dd class="definition">I stop adding features and started adding content.  Getting ready to launch version 1.0... This is going to be interesting. </dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">September 14, 2019</dt>
-					<dd class="definition">Been away for some time coding a system that I didn't need.  Wasted time, but good learning experience. I have added:</dd>
-					<dd class="definition">Number Notation - very large number don't appear unledgable anymore.</dd>
-					<dd class="definition">Mouse over upgrades will give pop up a description of what it does.  It also tells a little bit of the game's intent and story. :P</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">August 30, 2019</dt>
-					<dd class="definition">Added Random Story board message, now this game looks unique. :D</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">August 24, 2019</dt>
-					<dd class="definition">Started working on the Tech Tree.</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">August 18, 2019</dt>
-					<dd class="definition">Poopy issues happened, I took a break.</dd>
-					<dd class="definition">You can now buy and sell your upgrades</dd>
-					<dd class="definition">Allow to purchase 10x or 100x the upgrade if you have the poo...</dd>
-					<dd class="definition">Allow to sell 10x or 100x if you have the upgrades</dd>
-					<dd class="definition">Added more fun statistics :)</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">July 23, 2019</dt>
-					<dd class="definition">Added Poo per second.  No longer do we have to pick up shit.</dd>
-					<dd class="definition">Added more upgrades Baby!!  Get it? :P</dd>
-					<dd class="definition">Also added a bunch of statistical nerdy stuff.</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">July 20, 2019</dt>
-					<dd class="definition">Self Regulate Pop-Up Number whenever you dig up some poo</dd>
-					<dd class="definition">Added my first Poo upgrade!!  Da Shovel! Argh Shit~~ :P</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">July 14, 2019</dt>
-					<dd class="definition">This game is Awesome!</dd>
-					<dd class="definition">Background added</dd>
-					<dd class="definition">Game Data can be save and load from local storage</dd>
-					<dd class="definition">Clickable Poo</dd>
-				</dl>
-
-				<dl class="note">
-					<dt class="date">July 1, 2019</dt>
-					<dd class="definition">Life was kinda crappy</dd>
-					<dd class="definition">So I started making this game</dd>
-				</dl>
+				<div id="devNoteEntry">
+				</div>
 			</div>
 		</div>
 
-		<!-- Reconstruct In-Game Content -->
 		<div id="transition"></div>
 
 		<div id="mainGame">
-			<div class="pc-gridLayout"> <!-- 2 Column Setup -->
-				
-				<!-- LEFT COLUMN | PLAYER INTERACTION AREA -->
+			<div class="pc-gridLayout">
 				<div id="gameArea"> 
 					<div id="mainScreen" class="mainScreen">
 						<div id="pooArea" class="pooBlock">
@@ -194,8 +94,6 @@
 						</div>
 					</div>
 
-
-					<!-- UPGRADE SCREEN -->
 					<div id="upgradeScreen" class="upgradeScreen">
 						<div id="upgradeClsBtn" class="cls">x</div>
 						
@@ -226,18 +124,6 @@
 						</div>
 					</div>
 
-
-					<!-- TECH SCREEN -->
-					<!-- REMEMBER TO REMOVE THE COMMENTS INSIDE ED_STAGE.JS | page4 | toggleWindow( )-->
-
-					<!--
-						<div id="techScreen" class="techScreen">
-							<div id="clsTechScreen" class="cls">x</div>
-							<div class="tempUnavailable">Nothing In here Yet</div>
-						</div>
-					-->
-
-					<!-- STATS SCREEN -->
 					<div id="statsScreen" class="statsScreen">
 						<div id="statsClsBtn" class="cls">x</div>
 						<div class="pc-stats-gridLayout">
@@ -304,9 +190,25 @@
 								<div id="allUpgradeTab">
 									<h2>Upgrade Statistics</h2>
 
-									<div id="upgradeStatistics">
-									</div>
+									<div id="handUpgradeChart" >
+										<div class="upgradeChart-grid chartHeader">
+											<div></div>
+											<div>Lv</div>
+											<div>Multiplier</div>
+											<div>Clicking Power</div>
+										</div>
 
+										<div id="handStats" class="upgradeChart-grid">
+											<div><img class="smallIcon" src="./img/handOpen32x32.png" /></div>
+											<div></div>
+											<div></div>
+											<div></div>
+										</div>
+									</div>
+									<br />
+									<div id="upgradeChart"></div>
+
+									<br />
 									<h2>Owned Upgrades</h2>
 									<div class="row">
 										<div class="label">Total Tech Unlocked:</div>
@@ -328,8 +230,6 @@
 						</div>	
 					</div>
 
-
-					<!-- SETTING SCREEN -->
 					<div id="settingScreen" class="settingScreen">
 						<div id="settingClsBtn" class="cls">x</div>
 
@@ -346,10 +246,18 @@
 						<h2>Visit another PooVerse</h2>
 						<div id="setting-saveData" class="setting-body"></div>
 					</div>
+
+					<!-- TECH SCREEN -->
+					<!-- REMEMBER TO REMOVE THE COMMENTS INSIDE ED_STAGE.JS | page4 | toggleWindow( )-->
+
+					<!--
+						<div id="techScreen" class="techScreen">
+							<div id="clsTechScreen" class="cls">x</div>
+							<div class="tempUnavailable">Nothing In here Yet</div>
+						</div>
+					-->
 				</div>
 
-
-				<!-- RIGHT COLUMN | SINGLE COMMAND AREA -->
 				<div id="panelArea">		
 					<div id="commandPanel" class="commandPanel">
 						<div id="upgradeBtn" class="cmdBtn">
@@ -372,7 +280,6 @@
 					</div>
 				</div>
 			</div>
-			
 		</div> 
 
 
@@ -411,7 +318,6 @@
 			<div><div class="setting-saveBtn gData deleteSaveData">x</div></div>
 		</div>
 
-
 		<div id="tempUpgradeStatsRow" class="row">
 			<div class="label">
 				<img class="smallIcon" src="./img/handOpen32x32.png"/>
@@ -420,6 +326,13 @@
 			<div class="statsFormat">
 				<div id="handMultiplier"></div>
 			</div>
+		</div>
+
+		<div id="tempUpgradeChartRow" class="upgradeChart-grid">
+			<div><img class="smallIcon" src="" /></div>
+			<div>9999</div>
+			<div>358,999 Million</div>
+			<div>365,256.15 Billion</div>
 		</div>
 	</body>
 </html>

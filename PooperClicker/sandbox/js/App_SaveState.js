@@ -244,8 +244,8 @@ function App_SaveState( ) {
         tempDiv.appendChild( txtNode );
         pooArea.appendChild( tempDiv );
 
-        let tempTimer = new StatusTimer( tempDiv );
-        tempTimer.start( );
+		const selfDestruct = new PooTimer( tempDiv, 3000, 15, "save" );
+		selfDestruct.start( );
 	}
 	
 	let GameDataAPI = {
