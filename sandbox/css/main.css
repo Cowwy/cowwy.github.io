@@ -9,7 +9,10 @@
 		/* p { font-size:2.0vw; } */
 
 		.c-footer { padding-left:0px; }
-		.contact-pCenter { left:0px; right:0px; top:0px; bottom:140px; }
+		.contact-pCenter { 
+			width:85%;
+			left:0px; right:0px; top:0px; bottom:140px; 
+		}
 	}
 
 	/* DESKTOP */
@@ -17,18 +20,25 @@
 		nav { display:block; }
 		main { margin-left:240px; }
 
-		
-
 		.c-footer { padding-left:240px !important; }
-		.contact-pCenter { left:240px; right:0px; top:0px; bottom:140px; }
+		.contact-pCenter { 
+			width:50%;
+			left:240px; right:0px; top:0px; bottom:140px; 
+		}
 	}
 
 	@media (orientation: landscape) {
-		p { font-size:2.5vw; }
+		p { 
+			line-height:2.8vw;
+			font-size:2.5vw; 
+		}
 	}
 
 	@media (orientation: portrait) {
-		p { font-size:2.5vh; }
+		p { 
+			line-height:2.8vh;
+			font-size:2.5vh; 
+		}
 	}
 
 	
@@ -83,7 +93,7 @@ a.iconLink-l { font-size:2.5em;}
 
 p { 
 	margin-bottom:20px; 
-	line-height:35px;
+	/* line-height:35px; */
 }
 
 
@@ -225,10 +235,9 @@ a.textLink:hover {
 
 .contact-pCenter {
 	position: absolute;
-	
 	margin:auto;
 	
-	width:50%;
+	/* width:50%; */
 	height:270px;
 }
 
