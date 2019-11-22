@@ -168,7 +168,7 @@ nav {
 
 	background-color:var(--smokeBlack);
 
-	font-size:1.4em;
+	/* font-size:1.4em; */
 }
 
 nav > * {
