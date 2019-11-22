@@ -35,7 +35,10 @@
 		h2 { font-size:3.2vw; }
 		h3 { font-size:2.5vw; }
 		nav { font-size: 2.0vw; }
-		#burger-menu { font-size:4.5vw; }
+		#burger-menu { 
+			top:3.0vw; right:3.0vw;
+			font-size:4.5vw; 
+		}
 
 		p { 
 			line-height:3.2vw;
@@ -52,7 +55,10 @@
 		h2 { font-size:3.4vh; }
 		h3 { font-size:3.0vh; }
 		nav { font-size: 2.6vh; }
-		#burger-menu { font-size:3.7vh; }
+		#burger-menu { 
+			top:2.0vh; right:2.0vh;
+			font-size:3.7vh; 
+		}
 
 		p { 
 			line-height:3.0vh;
@@ -339,10 +345,7 @@ a.textLink:hover {
 /* ============================================== */
 #burger-menu {
 	position:absolute;
-	top:0.5em; right:0.5em;
 	z-index:1000;
-	
-	/* font-size:4.0em; */
 }
 
 #burger-menu:hover {
