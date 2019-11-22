@@ -3,7 +3,7 @@
 /* ============================================= */
 	/* TABLET */
 	@media screen and (min-width:200px) and (max-width:1080px) {
-		nav { display:block; }
+		nav { display:none; }
 		main { margin-left:0px; }
 
 		/* p { font-size:2.0vw; } */
