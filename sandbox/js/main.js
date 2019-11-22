@@ -1,25 +1,13 @@
 const state = {
-    activeSection : "project"
+    activeSection : "aboutMe"
 };
 
 window.onload = function( ) {
     initControls( );
+
+    const str = screen.availWidth + " x " + this.screen.availHeight;
+    document.getElementById( "output" ).innerHTML = str;
 }
-
-// function initSectionHeight( id ) {
-//     const screenHeight  = window.innerHeight;
-//     const footerHeight  = $( ".footer-area" )[0].offsetHeight;    
-//     const sectionHeight = $( `#${id}Section` )[0].offsetHeight;
-//     const padding = 160;
-
-//     console.log( sectionHeight );
-
-//     if( sectionHeight < (screenHeight - footerHeight - padding) ) {
-//         $( ".footer-area" ).addClass( "fixedToBottom" );
-//     } else {
-//         $( ".footer-area" ).removeClass( "fixedToBottom" );
-//     }
-// }
 
 function initControls( ) {
     $( "#aboutMe, #project, #contact" ).click( ( e ) => {
