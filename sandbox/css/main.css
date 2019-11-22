@@ -31,7 +31,7 @@
 		h1 { font-size:3.5vw; }
 		h2 { font-size:3.2vw; }
 		h3 { font-size:2.5vw; }
-		nav { font-size: 2.2vw; }
+		nav { font-size: 2.5vw; }
 
 		p { 
 			line-height:3.2vw;
@@ -172,8 +172,8 @@ nav {
 }
 
 nav > * {
-	min-height:70px;
-	line-height:70px;
+	min-height:80px;
+	line-height:95px;
 
 	color:rgba(200, 200, 200, 1.0);
 	text-align:center;
