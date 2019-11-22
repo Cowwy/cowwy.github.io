@@ -5,6 +5,10 @@ const state = {
 window.onload = function( ) {
     initControls( );
     initSectionHeight( state.activeSection );
+
+    document.getElementById( "aboutP" ).style.fontSize = "2.0em";
+    document.getElementById( "projectP" ).style.fontSize = "2.0em";
+    
 }
 
 function initSectionHeight( id ) {
