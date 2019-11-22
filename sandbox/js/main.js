@@ -4,13 +4,6 @@ const state = {
 
 window.onload = function( ) {
     initControls( );
-
-    // const output = document.getElementById( "output" );
-    // const str = screen.availWidth + " x " + this.screen.availHeight;
-
-    // output.innerHTML += str + "<br/>";
-    // output.innerHTML += screen.width + " x " + this.screen.height + "<br/>";
-    // output.innerHTML += window.devicePixelRatio + "<br/>";
 }
 
 function initControls( ) {
