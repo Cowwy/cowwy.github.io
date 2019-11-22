@@ -1,0 +1,77 @@
+/* ============================================= */
+/*  CSS RESPONSIVE QUERY                         */
+/* ============================================= */
+	/* TABLET */
+	@media screen and (min-width:320px) and (max-width:767px) {
+		nav { display:none; }
+		main { margin-left:0px; }
+	}
+
+	/* DESKTOP */
+	@media screen and (min-width:768px) {
+		nav { display:block; }
+		main { margin-left:240px; }
+	}
+
+
+
+
+/* ============================================= */
+/*  THEME SETTINGS                               */
+/* ============================================= */
+:root {
+	/* COLOR PALLET */
+	--black     : rgba(0,     0,   0, 1.0);
+	--white     : rgba(255, 255, 255, 1.0); /* #FFFFFF */
+	--smoke     : rgba(204, 204, 204, 1.0); /* #CCCCCC */
+	--LightRose : rgba(255, 204, 204, 1.0); /* #FFCCCC */
+	--mintGreen : rgba(204, 255, 204, 1.0); /* #CCFFCC */
+	--lavender  : rgba(204, 204, 255, 1.0); /* #CCCCFF */
+	--banana    : rgba(255, 255, 204, 1.0); /* #FFFFCC */
+	--pink      : rgba(255, 204, 255, 1.0); /* #FFCCFF */
+	--cyan      : rgba(204, 255, 255, 1.0); /* #CCFFFF */
+	--menthol   : rgba(0,   216, 135, 1.0);
+	--yellow    : rgba(255, 255,   0, 1.0);
+	--tint      : rgba( 40,  40,  40, 0.85);
+	--cyanHot   : #8afbff;
+	--smokeBlack: rgba(72, 77, 71, 1.0 );
+	--mist      : rgba( 240, 240, 240, 1.0);
+
+	--transition-glow-color : var(--yellow);
+}
+
+* {
+	font-family:'Quicksand', sans-serif;
+	font-weight:100;
+}
+
+#contactSection, #projectSection {
+	position: relative;
+	padding:80px 0px;
+}
+
+p { 
+	margin-bottom:20px; 
+	line-height:35px;
+	font-size:1.5em; 
+}
+
+
+
+
+
+/* ============================================== */
+/*  JAVASCRIPT NEEDED                             */
+/* ============================================== */
+.show { display:block !important; }
+.hide { display:none; }
+
+
+/* ============================================== */
+/*  LAYOUT                                        */
+/* ============================================== */
+.content-area {
+	width:100%;
+	margin:auto;
+	padding:0px 60px;
+}
