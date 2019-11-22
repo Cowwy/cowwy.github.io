@@ -4,25 +4,22 @@ const state = {
 
 window.onload = function( ) {
     initControls( );
-    initSectionHeight( state.activeSection );
-
-    
 }
 
-function initSectionHeight( id ) {
-    const screenHeight  = window.innerHeight;
-    const footerHeight  = $( ".footer-area" )[0].offsetHeight;    
-    const sectionHeight = $( `#${id}Section` )[0].offsetHeight;
-    const padding = 160;
+// function initSectionHeight( id ) {
+//     const screenHeight  = window.innerHeight;
+//     const footerHeight  = $( ".footer-area" )[0].offsetHeight;    
+//     const sectionHeight = $( `#${id}Section` )[0].offsetHeight;
+//     const padding = 160;
 
-    console.log( sectionHeight );
+//     console.log( sectionHeight );
 
-    if( sectionHeight < (screenHeight - footerHeight - padding) ) {
-        $( ".footer-area" ).addClass( "fixedToBottom" );
-    } else {
-        $( ".footer-area" ).removeClass( "fixedToBottom" );
-    }
-}
+//     if( sectionHeight < (screenHeight - footerHeight - padding) ) {
+//         $( ".footer-area" ).addClass( "fixedToBottom" );
+//     } else {
+//         $( ".footer-area" ).removeClass( "fixedToBottom" );
+//     }
+// }
 
 function initControls( ) {
     $( "#aboutMe, #project, #contact" ).click( ( e ) => {
@@ -39,8 +36,6 @@ function initControls( ) {
             $( `#${curId}` ).toggleClass( "active" );
 
             state["activeSection"] = curId;
-
-            initSectionHeight( curId );
         }
     });
 
