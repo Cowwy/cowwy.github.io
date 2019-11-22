@@ -170,16 +170,6 @@ a.textLink:hover {
 /* ============================================== */
 /*  LAYOUT                                        */
 /* ============================================== */
-.grid-col-2 {
-	display:grid;
-	grid-template-columns:240px 1fr;
-}
-
-.grid-row-2 {
-	display:grid;
-	grid-template-rows:3fr 1fr;
-}
-
 .content-area {
 	width:100%;
 	margin:auto;
@@ -206,7 +196,7 @@ p { margin-bottom:20px; line-height:35px;}
 	position:relative;
 
 	width:75px;
-	height:65px;
+	height:240px;
 }
 
 
