@@ -1,0 +1,312 @@
+/* ============================================= */
+/*  CSS GENERIC LAYOUT                           */
+/* ============================================= */
+
+	.absCenter {
+		position:absolute;
+		top:0px; bottom:0px; left:0px; right:0px;
+		margin:auto;
+	}
+
+	.flexCenter {
+		display:flex;
+		justify-content: center;
+		align-items : center;
+	}
+
+	.grid { display:grid; }
+
+	.flex { display:flex; }
+
+	.fullBkg {
+		background-repeat:no-repeat;
+		background-attachment: fixed;
+		background-position: center;
+		background-size:cover;
+	}
+
+
+
+
+/* ============================================= */
+/*  CSS RESPONSIVE QUERY                         */
+/* ============================================= */
+	/* TABLET */
+	@media screen and (min-width:320px) and (max-width:767px) {
+		nav { display:none; }
+		main { margin-left:0px; }
+	}
+
+	/* DESKTOP */
+	@media screen and (min-width:768px) {
+		nav { display:block; }
+		main { margin-left:240px; }
+	}
+
+
+
+
+/* ============================================= */
+/*  THEME SETTINGS                               */
+/* ============================================= */
+:root {
+	/* COLOR PALLET */
+	--black     : rgba(0,     0,   0, 1.0);
+	--white     : rgba(255, 255, 255, 1.0); /* #FFFFFF */
+	--smoke     : rgba(204, 204, 204, 1.0); /* #CCCCCC */
+	--LightRose : rgba(255, 204, 204, 1.0); /* #FFCCCC */
+	--mintGreen : rgba(204, 255, 204, 1.0); /* #CCFFCC */
+	--lavender  : rgba(204, 204, 255, 1.0); /* #CCCCFF */
+	--banana    : rgba(255, 255, 204, 1.0); /* #FFFFCC */
+	--pink      : rgba(255, 204, 255, 1.0); /* #FFCCFF */
+	--cyan      : rgba(204, 255, 255, 1.0); /* #CCFFFF */
+	--menthol   : rgba(0,   216, 135, 1.0);
+	--yellow    : rgba(255, 255,   0, 1.0);
+	--tint      : rgba( 40,  40,  40, 0.85);
+	--cyanHot   : #8afbff;
+	--smokeBlack: rgba(72, 77, 71, 1.0 );
+	--mist      : rgba( 240, 240, 240, 1.0);
+
+	--transition-glow-color : var(--yellow);
+}
+
+* {
+	font-family:'Quicksand', sans-serif;
+	font-weight:100;
+}
+
+nav, nav > *, main > * 
+{ box-sizing: border-box; }
+
+h1, h2, a
+{ color:var(--menthol ); }
+
+h1, h2       { font-size:2.5em;}
+
+a.iconLink-s { font-size:1.2em;}
+a.iconLink-l { font-size:2.5em;}
+
+.iconLink-s:hover { font-size:1.5em; }
+.iconLink-l:hover { font-size:2.8em; }
+
+p, section   { font-size:1.2em; }
+
+h1, h2 { 
+	font-weight:bold;
+	margin-bottom:40px;
+	color:var(--menthol);
+}
+
+h3 {
+	font-weight:bold;
+	margin-bottom:10px;
+}
+
+img.gallery {
+	width:100%;
+	border-radius:10px;
+	border:5px solid black;
+}
+
+img.iconSize {
+	width:20px;
+}
+
+
+
+
+/* ============================================== */
+/*  JAVASCRIPT NEEDED                             */
+/* ============================================== */
+.show { display:block !important; }
+.hide { display:none; }
+.active { color:var(--menthol); }
+
+
+/* ============================================== */
+/*  NAVIGATION                                    */
+/* ============================================== */
+nav {
+	min-width:240px;
+	max-width:240px;
+
+	height:100%;
+
+	position:fixed;
+	top:0px; left:0px;
+
+	background-color:var(--smokeBlack);
+
+	font-size:1.4em;
+}
+
+nav > * {
+	min-height:70px;
+	line-height:70px;
+
+	color:rgba(200, 200, 200, 1.0);
+	text-align:center;
+}
+
+li:hover {
+	color:var(--menthol);
+	cursor:pointer;
+}
+
+a { 
+	text-decoration: none;
+	font-weight:bold;
+}
+
+a.textLink:hover {
+	border-bottom:5px solid var(--menthol);
+}
+
+
+.iconLink-s { margin:5px; }
+
+
+
+/* ============================================== */
+/*  LAYOUT                                        */
+/* ============================================== */
+.grid-col-2 {
+	display:grid;
+	grid-template-columns:240px 1fr;
+}
+
+.grid-row-2 {
+	display:grid;
+	grid-template-rows:3fr 1fr;
+}
+
+.content-area {
+	width:100%;
+	margin:auto;
+	padding:0px 60px;
+}
+
+.footer-area {
+	background-color:var(--mist);
+	padding:50px;
+
+	color:rgba(0,0,0,0.3);
+	text-align:center;
+}
+
+p { margin-bottom:20px; line-height:35px;}
+
+.flex-justify {
+	display:flex;
+	flex-direction:row;
+	justify-content: center;
+}
+
+.flex-justify > div {
+	position:relative;
+
+	width:75px;
+	height:65px;
+}
+
+
+/* ============================================== */
+/*  CONTACT PAGE                                  */
+/* ============================================== */
+div.contact-msg {
+	text-align:center;
+}
+
+.contact-msg h3 {
+	font-size:2.0em;
+}
+
+
+/* ============================================== */
+/*  EFFECTS                                       */
+/* ============================================== */
+.captionText {
+	position:relative;
+	width:100%;
+}
+
+.captionText > figcaption {
+	width:100%;
+	height:0px;
+	line-height:40px;
+
+	position:absolute;
+	bottom:7px;
+
+	background-color:rgba(0, 0, 0, 0.75);
+
+	overflow-y:hidden;
+	overflow:hidden;
+	transition:height 0.4s ease;
+
+	color:white;
+	font-size:1.0em;
+	text-align:left;
+	padding-left:10px;
+
+	border-bottom-left-radius:10px;
+	border-bottom-right-radius:10px;
+}
+
+.captionText:hover > figcaption {
+	height:40px;
+
+	overflow:auto;
+	overflow-y:hidden;
+}
+
+.blink {
+	animation-name:blinking;
+	animation-duration:1.5s;
+	animation-iteration-count: infinite;
+}
+
+@keyframes blinking {
+	0%   { opacity: 1.0; }
+	50%  { opacity: 1.0; }
+	51%  { opacity: 0.0; }
+	100% { opacity: 0.0; }
+}
+
+.glow { 
+	transition:
+		text-shadow 0.5s ease, 
+		color 0.5s ease; 
+}
+
+.glow:hover {
+	text-shadow: 0px 0px 30px var(--transition-glow-color),
+				 0px 0px 20px var(--transition-glow-color), 
+				 0px 0px 10px var(--transition-glow-color), 
+				 0px 0px 5px var(--transition-glow-color);
+
+	color:white;	
+}
+
+
+
+/* ============================================== */
+/*  SANDBOX                                       */
+/* ============================================== */
+#contactSection, #projectSection, #aboutMeSection {
+	position: relative;
+
+	padding-top:80px;
+	padding-bottom:80px;
+
+}
+
+#contactSection .pCenter {
+	position: absolute;
+	top:0px; bottom:0px;
+	margin:auto;
+
+	width:100%;
+	height:270px;
+}
+
