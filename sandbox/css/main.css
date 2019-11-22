@@ -3,7 +3,7 @@
 /* ============================================= */
 	/* TABLET */
 	@media screen and (min-width:200px) and (max-width:1080px) {
-		nav { display:block; }
+		nav { display:none; }
 		main { margin-left:0px; }
 
 		/* p { font-size:2.0vw; } */
@@ -28,7 +28,7 @@
 	}
 
 	@media (orientation: landscape) {
-		h1, h2 { font-size:3.0vw; }
+		h1, h2 { font-size:3.5vw; }
 
 		p { 
 			line-height:2.8vw;
@@ -40,10 +40,10 @@
 	}
 
 	@media (orientation: portrait) {
-		h1, h2 { font-size:3.0vh; }
+		h1, h2 { font-size:3.7vh; }
 
 		p { 
-			line-height:2.8vh;
+			line-height:3.0vh;
 			font-size:2.5vh; 
 		}
 
@@ -105,16 +105,16 @@ p { margin-bottom:20px; }
 
 
 h1, h2 { 
-	font-size:2.5em;
+	/* font-size:2.5em; */
 	font-weight:bold;
 	margin-bottom:40px;
 	color:var(--menthol );
 }
 
 h3 {
+	font-size:2.0em;
 	font-weight:bold;
 	margin-bottom:10px;
-	font-size:2.0em;
 }
 
 #projectSection, #aboutMeSection {
