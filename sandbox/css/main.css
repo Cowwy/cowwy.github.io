@@ -3,7 +3,7 @@
 /* ============================================= */
 	/* TABLET */
 	@media screen and (min-width:200px) and (max-width:1080px) {
-		nav { display:none; }
+		nav { display:block; }
 		main { margin-left:0px; }
 
 		/* p { font-size:2.0vw; } */
@@ -28,6 +28,8 @@
 	}
 
 	@media (orientation: landscape) {
+		h1, h2 { font-size:3.0vw; }
+
 		p { 
 			line-height:2.8vw;
 			font-size:2.5vw; 
@@ -38,6 +40,8 @@
 	}
 
 	@media (orientation: portrait) {
+		h1, h2 { font-size:3.0vh; }
+
 		p { 
 			line-height:2.8vh;
 			font-size:2.5vh; 
