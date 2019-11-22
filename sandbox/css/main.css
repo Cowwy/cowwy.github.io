@@ -137,7 +137,7 @@ h3 {
 
 #projectSection, #aboutMeSection {
 	position:relative;
-	padding:140px 0px 200px 0px;
+	padding:180px 0px 200px 0px;
 }
 
 #contactSection {
@@ -346,13 +346,13 @@ a.textLink:hover {
 /* ============================================== */
 #burger-menu {
 	box-sizing: border-box;
-	position:absolute;
+	position:fixed;
 	z-index:1000;
 
 	width:100%;
 	text-align:right;
 
-	background-color:rgba(72, 77, 71, 0.94);
+	background-color:var(--smokeBlack);
 	color:white;
 }
 
@@ -367,7 +367,7 @@ a.textLink:hover {
 	width:100%;
 	height:100%;
 
-	background-color:rgba(72, 77, 71, 0.94);
+	background-color:var(--smokeBlack);
 
 	text-align:center;
 	color:white;
