@@ -30,6 +30,7 @@
 	@media (orientation: landscape) {
 		h1 { font-size:3.5vw; }
 		h2 { font-size:3.2vw; }
+		h3 { font-size:2.9vw; }
 
 		p { 
 			line-height:2.8vw;
@@ -43,6 +44,7 @@
 	@media (orientation: portrait) {
 		h1 { font-size:3.7vh; }
 		h2 { font-size:3.4vh; }
+		h3 { font-size:3.0vh; }
 
 		p { 
 			line-height:3.0vh;
@@ -101,20 +103,17 @@ a.iconLink-s {
 .iconLink-s:hover { font-size:1.5em; }
 
 
-
-
 p { margin-bottom:20px; }
 
 
 h1, h2 { 
-	/* font-size:2.5em; */
 	font-weight:bold;
 	margin-bottom:40px;
 	color:var(--menthol );
 }
 
 h3 {
-	font-size:2.0em;
+	/* font-size:2.0em; */
 	font-weight:bold;
 	margin-bottom:10px;
 }
@@ -246,7 +245,6 @@ a.textLink:hover {
 	position: absolute;
 	margin:auto;
 	
-	/* width:50%; */
 	height:270px;
 }
 
