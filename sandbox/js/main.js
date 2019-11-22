@@ -4,7 +4,7 @@ const state = {
 
 window.onload = function( ) {
     initControls( );
-    this.initSectionHeight( "aboutMe" );
+    initSectionHeight( "project" );
 }
 
 function initSectionHeight( id ) {
@@ -12,14 +12,6 @@ function initSectionHeight( id ) {
     const footerHeight  = $( ".footer-area" )[0].offsetHeight;    
     const sectionHeight = $( `#${id}Section` )[0].offsetHeight;
     const padding = 160;
-
-    // const dom = document.getElementById( id + "Section" );
-
-    // console.log( $( `#${id}Section` )[0].offsetHeight );
-    // console.log( dom );
-    // console.log( dom.clientHeight );
-    // console.log( dom.offsetHeight );
-    // console.log( dom.scrollHeight );
 
     if( sectionHeight < (screenHeight - footerHeight) ) {
         const contact = document.getElementById( `${id}Section` );

@@ -203,13 +203,8 @@ p { margin-bottom:20px; line-height:35px;}
 /* ============================================== */
 /*  CONTACT PAGE                                  */
 /* ============================================== */
-div.contact-msg {
-	text-align:center;
-}
-
-.contact-msg h3 {
-	font-size:2.0em;
-}
+.contact-msg { text-align:center; }
+.contact-msg h3 { font-size:2.0em; }
 
 
 /* ============================================== */
@@ -285,10 +280,7 @@ div.contact-msg {
 /* ============================================== */
 #contactSection, #projectSection, #aboutMeSection {
 	position: relative;
-
-	padding-top:80px;
-	padding-bottom:80px;
-
+	padding:80px 0px;
 }
 
 #contactSection .pCenter {
