@@ -29,11 +29,13 @@
 		#burger-menu { display:none; }
 	}
 
+	/* PHONE HORIZONTAL */
 	@media (orientation: landscape) {
 		h1 { font-size:3.5vw; }
 		h2 { font-size:3.2vw; }
 		h3 { font-size:2.5vw; }
 		nav { font-size: 2.0vw; }
+		#burger-menu { font-size:3.5vw; }
 
 		p { 
 			line-height:3.2vw;
@@ -44,11 +46,13 @@
 		.iconLink-l:hover { font-size:5.0vw; }
 	}
 
+	/* PHONE STRAIGHT */
 	@media (orientation: portrait) {
 		h1 { font-size:3.7vh; }
 		h2 { font-size:3.4vh; }
 		h3 { font-size:3.0vh; }
 		nav { font-size: 2.6vh; }
+		#burger-menu { font-size:3.7vh; }
 
 		p { 
 			line-height:3.0vh;
@@ -57,6 +61,8 @@
 
 		a.iconLink-l { font-size:4.0vh; }
 		.iconLink-l:hover { font-size:5.0vh; }
+
+		
 	}
 
 	
@@ -336,7 +342,7 @@ a.textLink:hover {
 	top:0.5em; right:0.5em;
 	z-index:1000;
 	
-	font-size:4.0em;
+	/* font-size:4.0em; */
 }
 
 #burger-menu:hover {
