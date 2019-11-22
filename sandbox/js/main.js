@@ -30,6 +30,4 @@ function initControls( ) {
             state["activeSection"] = curId;
         }
     });
-
-
 }

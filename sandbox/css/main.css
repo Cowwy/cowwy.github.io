@@ -1,34 +1,4 @@
 /* ============================================= */
-/*  CSS GENERIC LAYOUT                           */
-/* ============================================= */
-
-	.absCenter {
-		position:absolute;
-		top:0px; bottom:0px; left:0px; right:0px;
-		margin:auto;
-	}
-
-	.flexCenter {
-		display:flex;
-		justify-content: center;
-		align-items : center;
-	}
-
-	.grid { display:grid; }
-
-	.flex { display:flex; }
-
-	.fullBkg {
-		background-repeat:no-repeat;
-		background-attachment: fixed;
-		background-position: center;
-		background-size:cover;
-	}
-
-
-
-
-/* ============================================= */
 /*  CSS RESPONSIVE QUERY                         */
 /* ============================================= */
 	/* TABLET */
@@ -36,7 +6,8 @@
 		nav { display:none; }
 		main { margin-left:0px; }
 
-		.footer-area { padding:50px 50px 50px 50px; }
+		.c-footer { padding-left:0px; }
+		.contact-pCenter { left:0px; right:0px; top:0px; bottom:140px; }
 	}
 
 	/* DESKTOP */
@@ -44,11 +15,14 @@
 		nav { display:block; }
 		main { margin-left:240px; }
 
-		.footer-area { padding:50px 50px 50px 240px; }
+		.c-footer { padding-left:240px !important; }
+
+		.contact-pCenter { left:240px; right:0px; top:0px; bottom:140px; }
 	}
 
 
 	
+
 
 /* ============================================= */
 /*  THEME SETTINGS                               */
@@ -81,12 +55,20 @@
 
 nav, nav > *, main > * { box-sizing: border-box; }
 
-h1, h2, a { color:var(--menthol ); }
+a { 
+	text-decoration: none;
+	font-weight:bold;
+	color:var(--menthol );
+}
 
-a.iconLink-s { font-size:1.2em;}
-a.iconLink-l { font-size:2.5em;}
-
+a.iconLink-s {
+	font-size:1.2em;
+	margin:5px;
+}
 .iconLink-s:hover { font-size:1.5em; }
+
+
+a.iconLink-l { font-size:2.5em;}
 .iconLink-l:hover { font-size:2.8em; }
 
 p { 
@@ -100,6 +82,7 @@ h1, h2 {
 	font-size:2.5em;
 	font-weight:bold;
 	margin-bottom:40px;
+	color:var(--menthol );
 }
 
 h3 {
@@ -108,6 +91,18 @@ h3 {
 	font-size:2.0em;
 }
 
+#projectSection, #aboutMeSection {
+	position:relative;
+	padding:80px 0px 200px 0px;
+}
+
+#contactSection {
+	height:100%;
+}
+
+/* ============================================== */
+/*  IMAGE PROCESSING                              */
+/* ============================================== */
 img.gallery {
 	width:100%;
 	border-radius:10px;
@@ -120,13 +115,13 @@ img.iconSize {
 
 
 
-
 /* ============================================== */
 /*  JAVASCRIPT NEEDED                             */
 /* ============================================== */
 .show { display:block !important; }
 .hide { display:none; }
 .active { color:var(--menthol); }
+
 
 
 /* ============================================== */
@@ -160,16 +155,12 @@ li:hover {
 	cursor:pointer;
 }
 
-a { 
-	text-decoration: none;
-	font-weight:bold;
-}
 
 a.textLink:hover {
 	border-bottom:5px solid var(--menthol);
 }
 
-.iconLink-s { margin:5px; }
+
 
 
 
@@ -179,7 +170,7 @@ a.textLink:hover {
 .content-area {
 	width:100%;
 	margin:auto;
-	padding:0px 60px;
+	padding:0px 0px;
 }
 
 .flex-justify {
@@ -195,19 +186,26 @@ a.textLink:hover {
 	height:240px;
 }
 
-.footer-area {
-	position:fixed;
-	bottom:0px;
-	z-index:10;
+.pad-LR {
+	padding:0px 60px;
+}
 
-	width:100%;
+/* ============================================== */
+/*  FOOTER                                        */
+/* ============================================== */
+.mini-footer {
+	position: absolute;
+	left:0px; right:0px; bottom:0px;
+	margin:auto;
+
+	width:auto;
 
 	background-color:var(--mist);
-
 	color:rgba(0,0,0,0.3);
 	text-align:center;
-
-	box-sizing:border-box;
+	
+	padding-top:30px;
+	padding-bottom:30px;
 }
 
 
@@ -216,6 +214,14 @@ a.textLink:hover {
 /* ============================================== */
 .contact-msg { text-align:center; }
 
+.contact-pCenter {
+	position: absolute;
+	
+	margin:auto;
+	
+	width:50%;
+	height:270px;
+}
 
 /* ============================================== */
 /*  EFFECTS                                       */
@@ -288,17 +294,4 @@ a.textLink:hover {
 /* ============================================== */
 /*  SANDBOX                                       */
 /* ============================================== */
-#contactSection, #projectSection, #aboutMeSection {
-	padding:80px 0px 200px 0px;
-}
-
-
-.contact-pCenter {
-	position: absolute;
-	left:240px; right:0px; top:0px; bottom:140px;
-	margin:auto;
-	
-	width:50%;
-	height:270px;
-}
 
