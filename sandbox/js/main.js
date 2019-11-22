@@ -6,8 +6,6 @@ window.onload = function( ) {
     initControls( );
     initSectionHeight( state.activeSection );
 
-    document.getElementById( "aboutP" ).style.fontSize = "2.0em";
-    document.getElementById( "projectP" ).style.fontSize = "2.0em";
     
 }
 
@@ -17,9 +15,12 @@ function initSectionHeight( id ) {
     const sectionHeight = $( `#${id}Section` )[0].offsetHeight;
     const padding = 160;
 
-    if( sectionHeight < (screenHeight - footerHeight) ) {
-        const contact = document.getElementById( `${id}Section` );
-        contact.style.height = (screenHeight - footerHeight - padding ) + "px";
+    console.log( sectionHeight );
+
+    if( sectionHeight < (screenHeight - footerHeight - padding) ) {
+        $( ".footer-area" ).addClass( "fixedToBottom" );
+    } else {
+        $( ".footer-area" ).removeClass( "fixedToBottom" );
     }
 }
 

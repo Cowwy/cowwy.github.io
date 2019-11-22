@@ -75,11 +75,9 @@
 	font-weight:100;
 }
 
-nav, nav > *, main > * 
-{ box-sizing: border-box; }
+nav, nav > *, main > * { box-sizing: border-box; }
 
-h1, h2, a
-{ color:var(--menthol ); }
+h1, h2, a { color:var(--menthol ); }
 
 a.iconLink-s { font-size:1.2em;}
 a.iconLink-l { font-size:2.5em;}
@@ -201,6 +199,15 @@ a.textLink:hover {
 	height:240px;
 }
 
+.fixedToBottom {
+	position:fixed;
+	bottom:0px;
+	width:100%;
+
+	padding:50px 257px 50px 0px;
+}
+
+
 
 /* ============================================== */
 /*  CONTACT PAGE                                  */
@@ -280,16 +287,16 @@ a.textLink:hover {
 /*  SANDBOX                                       */
 /* ============================================== */
 #contactSection, #projectSection, #aboutMeSection {
-	position: relative;
 	padding:80px 0px;
 }
 
-#contactSection .pCenter {
-	position: absolute;
-	top:0px; bottom:0px;
-	margin:auto;
 
-	width:100%;
+.contact-pCenter {
+	position: absolute;
+	left:240px; right:0px; top:0px; bottom:140px;
+	margin:auto;
+	
+	width:50%;
 	height:270px;
 }
 
