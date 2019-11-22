@@ -4,6 +4,7 @@ const state = {
 
 window.onload = function( ) {
     initControls( );
+    this.initSectionHeight( "aboutMe" );
 }
 
 function initSectionHeight( id ) {
