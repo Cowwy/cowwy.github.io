@@ -32,13 +32,13 @@
 /*  CSS RESPONSIVE QUERY                         */
 /* ============================================= */
 	/* TABLET */
-	@media screen and (min-width:320px) and (max-width:767px) {
+	@media screen and (min-width:320px) and (max-width:1080px) {
 		nav { display:none; }
 		main { margin-left:0px; }
 	}
 
 	/* DESKTOP */
-	@media screen and (min-width:768px) {
+	@media screen and (min-width:1081px) {
 		nav { display:block; }
 		main { margin-left:240px; }
 	}
