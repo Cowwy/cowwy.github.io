@@ -32,6 +32,9 @@
 			line-height:2.8vw;
 			font-size:2.5vw; 
 		}
+
+		a.iconLink-l { font-size:4.0vw; }
+		.iconLink-l:hover { font-size:5.0vw; }
 	}
 
 	@media (orientation: portrait) {
@@ -39,8 +42,12 @@
 			line-height:2.8vh;
 			font-size:2.5vh; 
 		}
+
+		a.iconLink-l { font-size:4.0vh; }
+		.iconLink-l:hover { font-size:5.0vh; }
 	}
 
+	
 	
 
 
@@ -88,13 +95,9 @@ a.iconLink-s {
 .iconLink-s:hover { font-size:1.5em; }
 
 
-a.iconLink-l { font-size:2.5em;}
-.iconLink-l:hover { font-size:2.8em; }
 
-p { 
-	margin-bottom:20px; 
-	/* line-height:35px; */
-}
+
+p { margin-bottom:20px; }
 
 
 h1, h2 { 
