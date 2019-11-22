@@ -56,7 +56,8 @@
 		h3 { font-size:3.0vh; }
 		nav { font-size: 2.6vh; }
 		#burger-menu { 
-			top:2.5vh; right:2.5vh;
+			/* top:2.5vh; right:2.5vh; */
+			padding:2.5vh;
 			font-size:3.7vh; 
 		}
 
@@ -344,8 +345,15 @@ a.textLink:hover {
 /*  SANDBOX                                       */
 /* ============================================== */
 #burger-menu {
+	box-sizing: border-box;
 	position:absolute;
 	z-index:1000;
+
+	width:100%;
+	text-align:right;
+
+	background-color:black;
+	color:white;
 }
 
 #burger-menu:hover {
