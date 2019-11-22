@@ -5,8 +5,7 @@ const state = {
 window.onload = function( ) {
     initControls( );
 
-    document.getElementById( "aboutP" ).style.fontSize = "2.0em";
-    document.getElementById( "projectP" ).style.fontSize = "2.0em";
+
     
 }
 
