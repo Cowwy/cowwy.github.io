@@ -179,6 +179,22 @@ a.textLink:hover {
 	padding:0px 60px;
 }
 
+
+
+.flex-justify {
+	display:flex;
+	flex-direction:row;
+	justify-content: center;
+}
+
+.flex-justify > div {
+	position:relative;
+
+	width:75px;
+	height:240px;
+}
+
+
 .footer-area {
 	position:fixed;
 	bottom:0px;
@@ -193,19 +209,6 @@ a.textLink:hover {
 	text-align:center;
 
 	box-sizing:border-box;
-}
-
-.flex-justify {
-	display:flex;
-	flex-direction:row;
-	justify-content: center;
-}
-
-.flex-justify > div {
-	position:relative;
-
-	width:75px;
-	height:240px;
 }
 
 .fixedToBottom {
