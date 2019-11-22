@@ -6,13 +6,13 @@
 		nav { display:none; }
 		main { margin-left:0px; }
 
-		/* p { font-size:2.0vw; } */
-
 		.c-footer { padding-left:0px; }
 		.contact-pCenter { 
 			width:85%;
 			left:0px; right:0px; top:0px; bottom:140px; 
 		}
+
+		#burger-menu { display:block; }
 	}
 
 	/* DESKTOP */
@@ -25,6 +25,8 @@
 			width:50%;
 			left:240px; right:0px; top:0px; bottom:140px; 
 		}
+
+		#burger-menu { display:none; }
 	}
 
 	@media (orientation: landscape) {
@@ -122,7 +124,7 @@ h3 {
 
 #projectSection, #aboutMeSection {
 	position:relative;
-	padding:80px 0px 200px 0px;
+	padding:140px 0px 200px 0px;
 }
 
 #contactSection {
@@ -316,9 +318,56 @@ a.textLink:hover {
 	color:white;	
 }
 
+.lightOn {
+	text-shadow: 0px 0px 30px var(--transition-glow-color),
+				 0px 0px 20px var(--transition-glow-color), 
+				 0px 0px 10px var(--transition-glow-color), 
+				 0px 0px 5px var(--transition-glow-color);
+
+	color:white;
+}
 
 
 /* ============================================== */
 /*  SANDBOX                                       */
 /* ============================================== */
+#burger-menu {
+	position:absolute;
+	top:0.5em; right:0.5em;
+	z-index:1000;
+	
+	font-size:4.0em;
+}
 
+#burger-menu:hover {
+	cursor:pointer;
+}
+
+#burger-menu-list {
+	position: absolute;
+	z-index:100;
+
+	width:100%;
+	height:100%;
+
+	background-color:rgba(0,0,0,0.94);
+
+	text-align:center;
+	color:white;
+}
+
+#burger-menu-list ul {
+	position: absolute;
+	width:100%;
+	height:450px;
+
+	top:0px; bottom:0px;
+	margin:auto;
+}
+
+
+#burger-menu-list > * {
+	min-height:150px;
+	line-height:150px;
+	font-size:3.0vh;
+}
