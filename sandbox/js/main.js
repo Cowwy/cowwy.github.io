@@ -1,10 +1,10 @@
 const state = {
-    activeSection : "aboutMe"
+    activeSection : "project"
 };
 
 window.onload = function( ) {
     initControls( );
-    initSectionHeight( "project" );
+    initSectionHeight( state.activeSection );
 }
 
 function initSectionHeight( id ) {
