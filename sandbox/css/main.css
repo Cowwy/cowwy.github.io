@@ -187,10 +187,12 @@ a.textLink:hover {
 	width:100%;
 
 	background-color:var(--mist);
-	padding:50px;
+	padding:50px 50px 50px 240px;
 
 	color:rgba(0,0,0,0.3);
 	text-align:center;
+
+	box-sizing:border-box;
 }
 
 .flex-justify {
