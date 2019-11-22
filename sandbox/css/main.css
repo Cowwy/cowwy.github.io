@@ -6,7 +6,7 @@
 		nav { display:none; }
 		main { margin-left:0px; }
 
-		p { font-size:2.0vw; }
+		/* p { font-size:2.0vw; } */
 
 		.c-footer { padding-left:0px; }
 		.contact-pCenter { left:0px; right:0px; top:0px; bottom:140px; }
@@ -17,12 +17,19 @@
 		nav { display:block; }
 		main { margin-left:240px; }
 
-		p { font-size:1.5em; }
+		
 
 		.c-footer { padding-left:240px !important; }
 		.contact-pCenter { left:240px; right:0px; top:0px; bottom:140px; }
 	}
 
+	@media (orientation: landscape) {
+		p { font-size:2.5vw; }
+	}
+
+	@media (orientation: portrait) {
+		p { font-size:2.5vh; }
+	}
 
 	
 
