@@ -48,10 +48,8 @@
 		a.iconLink-l { font-size:4.0vw; }
 		.iconLink-l:hover { font-size:5.0vw; }
 
-		#burger-menu-list ul { height:29.0vw; }
-		#burger-menu-list > * {
-			line-height:10.0vw;
-		}
+		#burger-menu-list ul { height:29.0vw; font-size:3.5vw; }
+		#burger-menu-list > * { line-height:10.0vw;	}
 	}
 
 	/* PHONE STRAIGHT */
@@ -73,10 +71,8 @@
 		a.iconLink-l { font-size:4.0vh; }
 		.iconLink-l:hover { font-size:5.0vh; }
 
-		#burger-menu-list ul { height:40.0vh; }
-		#burger-menu-list > * {
-			line-height:15.0vh;
-		}
+		#burger-menu-list ul { height:40.0vh; font-size:3.5vh; }
+		#burger-menu-list > * { line-height:15.0vh;	}
 	}
 
 /* ============================================= */
@@ -386,6 +382,6 @@ a.textLink:hover {
 }
 
 
-#burger-menu-list > * {
+/* #burger-menu-list > * {
 	font-size:3.0vh;
-}
+} */
