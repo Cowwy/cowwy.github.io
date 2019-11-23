@@ -36,7 +36,7 @@
 		h3 { font-size:2.5vw; }
 		nav { font-size: 2.0vw; }
 		#burger-menu { 
-			top:3.0vw; right:3.0vw;
+			padding:1.5vw 3.5vw;
 			font-size:4.5vw; 
 		}
 
