@@ -65,6 +65,7 @@
 
 	/* DESKTOP */
 	@media screen and (min-width:1081px) {
+		h3 { font-size:1.9em; }
 		nav { 
 			display:block; 
 			font-size:1.7em;
@@ -261,6 +262,10 @@ a.textLink:hover {
 	padding:0px 60px;
 }
 
+.mb-100 {
+	margin-bottom:100px;
+}
+
 /* ============================================== */
 /*  FOOTER                                        */
 /* ============================================== */
@@ -298,6 +303,7 @@ a.textLink:hover {
 .captionText {
 	position:relative;
 	width:100%;
+	margin-bottom:20px;
 }
 
 .captionText > figcaption {
