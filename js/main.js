@@ -1,46 +1,38 @@
-$( document ).ready( function( e ) {
-	//ADD FUNCTIONALITY TO BURGER BUTTON
-	$(".burger").bind( 'click', ( e ) => {
-		let display = $( "#burger-menu" ).css( "display" );
-
-		display == "block" ?
-			$( "#burger-menu" ).css( "display", "none" ) :
-			$( "#burger-menu" ).css( "display", "block" );
-		
-	});
-
-	//ADD FUNCTIONALITY TO BURGER-MENU
-	$("#burger-menu").bind( 'click', ( e ) => {
-		$( "#burger-menu" ).css( "display", "none" );
-	});
-});
-
-
-// WILL BE ADDING DYNAMIC PROJECT DISPLAY INSTEAD OF ADDING MORE STATIC HTML
-const projectList = {
-	1 : { "projectTitle" : "Pooper Clicker (WIP)",
-		  "link"         : "http://cowwy.github.io/PooperClicker",
-		  "desc"         : "HTML | CSS | VanillaJS" },
-
-	2 : { "projectTitle" : "NoBul",
-		  "link"         : "http://cowwy.github.io/recreate/project1",
-		  "desc"         : "Static Web Page - HTML | SVG | CSS" },
-
-	3 : { "projectTitle" : "Simona Rich",
-		  "link"         : "http://cowwy.github.io/recreate/project2",
-		  "desc"         : "Single Responsive Page - HTML | CSS" },
-
-	4 : { "projectTitle" : "Juliana Rotich",
-		  "link"         : "http://cowwy.github.io/recreate/project3",
-		  "desc"         : "Full Responsive Site - HTML | CSS | VanillaJS" },
-
-	5 : { "projectTitle" : "Contact Form",
-		  "link"         : "http://cowwy.github.io/recreate/project4",
-		  "desc"         : "CSS Flex | JQuery" },
-
-	6 : { "projectTitle" : "CSS Grid - Pokedex",
-		  "link"         : "http://cowwy.github.io/project5",
-		  "desc"         : "CSS Grid" }
+const state = {
+    activeSection : "aboutMe"
 };
 
-Object.freeze( projectList );
+window.onload = function( ) {
+    initControls( );
+}
+
+function initControls( ) {
+    $( "#aboutMe, #project, #contact, #aboutMe2, #project2, #contact2" ).click( ( e ) => {
+
+        const curId = ( e.currentTarget.id ).replace( "2", "" );   //aboutMe
+        const prev  = state.activeSection;
+
+        if( curId != prev ) {
+            //previous active link becomes deactivated.
+            //previous section becomes display none.
+            $( `#${prev}Section`).toggleClass( "show" );
+            $( `#${curId}Section` ).toggleClass( "show" );
+
+            $( `#${prev}` ).toggleClass( "active" );
+            $( `#${prev}2` ).toggleClass( "active" );
+
+            $( `#${curId}` ).toggleClass( "active" );
+            $( `#${curId}2` ).toggleClass( "active" );
+
+            $( `#burger-menu-list` ).addClass( "hide" );
+            $( "#burger-menu" ).removeClass( "lightOn" );
+
+            state["activeSection"] = curId;
+        }
+    });
+
+    $( "#burger-menu" ).click( ( e ) => {
+        $( "#burger-menu" ).toggleClass( "lightOn" );
+        $( "#burger-menu-list" ).toggleClass( "hide" );
+    });    
+}
