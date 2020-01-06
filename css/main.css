@@ -71,7 +71,7 @@
 			font-size:1.7em;
 		}
 		main { margin-left:240px; }
-		.pad-LR { width:75%; }
+		.pad-LR { width:70%; }
 
 		p {
 			line-height:1.3em;
@@ -138,7 +138,7 @@
 
 nav, nav > *, main > * { box-sizing: border-box; }
 
-a { 
+a, .custom-link { 
 	text-decoration: none;
 	font-weight:bold;
 	color:var(--menthol );
@@ -149,9 +149,9 @@ a.iconLink-s {
 	margin:5px;
 }
 .iconLink-s:hover { font-size:1.5em; }
+.custom-link:hover { cursor: pointer; }
 
-
-p { margin-bottom:20px; }
+p { margin-bottom:30px; }
 
 
 h1, h2 { 

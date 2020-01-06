@@ -7,7 +7,7 @@ window.onload = function( ) {
 }
 
 function initControls( ) {
-    $( "#aboutMe, #project, #contact, #aboutMe2, #project2, #contact2" ).click( ( e ) => {
+    $( "#aboutMe, #project, #contact, #aboutMe2, #project2, #contact2, #project3" ).click( ( e ) => {
 
         const curId = ( e.currentTarget.id ).replace( "2", "" );   //aboutMe
         const prev  = state.activeSection;
@@ -20,9 +20,11 @@ function initControls( ) {
 
             $( `#${prev}` ).toggleClass( "active" );
             $( `#${prev}2` ).toggleClass( "active" );
+            $( `#${prev}3` ).toggleClass( "active" );
 
             $( `#${curId}` ).toggleClass( "active" );
             $( `#${curId}2` ).toggleClass( "active" );
+            $( `#${curId}3` ).toggleClass( "active" );
 
             $( `#burger-menu-list` ).addClass( "hide" );
             $( "#burger-menu" ).removeClass( "lightOn" );
